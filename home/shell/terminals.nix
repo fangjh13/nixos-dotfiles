@@ -3,7 +3,7 @@
 # terminals
 
 let
-  font = "JetBrainsMono Nerd Font";
+  font = "Hack Nerd Font Mono";
 in
 {
   programs.alacritty = {
@@ -21,7 +21,7 @@ in
         normal.family = font;
         bold.family = font;
         italic.family = font;
-        size = 11;
+        size = 10;
       };
 
     };

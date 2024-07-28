@@ -4,7 +4,7 @@
   cache = config.xdg.cacheHome;
 in {
   imports = [
-    ./nushell
+    ./bash
     ./common.nix
     ./starship.nix
     ./terminals.nix
@@ -18,7 +18,7 @@ in {
     WINEPREFIX = d + "/wine";
 
     # set default applications
-    EDITOR = "vim";
+    EDITOR = "nvim";
     BROWSER = "firefox";
     TERMINAL = "alacritty";
 
