@@ -98,6 +98,22 @@ in {
       source-han-sans # 思源黑体
       # source-han-serif # 思源宋体
 
+      # Liberation fonts
+      liberation_ttf 
+
+      # Mozilla Fira Sans
+      fira
+      fira-code-symbols
+
+      # Open Sans
+      open-sans
+
+      # Android Roboto
+      roboto
+
+      # DejaVu fonts
+      dejavu_fonts
+
       # for coding
       hack-font
       jetbrains-mono
@@ -112,6 +128,10 @@ in {
 	  "Noto"
 	  "Hack"
           "JetBrainsMono"
+	  "FiraCode"
+	  "FiraMono"
+	  "RobotoMono"
+	  "DejaVuSansMono"
         ];
       })
     ];
