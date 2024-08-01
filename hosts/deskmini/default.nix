@@ -36,6 +36,7 @@
   };
 
   networking.enableIPv6 = false;  # disable ipv6
+  networking.useDHCP = false; # disable use DHCP to obtain an IP address
   networking.defaultGateway = {
     address = "10.0.0.18";
     interface = "eno2";
