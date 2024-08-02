@@ -35,6 +35,19 @@
     systemd-boot.configurationLimit = 1;
   };
 
+  # CPU: Intel 8700
+  hardware = {
+    opengl = {
+      enable = true;
+      extraPackages = with pkgs; [
+        intel-media-driver
+        intel-media-sdk
+      ];
+    };
+    # intel_gpu_top command
+    intel-gpu-tools.enable = true;
+  };
+
   networking.enableIPv6 = false;  # disable ipv6
   networking.useDHCP = false; # disable use DHCP to obtain an IP address
   networking.defaultGateway = {

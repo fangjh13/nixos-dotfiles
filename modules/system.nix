@@ -105,11 +105,9 @@ in {
       fira
       fira-code-symbols
 
-      # Open Sans
-      open-sans
-
-      # Android Roboto
+      # Google Android Fonts
       roboto
+      open-sans
 
       # DejaVu fonts
       dejavu_fonts
