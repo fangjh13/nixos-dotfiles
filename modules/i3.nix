@@ -41,6 +41,7 @@
         xorg.xbacklight  # control screen brightness
         xorg.xdpyinfo      # get screen information
         sysstat       # get system information
+	imagemagickBig # bitmap images package used for lock screen
      ];
     };
 

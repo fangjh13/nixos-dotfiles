@@ -9,6 +9,7 @@
     [
       ../../modules/system.nix
       ../../modules/i3.nix
+      # ../../modules/plasma5.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix

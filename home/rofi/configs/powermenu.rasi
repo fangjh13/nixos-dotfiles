@@ -18,10 +18,10 @@ window {
     border:           0;
     padding:          10;
     transparency:     "real";
-    width:            120px;
-    location:         east;
-    /*y-offset:       18;*/
-    /*x-offset:       850;*/
+    width:            180px;
+    location:         south east;
+    x-offset:         -10px;
+    y-offset:         -50px;
 }
 listview {
     lines:     7;

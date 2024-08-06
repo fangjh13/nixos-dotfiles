@@ -21,8 +21,46 @@
 
   # set cursor size and dpi for 4k monitor
   xresources.properties = {
-    "Xcursor.size" = 16;
     "Xft.dpi" = 192;
+  };
+
+  home.pointerCursor = {
+    name = "capitaine-cursors";
+    package = pkgs.capitaine-cursors;
+    size = 40;
+  };
+
+  home.sessionVariables.GTK_THEME = "WhiteSur-Dark-solid";
+  gtk = {
+    enable = true;
+    iconTheme = {
+      name = "WhiteSur-dark";
+      package = pkgs.whitesur-icon-theme;
+    };
+    theme = {
+      # name = "WhiteSur-Dark";
+      name = "WhiteSur-Dark-solid";
+      package = pkgs.whitesur-gtk-theme.override { nautilusSize = "180"; };
+    };
+    cursorTheme = {
+      name = "capitaine-cursors";
+      package = pkgs.capitaine-cursors;
+      size = 40;
+    };
+    # The font to use in GTK+ 2/3 applications.
+    font = {
+      name = "Noto Sans";
+      size = 10;
+    };
+    # gtk3 = {
+        # Bookmarks in the sidebar of the GTK file browser
+    #   bookmarks = [
+    #     "file:///home/bwbwchen/nix-config nix-config"
+    #     "file:///home/bwbwchen/logseq logseq"
+    #     "file:///home/bwbwchen/knowledge knowledge"
+    #     "file:///home/bwbwchen/work work"
+    #   ];
+    # };
   };
 
   # 直接以 text 的方式，在 nix 配置文件中硬编码文件内容

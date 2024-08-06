@@ -157,7 +157,7 @@ in {
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
-  # TODO define your hostname
+  # FIXME define your hostname
   networking.hostName = "deskmini";
 
   # Enable the OpenSSH daemon.
@@ -180,12 +180,13 @@ in {
     git
     sysstat
     lm_sensors # for `sensors` command
-    # minimal screen capture tool, used by i3 blur lock to take a screenshot
-    # print screen key is also bound to this tool in i3 config
-    scrot
     neofetch
     xfce.thunar # xfce4's file manager
     nnn # terminal file manager
+
+    # minimal screen capture tool, used by i3 blur lock to take a screenshot
+    # print screen key is also bound to this tool in i3 config
+    scrot
   ];
 
   # Enable sound with pipewire.
@@ -216,4 +217,16 @@ in {
 
     udev.packages = with pkgs; [gnome.gnome-settings-daemon];
   };
+
+  # Bluetooth 
+  # https://nixos.wiki/wiki/Bluetooth
+  hardware.bluetooth = {
+    enable = true; # enables support for Bluetooth
+    powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  };
+  # use blueman-applet and blueman-manager 
+  services.blueman.enable = true;
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.libinput.enable = true;
 }

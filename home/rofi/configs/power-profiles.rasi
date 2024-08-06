@@ -21,10 +21,10 @@ window {
     border:           0;
     padding:          10;
     transparency:     "real";
-    width:            170px;
-    location:         east;
-    /*y-offset:       18;*/
-    /*x-offset:       850;*/
+    width:            280px;
+    location:         south east;
+    y-offset:         -60px;
+    x-offset:         -280px;
 }
 listview {
     lines:   4;

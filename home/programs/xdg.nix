@@ -29,6 +29,8 @@
 in {
   xdg = {
     enable = true;
+
+    # default is `~/.cache`
     cacheHome = config.home.homeDirectory + "/.local/cache";
 
     mimeApps = {
