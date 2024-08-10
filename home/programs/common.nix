@@ -53,12 +53,6 @@
   ];
 
   programs = {
-    tmux = {
-      enable = true;
-      clock24 = true;
-      keyMode = "vi";
-    };
-
     neovim = {
       enable = true;
       viAlias = true;
