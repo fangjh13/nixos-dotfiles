@@ -89,7 +89,13 @@
     fd.enable = true;  #  replacement of find
     eza.enable = true; # A modern replacement for ‘ls’
     jq.enable = true; # A lightweight and flexible command-line JSON processor
-    ssh.enable = true;
+
+    # ssh client
+    ssh = {
+      enable = true;
+      forwardAgent = true;
+      addKeysToAgent = "yes";
+    };
 
     skim = {
       enable = true;
@@ -107,5 +113,11 @@
 
     # auto mount usb drives
     udiskie.enable = true;
+
+    # clipboard manager
+    copyq.enable = true;
+
+    # enable OpenSSH private key agent
+    ssh-agent.enable = true;
   };
 }

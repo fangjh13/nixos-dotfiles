@@ -109,6 +109,10 @@ exec --no-startup-id xautolock -time 10 -corners ---- -cornersize 5 -locker ~/.c
 # exec --no-startup-id dbus-launch /usr/bin/dunst
 exec --no-startup-id dunst
 
+# synology driver
+exec --no-startup-id synology-drive
+
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -302,7 +306,11 @@ for_window [floating class=Alacritty] resize set 60 ppt 70 ppt, move position ce
 for_window [class="(?i)KeePassXC"] sticky enable border none, resize set 50 ppt 60 ppt
 for_window [class="(?i)KeePassXC"] move scratchpad
 exec --no-startup-id keepassxc
-bindsym $mod+Shift+p [class="(?i)KeePassXC"] scratchpad show
+bindsym $mod+Shift+p [class="(?i)KeePassXC"] scratchpad show, move position center
+
+# autostart clipboard manager in scratchpad
+exec --no-startup-id copyq
+for_window [class="(?i)CopyQ"] floating enable border none, resize set 18 ppt 35 ppt, move position cursor, focus
 
 
 # reload the configuration file
@@ -355,8 +363,9 @@ bindsym $mod+Shift+slash focus parent; title_format " %title", focus child
 # finds out, if available)
 bar {
 	i3bar_command i3bar
-	# status_command i3status
-	status_command i3blocks -c ~/.config/i3/i3blocks.conf
+	status_command i3status
+	# or use i3blocks
+	# status_command i3blocks -c ~/.config/i3/i3blocks.conf
 	position bottom
 
         ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
