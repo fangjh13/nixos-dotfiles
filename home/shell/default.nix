@@ -25,7 +25,10 @@ in {
     # enable scrolling in git diff
     DELTA_PAGER = "less -R";
 
+    # colorizing the man pager with bat
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+    # fix man with bat color (https://github.com/sharkdp/bat/issues/652)
+    MANROFFOPT="-c";
   };
 
   home.shellAliases = {

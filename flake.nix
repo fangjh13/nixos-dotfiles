@@ -25,8 +25,9 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # bat theme
     catppuccin-bat = {
-      url = "github:catppuccin/bat";
+      url = "github:catppuccin/bat?rev=d3feec47b16a8e99eabb34cdfbaa115541d374fc";
       flake = false;
     };
   };

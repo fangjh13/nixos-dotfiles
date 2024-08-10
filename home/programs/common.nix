@@ -62,13 +62,21 @@
       enable = true;
       config = {
         pager = "less -FR";
-        theme = "catppuccin-mocha";
+        theme = "catppuccin-macchiato";
       };
       themes = {
-        # https://raw.githubusercontent.com/catppuccin/bat/main/Catppuccin-mocha.tmTheme
-        catppuccin-mocha = {
+        catppuccin-macchiato = {
           src = catppuccin-bat;
-          file = "Catppuccin-mocha.tmTheme";
+          file = "themes/Catppuccin Macchiato.tmTheme";
+        };
+	dracula = {
+          src = pkgs.fetchFromGitHub {
+            owner = "dracula";
+            repo = "sublime"; # Bat uses sublime syntax for its themes
+            rev = "456d3289827964a6cb503a3b0a6448f4326f291b";
+            sha256 = "sha256-8mCovVSrBjtFi5q+XQdqAaqOt3Q+Fo29eIDwECOViro=";
+          };
+          file = "Dracula.tmTheme";
         };
       };
     
@@ -78,6 +86,8 @@
       enable = true;
       plugins = [ pkgs.rofi-calc ];
     };
+
+    wezterm.enable = true;
 
     btop.enable = true; # replacement of htop/nmon
     fd.enable = true;  #  replacement of find
