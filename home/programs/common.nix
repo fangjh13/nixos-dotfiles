@@ -37,6 +37,7 @@
     nodePackages.npm
     nodePackages.pnpm
     yarn
+    python3
 
     # db related
     dbeaver-bin

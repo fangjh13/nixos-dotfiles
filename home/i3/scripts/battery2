@@ -15,7 +15,7 @@ status = check_output(['acpi'], universal_newlines=True)
 if not status:
     # stands for no battery found
     color = config.get("color_10", "red")
-    fulltext = "<span color='{}'><span font='FontAwesome'>\uf00d \uf240</span></span>".format(color)
+    fulltext = "<span color='{}'><span font='Noto Sans'>\uf00d \uf240</span></span>".format(color)
     percentleft = 100
 else:
     # if there is more than one battery in one laptop, the percentage left is
@@ -53,16 +53,16 @@ else:
 
     # stands for charging
     color = config.get("color_charging", "yellow")
-    FA_LIGHTNING = "<span color='{}'><span font='FontAwesome'>\uf0e7</span></span>".format(color)
+    FA_LIGHTNING = "<span color='{}'><span font='Noto Sans'>\uf0e7</span></span>".format(color)
 
     # stands for plugged in
-    FA_PLUG = "<span font='FontAwesome'>\uf1e6</span>"
+    FA_PLUG = "<span font='Noto Sans'>\uf1e6</span>"
 
     # stands for using battery
-    FA_BATTERY = "<span font='FontAwesome'>\uf240</span>"
+    FA_BATTERY = "<span font='Noto Sans'>\uf240</span>"
 
     # stands for unknown status of battery
-    FA_QUESTION = "<span font='FontAwesome'>\uf128</span>"
+    FA_QUESTION = "<span font='Noto Sans'>\uf128</span>"
 
 
     if state == "Discharging":
