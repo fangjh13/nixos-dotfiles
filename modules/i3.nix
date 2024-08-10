@@ -25,7 +25,6 @@
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
-        rofi          # application launcher, the same as dmenu
         dunst         # notification daemon
         i3blocks      # status bar
         i3lock        # default i3 screen locker
@@ -42,6 +41,7 @@
         xorg.xdpyinfo      # get screen information
         sysstat       # get system information
 	imagemagickBig # bitmap images package used for lock screen
+	xclip   # access the X clipboard from a console application
      ];
     };
 

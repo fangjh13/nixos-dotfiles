@@ -21,6 +21,7 @@
     wineWowPackages.wayland
     xdg-utils
     graphviz
+    tlrc  # Official tldr client written in Rust
 
     # productivity
     obsidian
@@ -41,6 +42,13 @@
     dbeaver-bin
     mycli
     pgcli
+
+    # Synology Drive Client
+    pkgs.synology-drive-client
+    # password manager           
+    keepassxc
+    # notebook
+    pkgs.logseq
   ];
 
   programs = {
@@ -68,13 +76,19 @@
           file = "Catppuccin-mocha.tmTheme";
         };
       };
+    
+    };
+
+    rofi = {
+      enable = true;
+      plugins = [ pkgs.rofi-calc ];
     };
 
     btop.enable = true; # replacement of htop/nmon
+    fd.enable = true;  #  replacement of find
     eza.enable = true; # A modern replacement for ‘ls’
     jq.enable = true; # A lightweight and flexible command-line JSON processor
     ssh.enable = true;
-    aria2.enable = true;
 
     skim = {
       enable = true;

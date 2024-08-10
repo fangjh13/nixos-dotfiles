@@ -3,11 +3,12 @@
   lib,
   ...
 }: let
+  # FIXME replace your username
   username = "fython";
 in {
   # ============================= User related =============================
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # FIXME Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.fython = {
     isNormalUser = true;
     description = "Fython";
@@ -166,7 +167,7 @@ in {
     settings = {
       X11Forwarding = true;
       PermitRootLogin = "no"; # disable root login
-      PasswordAuthentication = false; # disable password login
+      PasswordAuthentication = true; # whether allow password login
     };
     openFirewall = true;
   };

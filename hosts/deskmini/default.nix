@@ -15,7 +15,7 @@
       ./hardware-configuration.nix
     ];
 
-  # Use the systemd-boot EFI boot loader.
+  # FIXME Use the systemd-boot EFI boot loader.
   boot.loader = {
     grub = {
       enable = true;
@@ -36,7 +36,7 @@
     systemd-boot.configurationLimit = 1;
   };
 
-  # CPU: Intel 8700
+  # FIXME CPU: Intel 8700
   hardware = {
     opengl = {
       enable = true;
