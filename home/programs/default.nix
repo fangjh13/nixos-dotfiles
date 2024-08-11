@@ -6,5 +6,7 @@
     ./media.nix
     ./xdg.nix
     ./tmux
+    ./python
+    ./go
   ];
 }

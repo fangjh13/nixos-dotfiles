@@ -11,10 +11,14 @@
     p7zip
 
     # utils
+    gnumake
+    gcc
+    libgcc
     ripgrep
     yq-go # https://github.com/mikefarah/yq
     htop
     tree
+    android-tools
 
     # misc
     libnotify
@@ -37,7 +41,6 @@
     nodePackages.npm
     nodePackages.pnpm
     yarn
-    python3
 
     # db related
     dbeaver-bin
@@ -79,7 +82,6 @@
           file = "Dracula.tmTheme";
         };
       };
-    
     };
 
     rofi = {
