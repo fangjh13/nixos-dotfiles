@@ -181,9 +181,7 @@ in {
     git
     sysstat
     lm_sensors # for `sensors` command
-    neofetch
     xfce.thunar # xfce4's file manager
-    nnn # terminal file manager
 
     # minimal screen capture tool, used by i3 blur lock to take a screenshot
     # print screen key is also bound to this tool in i3 config

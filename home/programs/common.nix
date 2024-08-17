@@ -5,17 +5,21 @@
   ...
 }: {
   home.packages = with pkgs; [
+    neofetch
     # archives
     zip
     unzip
     p7zip
 
     # utils
+    file
     gnumake
     gcc
     libgcc
-    ripgrep
-    yq-go # https://github.com/mikefarah/yq
+    ripgrep # recursively searches directories for a regex pattern
+    yq-go # yaml processor https://github.com/mikefarah/yq
+    fzf # A command-line fuzzy finder
+
     htop
     tree
     android-tools
@@ -46,6 +50,24 @@
     dbeaver-bin
     mycli
     pgcli
+    
+    # nix related
+    #
+    # it provides the command `nom` works just like `nix`
+    # with more details log output
+    nix-output-monitor
+
+    # system call monitoring
+    strace # system call monitoring
+    ltrace # library call monitoring
+    lsof # list open files
+
+    # system tools
+    sysstat
+    lm_sensors # for `sensors` command
+    ethtool
+    pciutils # lspci
+    usbutils # lsusb
 
     # Synology Drive Client
     pkgs.synology-drive-client

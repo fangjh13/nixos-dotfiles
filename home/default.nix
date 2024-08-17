@@ -14,6 +14,7 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
+    # FIXME change your username
     username = "fython";
     homeDirectory = "/home/fython";
 
