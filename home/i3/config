@@ -91,8 +91,8 @@ mode "$mode_gaps_outer" {
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 
-# set wallpaper from https://github.com/KDE/plasma-workspace-wallpapers/blob/master/ScarletTree/contents/images/5120x2880.png
-exec --no-startup-id sleep 1 && feh --bg-fill ~/.config/i3/wallpaper.jpg
+# set wallpaper
+exec --no-startup-id sleep 1 && feh --bg-fill ~/.config/i3/wallpapers/ghibli-inspired-nature-desktop-wallpaper-4k.jpg
 
 # set powersavings for display:
 # exec --no-startup-id xset s 480 dpms 600 600 600
