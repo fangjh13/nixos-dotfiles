@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  catppuccin-bat,
-  ...
-}: {
+{ lib, pkgs, catppuccin-bat, ... }: {
   home.packages = with pkgs; [
     neofetch
     # archives
@@ -29,7 +24,7 @@
     wineWowPackages.wayland
     xdg-utils
     graphviz
-    tlrc  # Official tldr client written in Rust
+    tlrc # Official tldr client written in Rust
 
     # productivity
     obsidian
@@ -50,7 +45,7 @@
     dbeaver-bin
     mycli
     pgcli
-    
+
     # nix related
     #
     # it provides the command `nom` works just like `nix`
@@ -94,7 +89,7 @@
           src = catppuccin-bat;
           file = "themes/Catppuccin Macchiato.tmTheme";
         };
-	dracula = {
+        dracula = {
           src = pkgs.fetchFromGitHub {
             owner = "dracula";
             repo = "sublime"; # Bat uses sublime syntax for its themes
@@ -114,7 +109,7 @@
     wezterm.enable = true;
 
     btop.enable = true; # replacement of htop/nmon
-    fd.enable = true;  #  replacement of find
+    fd.enable = true; # replacement of find
     eza.enable = true; # A modern replacement for ‘ls’
     jq.enable = true; # A lightweight and flexible command-line JSON processor
 

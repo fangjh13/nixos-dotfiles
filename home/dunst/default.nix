@@ -1,6 +1,3 @@
-{ config, pkgs, ... }:
-{
-  home.file.".config/dunst/dunstrc" = {
-    source = ./dunstrc;
-  };
+{ config, pkgs, ... }: {
+  home.file.".config/dunst/dunstrc" = { source = ./dunstrc; };
 }

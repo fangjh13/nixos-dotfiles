@@ -1,8 +1,4 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
+{ pkgs, config, ... }: {
   # i3 配置，基于 https://github.com/endeavouros-team/endeavouros-i3wm-setup
   # 直接从当前文件夹中读取配置文件作为配置内容
 
@@ -12,7 +8,7 @@
     source = ./scripts;
     # copy the scripts directory recursively
     recursive = true;
-    executable = true;  # make all scripts executable
+    executable = true; # make all scripts executable
   };
   home.file.".config/i3status" = {
     source = ./i3status;
@@ -24,11 +20,8 @@
     recursive = true;
   };
 
-
   # set cursor size and dpi for 4k monitor
-  xresources.properties = {
-    "Xft.dpi" = 192;
-  };
+  xresources.properties = { "Xft.dpi" = 192; };
 
   home.pointerCursor = {
     name = "capitaine-cursors";
@@ -59,7 +52,7 @@
       size = 10;
     };
     # gtk3 = {
-        # Bookmarks in the sidebar of the GTK file browser
+    # Bookmarks in the sidebar of the GTK file browser
     #   bookmarks = [
     #     "file:///home/bwbwchen/nix-config nix-config"
     #     "file:///home/bwbwchen/logseq logseq"

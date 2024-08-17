@@ -2,10 +2,8 @@
 
 # terminals
 
-let
-  font = "Hack Nerd Font Mono";
-in
-{
+let font = "Hack Nerd Font Mono";
+in {
   programs.alacritty = {
     enable = true;
     settings = {
