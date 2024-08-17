@@ -1,22 +1,14 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 
 {
 
-  imports = [
-    ./fcitx5
-    ./i3
-    ./programs
-    ./rofi
-    ./shell
-    ./dunst
-  ];
+  imports = [ ./fcitx5 ./i3 ./programs ./rofi ./shell ./dunst ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    # FIXME change your username
-    username = "fython";
-    homeDirectory = "/home/fython";
+    username = "${username}";
+    homeDirectory = "/home/${username}";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
