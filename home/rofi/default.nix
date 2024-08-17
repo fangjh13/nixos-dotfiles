@@ -1,8 +1,4 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
+{ pkgs, config, ... }: {
   # 基于 https://github.com/endeavouros-team/endeavouros-i3wm-setup
   # 直接从当前文件夹中读取配置文件作为配置内容
   home.file.".config/rofi" = {

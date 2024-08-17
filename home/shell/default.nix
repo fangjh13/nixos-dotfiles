@@ -1,14 +1,10 @@
-{config, lib, pkgs, ...}: let
+{ config, lib, pkgs, ... }:
+let
   d = config.xdg.dataHome;
   c = config.xdg.configHome;
   cache = config.xdg.cacheHome;
 in {
-  imports = [
-    ./bash
-    ./common.nix
-    ./starship.nix
-    ./terminals.nix
-  ];
+  imports = [ ./bash ./common.nix ./starship.nix ./terminals.nix ];
 
   # add environment variables
   home.sessionVariables = {
@@ -28,10 +24,8 @@ in {
     # colorizing the man pager with bat
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
     # fix man with bat color (https://github.com/sharkdp/bat/issues/652)
-    MANROFFOPT="-c";
+    MANROFFOPT = "-c";
   };
 
-  home.shellAliases = {
-    k = "kubectl";
-  };
+  home.shellAliases = { k = "kubectl"; };
 }

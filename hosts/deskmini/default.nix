@@ -5,15 +5,14 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ../../modules/system.nix
-      ../../modules/i3.nix
-      # ../../modules/plasma5.nix
+  imports = [
+    ../../modules/system.nix
+    ../../modules/i3.nix
+    # ../../modules/plasma5.nix
 
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # FIXME Use the systemd-boot EFI boot loader.
   boot.loader = {
@@ -26,11 +25,11 @@
           search --file --no-floppy --set=root /EFI/Microsoft/Boot/bootmgfw.efi
           chainloader /EFI/Microsoft/Boot/bootmgfw.efi
         }
-       '';
+      '';
     };
     efi = {
-       canTouchEfiVariables = true;
-       efiSysMountPoint = "/boot";
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot";
     };
     # Prevent boot partition running out of disk space
     systemd-boot.configurationLimit = 1;
@@ -40,28 +39,26 @@
   hardware = {
     opengl = {
       enable = true;
-      extraPackages = with pkgs; [
-        intel-media-driver
-        intel-media-sdk
-      ];
+      extraPackages = with pkgs; [ intel-media-driver intel-media-sdk ];
     };
     # intel_gpu_top command
     intel-gpu-tools.enable = true;
   };
 
-  networking.enableIPv6 = false;  # disable ipv6
+  networking.enableIPv6 = false; # disable ipv6
   networking.useDHCP = false; # disable use DHCP to obtain an IP address
   networking.defaultGateway = {
     address = "10.0.0.18";
     interface = "eno2";
-    };
-  networking.interfaces.eno2.ipv4.addresses = [ {
+  };
+  networking.interfaces.eno2.ipv4.addresses = [{
     address = "10.0.0.140";
     prefixLength = 24;
-  } ];
+  }];
   networking.nameservers = [ "10.0.0.18" ];
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = false;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable =
+    false; # Easiest to use and most distros use this by default.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -75,5 +72,4 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 }
-
 
