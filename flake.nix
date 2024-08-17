@@ -1,12 +1,5 @@
 {
-  description = "NixOS configuration of Ryan Yin";
-
-  ##################################################################################################################
-  #
-  # Want to know Nix in details? Looking for a beginner-friendly tutorial?
-  # Check out https://github.com/ryan4yin/nixos-and-flakes-book !
-  #
-  ##################################################################################################################
+  description = "Fython's NixOS Configuration";
 
   # the nixConfig here only affects the flake itself, not the system configuration!
   nixConfig = {
@@ -51,6 +44,7 @@
             home-manager.useUserPackages = true;
 
             home-manager.extraSpecialArgs = inputs;
+            # FIXME replace your username
             home-manager.users.fython = import ./home;
           }
         ];
