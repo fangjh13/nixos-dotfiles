@@ -1,31 +1,32 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
-  # FIXME replace your username
-  username = "fython";
+{ pkgs, lib, username, ... }:
+let
+  capitalize = str:
+    let
+      first = builtins.substring 0 1 str;
+      rest = builtins.substring 1 (builtins.stringLength str - 1) str;
+    in lib.toUpper first + rest;
 in {
   # ============================= User related =============================
 
   # FIXME Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.fython = {
+  users.users."${username}" = {
     isNormalUser = true;
-    description = "Fython";
-    extraGroups = ["networkmanager" "wheel"];
-    openssh.authorizedKeys.keys = [
-    ];
+    description = capitalize "${username}";
+    extraGroups = [ "networkmanager" "wheel" ];
+    openssh.authorizedKeys.keys = [ ];
     shell = pkgs.bash;
   };
   # given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`
-  nix.settings.trusted-users = [username];
+  nix.settings.trusted-users = [ "${username}" ];
 
   # customise /etc/nix/nix.conf declaratively via `nix.settings`
   nix.settings = {
     # enable flakes globally
-    experimental-features = ["nix-command" "flakes"];
+    experimental-features = [ "nix-command" "flakes" ];
+    # save disk space use hard links
+    auto-optimise-store = true;
 
     substituters = [
       # cache mirror located in China
@@ -37,9 +38,8 @@ in {
       "https://cache.nixos.org"
     ];
 
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-    ];
+    trusted-public-keys =
+      [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
     builders-use-substitutes = true;
   };
 
@@ -100,7 +100,7 @@ in {
       # source-han-serif # 思源宋体
 
       # Liberation fonts
-      liberation_ttf 
+      liberation_ttf
 
       # Mozilla Fira Sans
       fira
@@ -124,13 +124,13 @@ in {
           # symbols icon only
           "NerdFontsSymbolsOnly"
           # Characters
-	  "Noto"
-	  "Hack"
+          "Noto"
+          "Hack"
           "JetBrainsMono"
-	  "FiraCode"
-	  "FiraMono"
-	  "RobotoMono"
-	  "DejaVuSansMono"
+          "FiraCode"
+          "FiraMono"
+          "RobotoMono"
+          "DejaVuSansMono"
         ];
       })
     ];
@@ -143,13 +143,17 @@ in {
       # sansSerif = ["Source Han Sans SC" "Source Han Sans TC" "Noto Color Emoji"];
       # monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
       # emoji = ["Noto Color Emoji"];
-      serif = ["Noto Sans" "Source Han Serif SC" "Source Han Serif TC"];
-      sansSerif = ["Noto Sans" "Hack Nerd Font Mono" "Source Han Serif SC" "Source Han Serif TC"];
-      monospace = ["Noto Sans" "Hack Nerd Font Mono"];
-      emoji = ["Noto Color Emoji"];
+      serif = [ "Noto Sans" "Source Han Serif SC" "Source Han Serif TC" ];
+      sansSerif = [
+        "Noto Sans"
+        "Hack Nerd Font Mono"
+        "Source Han Serif SC"
+        "Source Han Serif TC"
+      ];
+      monospace = [ "Noto Sans" "Hack Nerd Font Mono" ];
+      emoji = [ "Noto Color Emoji" ];
     };
   };
-
 
   programs.dconf.enable = true;
 
@@ -191,13 +195,11 @@ in {
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
-  services.power-profiles-daemon = {
-    enable = true;
-  };
+  services.power-profiles-daemon = { enable = true; };
   security.polkit.enable = true;
 
   services = {
-    dbus.packages = [pkgs.gcr];
+    dbus.packages = [ pkgs.gcr ];
 
     geoclue2.enable = true;
 
@@ -214,7 +216,7 @@ in {
       #media-session.enable = true;
     };
 
-    udev.packages = with pkgs; [gnome.gnome-settings-daemon];
+    udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
   };
 
   # Bluetooth 
@@ -228,4 +230,13 @@ in {
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
+
+  # docs
+  documentation = {
+    enable = true;
+    doc.enable = true;
+    man.enable = true;
+    info.enable = true;
+    dev.enable = true;
+  };
 }

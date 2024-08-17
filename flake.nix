@@ -5,9 +5,7 @@
   nixConfig = {
     # substituers will be appended to the default substituters when fetching packages
     # nix com    extra-substituters = [munity's cache server
-    extra-substituters = [
-      "https://nix-community.cachix.org"
-    ];
+    extra-substituters = [ "https://nix-community.cachix.org" ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
@@ -20,35 +18,37 @@
 
     # bat theme
     catppuccin-bat = {
-      url = "github:catppuccin/bat?rev=d3feec47b16a8e99eabb34cdfbaa115541d374fc";
+      url =
+        "github:catppuccin/bat?rev=d3feec47b16a8e99eabb34cdfbaa115541d374fc";
       flake = false;
     };
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    home-manager,
-    ...
-  }: {
-    nixosConfigurations = {
-      deskmini = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
+    let
+      # FIXME replace your username
+      username = "fython";
+      system = "x86_64-linux";
+    in {
+      nixosConfigurations = {
+        deskmini = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit username; };
 
-        modules = [
-          ./hosts/deskmini
+          modules = [
+            ./hosts/deskmini
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.extraSpecialArgs = inputs;
-            # FIXME replace your username
-            home-manager.users.fython = import ./home;
-          }
-        ];
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users."${username}" = import ./home;
+                extraSpecialArgs = inputs // { inherit username; };
+              };
+            }
+          ];
+        };
       };
     };
-  };
 }
