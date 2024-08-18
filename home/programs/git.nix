@@ -8,6 +8,13 @@
     userName = "Fython";
     userEmail = "fang.jia.hui123@gmail.com";
 
-    extraConfig = { init = { defaultBranch = "main"; }; };
+    extraConfig = {
+      core = {
+        editor = "nvim";
+        ignorecase = false;
+        quotepath = false;
+      };
+      init = { defaultBranch = "main"; };
+    };
   };
 }
