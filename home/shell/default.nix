@@ -4,7 +4,7 @@ let
   c = config.xdg.configHome;
   cache = config.xdg.cacheHome;
 in {
-  imports = [ ./bash ./common.nix ./starship.nix ./terminals.nix ];
+  imports = [ ./bash ./common.nix ./prompt/starship.nix ./terminals.nix ];
 
   # add environment variables
   home.sessionVariables = {
