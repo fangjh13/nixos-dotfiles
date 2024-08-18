@@ -35,11 +35,17 @@
     systemd-boot.configurationLimit = 1;
   };
 
-  # FIXME CPU: Intel 8700
+  # FIXME CPU: Intel 8700 and No other GPU
   hardware = {
     opengl = {
       enable = true;
-      extraPackages = with pkgs; [ intel-media-driver intel-media-sdk ];
+      driSupport = true;
+      driSupport32Bit = true;
+      extraPackages = with pkgs; [
+        intel-media-driver
+        intel-media-sdk
+        mesa.drivers
+      ];
     };
     # intel_gpu_top command
     intel-gpu-tools.enable = true;

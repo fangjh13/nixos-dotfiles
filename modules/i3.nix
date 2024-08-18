@@ -42,8 +42,15 @@
     };
 
     # Configure keymap in X11
-    xkb.layout = "us";
-    xkb.variant = "";
+    xkb = {
+      variant = "";
+      options = "ctrl:nocaps"; # Caps Lock as Ctrl
+      layout = "us";
+    };
+
+    # FIXME specify video drivers
+    # Default: videoDrivers = [ "modesetting" "fbdev" ];
+    videoDrivers = [ "intel" ];
   };
 
   # thunar file manager(part of xfce) related options
