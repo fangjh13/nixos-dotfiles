@@ -7,7 +7,7 @@ let
     in lib.toUpper first + rest;
 in {
   # font config
-  imports = [ ./fonts.nix ];
+  imports = [ ./fonts.nix ./ssh.nix ];
 
   # FIXME Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${username}" = {
@@ -75,8 +75,6 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  programs.dconf.enable = true;
-
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
@@ -85,16 +83,9 @@ in {
   # FIXME define your hostname
   networking.hostName = "deskmini";
 
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    settings = {
-      X11Forwarding = true;
-      PermitRootLogin = "no"; # disable root login
-      PasswordAuthentication = true; # whether allow password login
-    };
-    openFirewall = true;
-  };
+  programs.dconf.enable = true;
+  services.dbus.packages = with pkgs; [ gcr dconf ];
+  services.geoclue2.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -119,10 +110,6 @@ in {
   security.polkit.enable = true;
 
   services = {
-    dbus.packages = [ pkgs.gcr ];
-
-    geoclue2.enable = true;
-
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -151,7 +138,7 @@ in {
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
-  # docs
+  # Docs
   documentation = {
     enable = true;
     doc.enable = true;
