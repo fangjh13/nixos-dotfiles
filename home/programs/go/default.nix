@@ -1,1 +1,6 @@
-{ lib, pkgs, ... }: { programs.go = { enable = true; }; }
+{ lib, pkgs, ... }: {
+  programs.go = {
+    enable = true;
+    goPath = ".go/";
+  };
+}

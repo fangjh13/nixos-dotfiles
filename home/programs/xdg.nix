@@ -42,6 +42,10 @@ in {
     userDirs = {
       enable = true;
       createDirectories = true;
+      music = null;
+      publicShare = null;
+      templates = null;
+      videos = null;
       extraConfig = {
         XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/Screenshots";
       };

@@ -4,13 +4,12 @@
     # archives
     zip
     unzip
+    unrar
+    xz
     p7zip
 
     # utils
     file
-    gnumake
-    gcc
-    libgcc
     ripgrep # recursively searches directories for a regex pattern
     yq-go # yaml processor https://github.com/mikefarah/yq
     fzf # A command-line fuzzy finder
@@ -24,13 +23,15 @@
     wineWowPackages.wayland
     xdg-utils
     graphviz
+    duf # 'df' alternative
     tlrc # Official tldr client written in Rust
+    evince # pdf viewer
 
     # productivity
     obsidian
 
     # IDE
-    insomnia
+    insomnia # API debug
 
     # cloud native
     docker-compose
@@ -63,6 +64,8 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
+    # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
+    nvtopPackages.full
 
     # Synology Drive Client
     pkgs.synology-drive-client
@@ -70,6 +73,11 @@
     keepassxc
     # notebook
     pkgs.logseq
+
+    # Programming Languages
+    gcc
+    gnumake
+    cmake
   ];
 
   programs = {

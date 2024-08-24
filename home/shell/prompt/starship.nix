@@ -5,6 +5,7 @@
   programs.starship = {
     enable = true;
     enableBashIntegration = true;
+    enableZshIntegration = false;
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.starship.settings
     settings = {
       add_newline = false;
