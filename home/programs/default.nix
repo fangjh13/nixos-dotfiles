@@ -1,6 +1,7 @@
 {
   imports = [
-    ./browsers.nix
+    ./firefox
+    ./chromium
     ./common.nix
     ./git.nix
     ./media.nix

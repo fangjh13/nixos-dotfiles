@@ -54,10 +54,18 @@
   };
 
   # thunar file manager(part of xfce) related options
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-volman
+  environment.systemPackages = with pkgs; [
+    xfce.thunar # xfce4's file manager
+    xfce.xfconf # thunar need for image preview (https://gitlab.xfce.org/xfce/thunar/-/issues/1285)
   ];
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-volman
+      thunar-archive-plugin
+      thunar-media-tags-plugin
+    ];
+  };
+  services.tumbler.enable = true; # Thumbnail support for images preview
   services.gvfs.enable = true; # Mount, trash, and other functionalities
-  services.tumbler.enable = true; # Thumbnail support for images
 }

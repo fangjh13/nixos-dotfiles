@@ -51,15 +51,12 @@
       name = "Noto Sans";
       size = 10;
     };
-    # gtk3 = {
-    # Bookmarks in the sidebar of the GTK file browser
-    #   bookmarks = [
-    #     "file:///home/bwbwchen/nix-config nix-config"
-    #     "file:///home/bwbwchen/logseq logseq"
-    #     "file:///home/bwbwchen/knowledge knowledge"
-    #     "file:///home/bwbwchen/work work"
-    #   ];
-    # };
+    gtk3 = {
+      # FIXME Bookmarks in the sidebar of the GTK file browser
+      bookmarks = [
+        "file:///home/fython/SynologyDrive Drive"
+      ];
+    };
   };
 
   # 直接以 text 的方式，在 nix 配置文件中硬编码文件内容

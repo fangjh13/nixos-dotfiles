@@ -4,10 +4,12 @@ let
   c = config.xdg.configHome;
   cache = config.xdg.cacheHome;
 in {
-  imports = [ ./bash ./common.nix ./prompt/starship.nix ./terminals.nix ];
+  imports = [ ./bash ./prompt/starship.nix ./common.nix ./terminals.nix ];
 
   # add environment variables
   home.sessionVariables = {
+    TZ = "/etc/localtime";
+
     # clean up ~
     LESSHISTFILE = cache + "/less/history";
     LESSKEY = c + "/less/lesskey";
