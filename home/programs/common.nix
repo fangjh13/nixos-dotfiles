@@ -1,4 +1,4 @@
-{ lib, pkgs, catppuccin-bat, ... }: {
+{ lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: {
   home.packages = with pkgs; [
     neofetch
     # archives
@@ -82,6 +82,7 @@
 
   programs = {
     neovim = {
+      package = pkgs-unstable.neovim-unwrapped;
       enable = true;
       viAlias = true;
     };

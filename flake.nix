@@ -13,6 +13,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -33,7 +34,13 @@
       nixosConfigurations = {
         deskmini = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit username; };
+          specialArgs = {
+            inherit username;
+            pkgs-unstable = import inputs.nixpkgs-unstable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          };
 
           modules = [
             ./hosts/deskmini
@@ -44,7 +51,13 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 users."${username}" = import ./home;
-                extraSpecialArgs = inputs // { inherit username; };
+                extraSpecialArgs = inputs // {
+                  inherit username;
+                  pkgs-unstable = import inputs.nixpkgs-unstable {
+                    inherit system;
+                    config.allowUnfree = true;
+                  };
+                };
               };
             }
           ];
