@@ -303,8 +303,9 @@ for_window [class=TelegramDesktop] focus
 for_window [floating class=Alacritty] resize set 60 ppt 70 ppt, move position center
 
 # autostart password manager in scratchpad
-for_window [class="(?i)KeePassXC"] sticky enable border none, resize set 50 ppt 60 ppt
-for_window [class="(?i)KeePassXC"] move scratchpad
+for_window [class="(?i)KeePassXC"] sticky enable border none, resize set 50 ppt 60 ppt, move position center
+for_window [title="KeePassXC - Browser Access Request"] focus, resize set 20 ppt 30 ppt, move position center
+# for_window [class="(?i)KeePassXC"] move scratchpad
 exec --no-startup-id keepassxc
 bindsym $mod+Shift+p [class="(?i)KeePassXC"] scratchpad show, move position center
 
@@ -425,7 +426,7 @@ mode "$mode_system" {
 
 # Theme
 #class                   border  backgr. text    indic.   child_border
-client.focused          #556064 #556064 #80FFF9 #FDF6E3
+client.focused          #556064 #CEE5ED #80FFF9 #FDF6E3
 client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
 client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
 client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
