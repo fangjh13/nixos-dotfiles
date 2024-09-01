@@ -52,7 +52,10 @@ in {
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [ "electron-27.3.11" ];
+  };
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
