@@ -1,7 +1,4 @@
 { pkgs, ... }:
-
-# terminals
-
 let font = "Hack Nerd Font Mono";
 in {
   programs.alacritty = {

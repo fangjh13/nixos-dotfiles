@@ -9,6 +9,7 @@
     ./tmux
     ./python
     ./go
+    ./nix
     ./vscodium
   ];
 }
