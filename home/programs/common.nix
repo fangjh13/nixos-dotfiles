@@ -17,6 +17,7 @@
     htop
     tree
     android-tools
+    dnsutils
 
     # misc
     libnotify
