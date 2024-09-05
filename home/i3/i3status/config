@@ -15,9 +15,9 @@ order += "disk /"
 order += "disk /home"
 #order += "run_watch DHCP"
 #order += "run_watch VPN"
-# FIXME your wlan interface name
+# FIXME: your wlan interface name
 order += "wireless wlo1"
-# FIXME your eth interface name
+# FIXME: your eth interface name
 order += "ethernet eno2"
 order += "battery 0"
 order += "cpu_temperature 0"

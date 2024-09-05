@@ -9,7 +9,7 @@ in {
   # font config
   imports = [ ./fonts.nix ./ssh.nix ];
 
-  # FIXME Define a user account. Don't forget to set a password with ‘passwd’.
+  # FIXME: Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${username}" = {
     isNormalUser = true;
     description = capitalize "${username}";
@@ -83,7 +83,7 @@ in {
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
-  # FIXME define your hostname
+  # FIXME: define your hostname
   networking.hostName = "deskmini";
 
   programs.dconf.enable = true;

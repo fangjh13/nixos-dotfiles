@@ -17,7 +17,7 @@
 
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
-      # FIXME replace your username
+      # FIXME: replace your username
       username = "fython";
       system = "x86_64-linux";
     in {
