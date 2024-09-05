@@ -48,7 +48,7 @@
       layout = "us";
     };
 
-    # FIXME specify video drivers
+    # FIXME: specify video drivers
     # Default: videoDrivers = [ "modesetting" "fbdev" ];
     videoDrivers = [ "intel" ];
   };

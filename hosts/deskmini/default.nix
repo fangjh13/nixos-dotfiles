@@ -14,7 +14,7 @@
     ./hardware-configuration.nix
   ];
 
-  # FIXME Use the systemd-boot EFI boot loader.
+  # FIXME: Use the systemd-boot EFI boot loader.
   boot.loader = {
     grub = {
       enable = true;
@@ -35,7 +35,7 @@
     systemd-boot.configurationLimit = 1;
   };
 
-  # FIXME CPU: Intel 8700 and No other GPU
+  # NOTE: CPU: Intel 8700 and No other GPU
   hardware = {
     opengl = {
       enable = true;
@@ -53,9 +53,10 @@
 
   networking.enableIPv6 = false; # disable ipv6
   networking.useDHCP = false; # disable use DHCP to obtain an IP address
+  # FIXME: change your interface and ip
   networking.defaultGateway = {
     address = "10.0.0.18";
-    interface = "eno2";
+    interface = "eno2"; 
   };
   networking.interfaces.eno2.ipv4.addresses = [{
     address = "10.0.0.140";
