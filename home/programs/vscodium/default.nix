@@ -10,6 +10,7 @@
       vscodevim.vim # vim keybinding
       mkhl.direnv # direnv support
       jnoortheen.nix-ide # Nix language support
+      golang.go # Go language
     ];
     userSettings = {
       # "terminal.integrated.shell.linux" = "${pkgs.zsh}/bin/zsh";
@@ -44,6 +45,23 @@
           nil = { formatting = { command = [ "nixfmt" ]; }; };
         };
         formatterPath = "${pkgs.nixfmt-classic}/bin/nixfmt";
+      };
+
+      # go
+      go = {
+        inlayHints = {
+          assignVariableTypes = true;
+          compositeLiteralTypes = true;
+          constantValues = true;
+          functionTypeParameters = true;
+          parameterNames = true;
+          rangeVariableTypes = true;
+        };
+      };
+      # gopls config: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+      gopls = {
+        semanticTokens = true;
+        usePlaceholders = true;
       };
     };
   };
