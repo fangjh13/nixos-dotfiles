@@ -7,7 +7,7 @@ let
     in lib.toUpper first + rest;
 in {
   # font config
-  imports = [ ./fonts.nix ./ssh.nix ];
+  imports = [ ./common.nix ./fonts.nix ./ssh.nix ];
 
   # FIXME: Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${username}" = {
@@ -15,8 +15,9 @@ in {
     description = capitalize "${username}";
     extraGroups = [ "networkmanager" "wheel" ];
     openssh.authorizedKeys.keys = [ ];
-    shell = pkgs.bash;
+    shell = pkgs.zsh;
   };
+  programs.zsh.enable = true;
   # given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`
@@ -99,11 +100,7 @@ in {
     git
     sysstat
     lm_sensors # for `sensors` command
-
-    # minimal screen capture tool, used by i3 blur lock to take a screenshot
-    # print screen key is also bound to this tool in i3 config
-    scrot
-    zsh
+    scrot # screen capture tool, used by i3 blur lock to take a screenshot
   ];
 
   # Enable sound with pipewire.

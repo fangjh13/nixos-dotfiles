@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-# nix tooling
-{
+{ pkgs, ... }: {
   home.packages = with pkgs; [ alejandra deadnix statix ];
 
   programs.direnv = {
