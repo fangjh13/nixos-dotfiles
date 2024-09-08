@@ -1,6 +1,8 @@
 { lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: {
   home.packages = with pkgs; [
     neofetch
+    # disk usage analyzer 
+    ncdu
     # archives
     zip
     unzip
@@ -12,7 +14,7 @@
     file
     ripgrep # recursively searches directories for a regex pattern
     yq-go # yaml processor https://github.com/mikefarah/yq
-    fzf # A command-line fuzzy finder
+    moreutils # sponge chronic errno ...
 
     htop
     tree
@@ -24,8 +26,8 @@
     wineWowPackages.wayland
     xdg-utils
     graphviz
-    duf # 'df' alternative
-    tlrc # Official tldr client written in Rust
+    duf # `df` alternative
+    tlrc # Official `tldr` client written in Rust
     evince # pdf viewer
 
     # productivity
@@ -88,6 +90,43 @@
       viAlias = true;
     };
 
+    # A command-line fuzzy finder
+    fzf = let
+      fdOptions = "--follow --hidden --exclude .git --color=always";
+      copyCommand = ''
+        ${if pkgs.stdenvNoCC.isLinux then
+          "${pkgs.xclip}/bin/xclip -sel clip"
+        else
+          "pbcopy"}
+      '';
+    in {
+      enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      # FZF_DEFAULT_COMMAND
+      defaultCommand =
+        "git ls-tree -r --name-only HEAD --cached --others --exclude-standard || fd --type f --type l ${fdOptions}";
+      # FZF_DEFAULT_OPTS
+      defaultOptions = [
+        "--no-mouse"
+        "--height 50%"
+        "--select-1"
+        "--reverse"
+        "--multi"
+        "--inline-info"
+        "--ansi"
+        "--preview='[[ -d {} ]] && eza --tree --color=always {} || ([[ \\$(file --mime {}) =~ binary ]] && echo {} is a binary file) || (bat --style=numbers --color=always --line-range=:500 {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -300'"
+        "--preview-window='right:hidden:wrap'"
+        "--bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-w:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | ${copyCommand})'"
+      ];
+      # FZF_CTRL_T_COMMAND
+      fileWidgetCommand = "fd ${fdOptions}";
+      # FZF_CTRL_R_OPTS
+      historyWidgetOptions = [ "--layout=default" ];
+      # FZF_ALT_C_COMMAND
+      changeDirWidgetCommand = "fd --type d ${fdOptions}";
+    };
+
     bat = {
       enable = true;
       config = {
@@ -130,15 +169,6 @@
       addKeysToAgent = "yes";
     };
 
-    skim = {
-      enable = true;
-      enableZshIntegration = true;
-      defaultCommand = "rg --files --hidden";
-      changeDirWidgetOptions = [
-        "--preview 'exa --icons --git --color always -T -L 3 {} | head -200'"
-        "--exact"
-      ];
-    };
   };
 
   services = {

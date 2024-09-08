@@ -13,7 +13,7 @@
       golang.go # Go language
     ];
     userSettings = {
-      # "terminal.integrated.shell.linux" = "${pkgs.zsh}/bin/zsh";
+      "terminal.integrated.copyOnSelection" = true;
       # "terminal.integrated.fontFamily" = "'Hack Nerd Font Mono', 'JetbrainsMono Nerd Font', Monaco";
       workbench = { startupEditor = "none"; };
 

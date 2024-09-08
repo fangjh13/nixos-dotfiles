@@ -56,7 +56,7 @@
   # FIXME: change your interface and ip
   networking.defaultGateway = {
     address = "10.0.0.18";
-    interface = "eno2"; 
+    interface = "eno2";
   };
   networking.interfaces.eno2.ipv4.addresses = [{
     address = "10.0.0.140";
