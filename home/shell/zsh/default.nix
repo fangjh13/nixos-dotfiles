@@ -25,7 +25,8 @@
 
       oh-my-zsh = {
         enable = true;
-        theme = "af-magic";
+        # theme = "af-magic";
+        theme = "random";
         plugins = [ "git" "copypath" "copybuffer" "z" ];
       };
 

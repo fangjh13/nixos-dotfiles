@@ -1,8 +1,10 @@
-{ config, ... }: {
+{ pkgs, config, ... }: {
   programs.bash = {
     enable = true;
     enableCompletion = true;
     bashrcExtra = ''
+      export SHELL=bash
+
       stty werase undef
       bind '\C-w:unix-filename-rubout'
 

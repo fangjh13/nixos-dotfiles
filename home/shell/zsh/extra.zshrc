@@ -1,3 +1,7 @@
+# support for the nix run and nix-shell environments 
+# https://github.com/haslersn/any-nix-shell
+any-nix-shell zsh --info-right | source /dev/stdin
+
 # zsh-history-substring-search bind keyboard shortcuts 
 # https://github.com/zsh-users/zsh-history-substring-search#zsh-history-substring-search
 bindkey -M emacs '^P' history-substring-search-up
