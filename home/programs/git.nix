@@ -14,7 +14,17 @@
         ignorecase = false;
         quotepath = false;
       };
-      merge = { conflictstyle = "diff3"; };
+      merge = {
+        conflictstyle = "diff3";
+        tool = "nvimdiff";
+      };
+      mergetool.keepBackup = false;
+      mergetool.nvimdiff.layout = "LOCAL,BASE,REMOTE / MERGED";
+      rerere = {
+        # remember how merges were resolved
+        enable = true;
+        autoupdate = true;
+      };
       diff = { colorMoved = "default"; };
       init = { defaultBranch = "main"; };
       pull.rebase = true;
