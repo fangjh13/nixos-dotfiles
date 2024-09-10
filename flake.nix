@@ -7,6 +7,10 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    community-nur = {
+      url = "github:nix-community/NUR";
+    };
+
     # bat theme
     catppuccin-bat = {
       url =
@@ -15,7 +19,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, community-nur, ... }:
     let
       # FIXME: replace your username
       username = "fython";
@@ -25,11 +29,7 @@
         deskmini = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit username;
-            pkgs-unstable = import inputs.nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
+            inherit username community-nur;
           };
 
           modules = [

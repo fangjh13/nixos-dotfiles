@@ -1,4 +1,13 @@
-{ lib, pkgs, config, catppuccin-bat, pkgs-unstable, ... }: {
+{ lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: 
+# let 
+#     nur = import (builtins.fetchTarball {
+#       # Get the revision by choosing a version from https://github.com/nix-community/NUR/commits/master
+#       url = "https://github.com/nix-community/NUR/archive/4232cb810c157448c1283cda9de6f9551245f61a.tar.gz";
+#       # Get the hash by running `nix-prefetch-url --unpack <url>` on the above url
+#       sha256 = "1k5pd3a8yvanlficaanrpcd2y4ckpd2jx6sr81xa8nvhd5szlsxw";
+#     }) { inherit pkgs; };
+# in 
+  {
   home.packages = with pkgs; [
     neofetch
     # disk usage analyzer 
@@ -73,10 +82,13 @@
 
     # Synology Drive Client
     pkgs.synology-drive-client
-    # password manager           
+    # Password manager
     keepassxc
     # notebook
     pkgs.logseq
+    # IM
+    nur.repos.novel2430.wechat-universal-bwrap
+
 
     # Programming Languages
     gcc

@@ -1,4 +1,4 @@
-{ pkgs, lib, username, ... }:
+{ pkgs, lib, username, community-nur, ... }:
 let
   capitalize = str:
     let
@@ -52,10 +52,17 @@ in {
     options = lib.mkDefault "--delete-older-than 7d";
   };
 
-  # Allow unfree packages
   nixpkgs.config = {
+    # Allow unfree packages
     allowUnfree = true;
     permittedInsecurePackages = [ "electron-27.3.11" ];
+    packageOverrides = pkgs: {
+      # make `pkgs.nur` available
+      nur = import community-nur {
+        inherit pkgs;
+        nurpkgs = pkgs;
+      };
+    };
   };
 
   # Set your time zone.
