@@ -1,7 +1,3 @@
-# support for the nix run and nix-shell environments 
-# https://github.com/haslersn/any-nix-shell
-any-nix-shell zsh --info-right | source /dev/stdin
-
 # zsh-history-substring-search bind keyboard shortcuts 
 # https://github.com/zsh-users/zsh-history-substring-search#zsh-history-substring-search
 bindkey -M emacs '^P' history-substring-search-up
@@ -63,3 +59,12 @@ rgf() {
 with_proxy() {
    HTTPS_PROXY=http://127.0.0.1:7890 HTTP_PROXY=https://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891 "$@"
 }
+
+# setup pure prompt
+autoload -U promptinit; promptinit
+prompt pure
+zstyle :prompt:pure:path color green
+
+# support for the nix run and nix-shell environments
+# https://github.com/haslersn/any-nix-shell
+any-nix-shell zsh --info-right | source /dev/stdin
