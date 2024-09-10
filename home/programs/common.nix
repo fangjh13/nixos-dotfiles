@@ -29,6 +29,7 @@
     duf # `df` alternative
     tlrc # Official `tldr` client written in Rust
     evince # pdf viewer
+    flameshot # screen capture
 
     # productivity
     obsidian

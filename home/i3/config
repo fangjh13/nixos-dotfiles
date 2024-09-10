@@ -151,8 +151,8 @@ bindsym $mod+equal exec rofi -dpi 1 -show calc -modi calc -no-show-match -no-sor
 # Screen capture
 bindsym Print exec --no-startup-id ~/.config/i3/scripts/i3-scrot
 bindsym $mod+Print --release exec --no-startup-id ~/.config/i3/scripts/i3-scrot -w
-bindsym $mod+Shift+a --release exec --no-startup-id ~/.config/i3/scripts/i3-scrot -s
-# bindsym Print exec --no-startup-id scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/$(date +"%Y-%m-%d-%T")-screenshot.png"
+# bindsym $mod+Shift+a --release exec --no-startup-id ~/.config/i3/scripts/i3-scrot -s
+bindsym $mod+Shift+a --release exec --no-startup-id flameshot gui
 
 # Sound
 bindsym $mod+Ctrl+m exec alacritty -T "alsamixer" -e 'alsamixer'
