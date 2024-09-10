@@ -21,12 +21,16 @@
           file = "fast-syntax-highlighting.plugin.zsh";
         })
         (mkZshPlugin { pkg = pkgs.zsh-history-substring-search; })
+        # Pretty, minimal and fast ZSH prompt
+        (mkZshPlugin {
+          pkg = pkgs.pure-prompt;
+          file = "";
+        })
       ];
 
       oh-my-zsh = {
         enable = true;
-        # theme = "af-magic";
-        theme = "random";
+        theme = ""; # disable theme use pure prompt
         plugins = [ "git" "copypath" "copybuffer" "z" ];
       };
 
