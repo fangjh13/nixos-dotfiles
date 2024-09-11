@@ -26,6 +26,11 @@
           pkg = pkgs.pure-prompt;
           file = "";
         })
+        # fzf-git.sh
+        (mkZshPlugin {
+          pkg = pkgs.fzf-git-sh;
+          file = "fzf-git.sh";
+        })
       ];
 
       oh-my-zsh = {
