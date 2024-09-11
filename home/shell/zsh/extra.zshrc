@@ -65,6 +65,16 @@ autoload -U promptinit; promptinit
 prompt pure
 zstyle :prompt:pure:path color green
 
+# other fzf config
+# vi ~/**<tab> runs fzf_compgen_path() with the prefix (~/) as the first argument
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+# cd foo**<tab> runs fzf_compgen_dir() with the prefix (foo) as the first argument
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
 # support for the nix run and nix-shell environments
 # https://github.com/haslersn/any-nix-shell
 any-nix-shell zsh --info-right | source /dev/stdin

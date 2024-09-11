@@ -1,4 +1,4 @@
-{ lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: {
+{ lib, pkgs, config, catppuccin-bat, pkgs-unstable, ... }: {
   home.packages = with pkgs; [
     neofetch
     # disk usage analyzer 
@@ -96,7 +96,8 @@
       fdOptions = "--follow --hidden --exclude .git --color=always";
       copyCommand = ''
         ${if pkgs.stdenvNoCC.isLinux then
-          "${pkgs.xclip}/bin/xclip -sel clip"
+        # TODO: judge Wayland environment use wl-copy
+          "xclip -sel clip"
         else
           "pbcopy"}
       '';
