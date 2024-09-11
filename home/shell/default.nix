@@ -1,19 +1,14 @@
 { config, lib, pkgs, ... }:
 let
-  d = config.xdg.dataHome;
-  c = config.xdg.configHome;
-  cache = config.xdg.cacheHome;
+  dataHome = config.xdg.dataHome;
+  configHome = config.xdg.configHome;
+  cacheHome = config.xdg.cacheHome;
 in {
   imports = [ ./bash ./zsh ./prompt/starship.nix ./terminals/alacritty ];
 
   # add environment variables
   home.sessionVariables = {
     TZ = "/etc/localtime";
-
-    # clean up ~
-    LESSHISTFILE = cache + "/less/history";
-    LESSKEY = c + "/less/lesskey";
-    WINEPREFIX = d + "/wine";
 
     # set default applications
     EDITOR = "nvim";
