@@ -8,7 +8,7 @@
       local-fcitx5-rime = (pkgs-unstable.fcitx5-rime.override {
         # 引入自定义的配置
         rimeDataPkgs = [
-          ./rime-data-flypy
+          ./rime-config
         ];
       }).overrideAttrs (final: prev: {
           # 支持 lua 脚本
