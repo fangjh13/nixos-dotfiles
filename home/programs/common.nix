@@ -1,12 +1,4 @@
 { lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: 
-# let 
-#     nur = import (builtins.fetchTarball {
-#       # Get the revision by choosing a version from https://github.com/nix-community/NUR/commits/master
-#       url = "https://github.com/nix-community/NUR/archive/4232cb810c157448c1283cda9de6f9551245f61a.tar.gz";
-#       # Get the hash by running `nix-prefetch-url --unpack <url>` on the above url
-#       sha256 = "1k5pd3a8yvanlficaanrpcd2y4ckpd2jx6sr81xa8nvhd5szlsxw";
-#     }) { inherit pkgs; };
-# in 
   {
   home.packages = with pkgs; [
     neofetch
