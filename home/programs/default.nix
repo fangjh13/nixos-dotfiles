@@ -11,5 +11,6 @@
     ./go
     ./nix
     ./vscodium
+    ./balena-etcher
   ];
 }
