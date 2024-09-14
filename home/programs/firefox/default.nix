@@ -2,6 +2,12 @@
   programs = {
     firefox = {
       enable = true;
+      policies = {
+        DisablePocket = true;
+        DontCheckDefaultBrowser = true;
+        NoDefaultBookmarks = true;
+        PasswordManagerEnable = false;
+      };
       profiles = {
         default = {
           isDefault = true;
