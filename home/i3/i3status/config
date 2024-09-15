@@ -15,10 +15,10 @@ order += "disk /"
 order += "disk /home"
 #order += "run_watch DHCP"
 #order += "run_watch VPN"
-# FIXME: your wlan interface name
-order += "wireless wlo1"
 # FIXME: your eth interface name
 order += "ethernet eno2"
+# FIXME: your wlan interface name
+order += "wireless wlp2s0"
 order += "battery 0"
 order += "cpu_temperature 0"
 order += "cpu_usage"
@@ -47,7 +47,7 @@ run_watch VPN {
         pidfile = "/var/run/vpnc/pid"
 }
 
-wireless wlo1 {
+wireless wlp2s0 {
         format_up = "  (%quality at %essid) %ip "
         # format_down = "  "
         format_down = ""
