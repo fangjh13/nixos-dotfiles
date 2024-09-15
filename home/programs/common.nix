@@ -1,5 +1,4 @@
-{ lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: 
-  {
+{ lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: {
   home.packages = with pkgs; [
     neofetch
     # disk usage analyzer 
@@ -80,7 +79,6 @@
     pkgs.logseq
     # IM
     nur.repos.novel2430.wechat-universal-bwrap
-
 
     # Programming Languages
     gcc
