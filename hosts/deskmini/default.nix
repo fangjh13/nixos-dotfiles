@@ -2,12 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, ... }@args:
 
 {
   imports = [
     ../../modules/system.nix
-    ../../modules/i3.nix
+    # Use i3 
+    # FIXME: specify video drivers
+    (import ../../modules/i3.nix (args // { videoDrivers = [ "intel" ]; }))
+    # Or use plasma5
     # ../../modules/plasma5.nix
 
     # Include the results of the hardware scan.

@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{ pkgs, videoDrivers ? [ "modesetting" "fbdev" ], ... }: {
 
   # i3 related options
   environment.pathsToLink =
@@ -50,7 +48,7 @@
 
     # FIXME: specify video drivers
     # Default: videoDrivers = [ "modesetting" "fbdev" ];
-    videoDrivers = [ "intel" ];
+    videoDrivers = videoDrivers;
   };
 
   # thunar file manager(part of xfce) related options
