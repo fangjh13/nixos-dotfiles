@@ -86,16 +86,8 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
-
-  # FIXME: define your hostname
-  networking.hostName = "deskmini";
-
   programs.dconf.enable = true;
-  services.dbus.packages = with pkgs; [ gcr dconf ];
+  services.dbus.packages = with pkgs; [ dconf ];
   services.geoclue2.enable = true;
 
   # List packages installed in system profile. To search, run:

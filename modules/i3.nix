@@ -1,4 +1,5 @@
-{ pkgs, videoDrivers ? [ "modesetting" "fbdev" ], ... }: {
+{ pkgs, videoDrivers ? [ "modesetting" "fbdev" ], xkbOptions ? "ctrl:nocaps"
+, ... }: {
 
   # i3 related options
   environment.pathsToLink =
@@ -36,13 +37,14 @@
         sysstat # get system information
         imagemagickBig # bitmap images package used for lock screen
         xclip # access the X clipboard from a console application
+        networkmanagerapplet # GNOME network-manager-aplet
       ];
     };
 
     # Configure keymap in X11
     xkb = {
       variant = "";
-      options = "ctrl:nocaps"; # Caps Lock as Ctrl
+      options = xkbOptions; # defautl: Caps Lock as Ctrl
       layout = "us";
     };
 
@@ -64,6 +66,12 @@
       thunar-media-tags-plugin
     ];
   };
-  services.tumbler.enable = true; # Thumbnail support for images preview
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  # Thumbnail support for images preview
+  services.tumbler.enable = true;
+  # Mount, trash, and other functionalities
+  services.gvfs.enable = true;
+  # Manage users security credentials, such as user names and passwords
+  services.gnome.gnome-keyring.enable = true;
+  # GNOME keyring GUI
+  programs.seahorse.enable = true;
 }

@@ -70,6 +70,7 @@
     usbutils # lsusb
     # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
     nvtopPackages.full
+    gpu-viewer
 
     # Synology Drive Client
     pkgs.synology-drive-client
