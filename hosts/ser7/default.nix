@@ -2,14 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }@args:
+{ config, pkgs, lib, ... }@args:
 
 {
   imports = [
     ../../modules/system.nix
     # Use i3 
     # FIXME: specify video drivers
-    (import ../../modules/i3.nix (args // { videoDrivers = [ "intel" ]; }))
+    (import ../../modules/i3.nix (args // {
+      videoDrivers = [ "amdgpu" ];
+      xkbOptions = "ctrl:nocaps,altwin:swap_lalt_lwin";
+    }))
     # Or use plasma5
     # ../../modules/plasma5.nix
 
@@ -17,68 +20,41 @@
     ./hardware-configuration.nix
   ];
 
-  # FIXME: This host windows is installed use grub
-  boot.loader = {
-    grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      extraEntries = ''
-        menuentry "Windows" {
-          search --file --no-floppy --set=root /EFI/Microsoft/Boot/bootmgfw.efi
-          chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-        }
-      '';
-    };
-    efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot";
-    };
-    # Prevent boot partition running out of disk space
-    systemd-boot.configurationLimit = 1;
-  };
+  # FIXME: Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  # Prevent boot partition running out of disk space
+  boot.loader.systemd-boot.configurationLimit = 10;
 
-  # NOTE: CPU: Intel 8700 and No other GPU
+  # NOTE: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics
   hardware = {
+    amdgpu = {
+      initrd.enable = true;
+      opencl.enable = true;
+    };
     opengl = {
       enable = true;
       driSupport = true;
       driSupport32Bit = true;
-      extraPackages = with pkgs; [
-        intel-media-driver
-        intel-media-sdk
-        mesa.drivers
-      ];
+      extraPackages = with pkgs; [ rocmPackages.clr.icd ];
     };
-    # intel_gpu_top command
-    intel-gpu-tools.enable = true;
   };
+  environment.systemPackages = with pkgs; [ amdgpu_top ];
 
   # FIXME: Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable =
-    false; # Easiest to use and most distros use this by default.
+    true; # Easiest to use and most distros use this by default.
 
   networking.enableIPv6 = false; # disable ipv6
 
-  # FIXME: Set static ip, change your interface and ip if you want manual set
-  # or comment all set DHCP true auto get IP address and nameservers
-  networking.defaultGateway = {
-    address = "10.0.0.18";
-    interface = "eno2";
-  };
-  networking.interfaces.eno2.ipv4.addresses = [{
-    address = "10.0.0.140";
-    prefixLength = 24;
-  }];
-  networking.nameservers = [ "10.0.0.18" ];
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = false; # disable use DHCP to obtain an IP address
-  # networking.interfaces.eno2.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
+  networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlp2s0.useDHCP = lib.mkDefault true;
 
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.s = [ ... ];
@@ -86,11 +62,19 @@
   networking.firewall.enable = false;
 
   # FIXME: define your hostname
-  networking.hostName = "deskmini";
+  networking.hostName = "ser7";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Select internationalisation properties.
+  #i18n.defaultLocale = "en_US.UTF-8";
+  # console = {
+  #   font = "Lat2-Terminus16";
+  #   keyMap = "us";
+  #   useXkbConfig = true; # use xkb.options in tty.
+  # };
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

@@ -47,6 +47,31 @@
             }
           ];
         };
+        ser7 = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit username community-nur;
+          };
+
+          modules = [
+            ./hosts/ser7
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users."${username}" = import ./home;
+                extraSpecialArgs = inputs // {
+                  inherit username;
+                  pkgs-unstable = import inputs.nixpkgs-unstable {
+                    inherit system;
+                    config.allowUnfree = true;
+                  };
+                };
+              };
+            }
+          ];
+        };
       };
     };
 }
