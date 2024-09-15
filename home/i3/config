@@ -304,9 +304,8 @@ for_window [floating class=Alacritty] resize set 60 ppt 70 ppt, move position ce
 
 # autostart password manager in scratchpad
 exec --no-startup-id keepassxc
-for_window [class="(?i)KeePassXC"] move scratchpad
-for_window [title="KeePassXC - Browser Access Request"] focus, resize set 20 ppt 30 ppt, move position center
-for_window [title="Unlock Database - KeePassXC"] focus, resize set 20 ppt 30 ppt, move position center
+for_window [class="(?i)KeePassXC" title="(?i)KeePassXC"] move scratchpad
+for_window [class="(?i)KeePassXC" title=".*KeePassXC.*"] focus, resize set 20 ppt 30 ppt, move position center
 bindsym $mod+Shift+p [class="(?i)KeePassXC"] scratchpad show, sticky enable border none, resize set 50 ppt 60 ppt, move position center
 
 # autostart clipboard manager in scratchpad
@@ -432,5 +431,3 @@ client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
 client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
 client.placeholder      #000000 #0c0c0c #ffffff #000000 
 client.background       #2B2C2B
-
-
