@@ -18,6 +18,9 @@
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
+    # Add clash service for freedom
+    ../../modules/gfw.nix
   ];
 
   # FIXME: Use the systemd-boot EFI boot loader.
@@ -45,6 +48,14 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable =
     true; # Easiest to use and most distros use this by default.
+
+  # Disable DNS management by NetworkManager
+  networking.networkmanager.dns = "none";
+  # Set resolvconf to use local DNS servers 127.0.0.1:53
+  networking.resolvconf = {
+    enable = true;
+    useLocalResolver = true;
+  };
 
   networking.enableIPv6 = false; # disable ipv6
 
