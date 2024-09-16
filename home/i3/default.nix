@@ -53,7 +53,11 @@
     };
     gtk3 = {
       # FIXME: Bookmarks in the sidebar of the GTK file browser
-      bookmarks = [ "file:///home/fython/SynologyDrive Drive" ];
+      bookmarks = [ 
+      "file:///home/fython/Downloads Downloads" 
+      "file:///home/fython/Documents Documents" 
+      "file:///home/fython/SynologyDrive Drive" 
+      ];
     };
   };
 
