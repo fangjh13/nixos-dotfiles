@@ -20,7 +20,8 @@ let
 
     "audio/*" = [ "mpv.desktop" ];
     "video/*" = [ "mpv.dekstop" ];
-    "image/*" = [ "imv.desktop" ];
+    "image/png" = [ "imv-dir.desktop" ];
+    "image/jpeg" = [ "imv-dir.desktop" ];
     "application/json" = browser;
     "application/pdf" = [ "org.gnome.Evince.desktop" ];
     "x-scheme-handler/discord" = [ "discordcanary.desktop" ];
