@@ -6,8 +6,7 @@ let
       rest = builtins.substring 1 (builtins.stringLength str - 1) str;
     in lib.toUpper first + rest;
 in {
-  # font config
-  imports = [ ./common.nix ./fonts.nix ./ssh.nix ];
+  imports = [ ./common.nix ./fonts.nix ./ssh.nix ./fhs.nix ];
 
   # FIXME: Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${username}" = {

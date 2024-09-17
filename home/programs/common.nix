@@ -1,98 +1,101 @@
 { lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: {
-  home.packages = with pkgs; [
-    neofetch
-    # disk usage analyzer 
-    ncdu
-    # archives
-    zip
-    unzip
-    unrar
-    xz
-    p7zip
+  home.packages = with pkgs;
+    ([
+      neofetch
+      # disk usage analyzer 
+      ncdu
+      # archives
+      zip
+      unzip
+      unrar
+      xz
+      p7zip
 
-    # utils
-    file
-    ripgrep # recursively searches directories for a regex pattern
-    yq-go # yaml processor https://github.com/mikefarah/yq
-    moreutils # sponge chronic errno ...
+      # utils
+      file
+      ripgrep # recursively searches directories for a regex pattern
+      yq-go # yaml processor https://github.com/mikefarah/yq
+      moreutils # sponge chronic errno ...
 
-    htop
-    tree
-    android-tools
-    dnsutils
+      htop
+      tree
+      android-tools
+      dnsutils
 
-    # misc
-    libnotify
-    wineWowPackages.wayland
-    xdg-utils
-    graphviz
-    duf # `df` alternative
-    tlrc # Official `tldr` client written in Rust
-    evince # pdf viewer
-    flameshot # screen capture
+      # misc
+      openssl
+      libnotify
+      wineWowPackages.wayland
+      xdg-utils
+      graphviz
+      duf # `df` alternative
+      tlrc # Official `tldr` client written in Rust
+      evince # pdf viewer
+      flameshot # screen capture
 
-    # productivity
-    obsidian
+      # productivity
+      obsidian
 
-    # IDE
-    insomnia # API debug
+      # IDE
+      insomnia # API debug
 
-    # cloud native
-    docker-compose
-    kubectl
+      # cloud native
+      docker-compose
+      kubectl
 
-    nodejs
-    nodePackages.npm
-    nodePackages.pnpm
-    yarn
+      # db related
+      dbeaver-bin
+      mycli
+      pgcli
 
-    # db related
-    dbeaver-bin
-    mycli
-    pgcli
+      # nix related
+      #
+      # it provides the command `nom` works just like `nix`
+      # with more details log output
+      nix-output-monitor
 
-    # nix related
-    #
-    # it provides the command `nom` works just like `nix`
-    # with more details log output
-    nix-output-monitor
+      # system call monitoring
+      strace # system call monitoring
+      ltrace # library call monitoring
+      lsof # list open files
 
-    # system call monitoring
-    strace # system call monitoring
-    ltrace # library call monitoring
-    lsof # list open files
+      # system tools
+      sysstat
+      lm_sensors # for `sensors` command
+      ethtool
+      pciutils # lspci
+      usbutils # lsusb
+      # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
+      nvtopPackages.full
+      gpu-viewer
 
-    # system tools
-    sysstat
-    lm_sensors # for `sensors` command
-    ethtool
-    pciutils # lspci
-    usbutils # lsusb
-    # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
-    nvtopPackages.full
-    gpu-viewer
-
-    # Synology Drive Client
-    pkgs.synology-drive-client
-    # Password manager
-    keepassxc
-    # notebook
-    pkgs.logseq
-    # IM
-    nur.repos.novel2430.wechat-universal-bwrap
-
-    # Programming Languages
-    gcc
-    gnumake
-    cmake
-  ];
+      # Synology Drive Client
+      pkgs.synology-drive-client
+      # Password manager
+      keepassxc
+      # notebook
+      pkgs.logseq
+      # IM
+      nur.repos.novel2430.wechat-universal-bwrap
+    ]
+    # C/C++ Languages
+      ++ [
+        gcc
+        gdb
+        cmake
+        gnumake
+        checkmake
+        pkg-config
+      ]
+      # Rust
+      ++ [
+        rustc
+        pkgs-unstable.cargo # rust package manager
+      ]
+      # Web Development
+      ++ [ nodePackages.nodejs nodePackages.yarn nodePackages.typescript ]);
 
   programs = {
-    neovim = {
-      package = pkgs-unstable.neovim-unwrapped;
-      enable = true;
-      viAlias = true;
-    };
 
     # A command-line fuzzy finder
     fzf = let

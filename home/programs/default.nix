@@ -3,6 +3,7 @@
     ./firefox
     ./chromium
     ./common.nix
+    ./nvim
     ./git.nix
     ./media.nix
     ./xdg.nix

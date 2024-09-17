@@ -49,9 +49,7 @@
         };
         ser7 = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {
-            inherit username community-nur;
-          };
+          specialArgs = { inherit username community-nur; };
 
           modules = [
             ./hosts/ser7
