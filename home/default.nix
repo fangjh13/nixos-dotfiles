@@ -19,7 +19,6 @@
     # the Home Manager release notes for a list of state version
     # changes in each release.
     stateVersion = "24.05";
-    sessionPath = [ "$HOME/.go/bin" ];
   };
 
   # Let Home Manager install and manage itself.

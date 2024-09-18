@@ -25,4 +25,7 @@ in {
   };
 
   home.shellAliases = { k = "kubectl"; };
+
+  # Add a directory to PATH
+  home.sessionPath = [ "$HOME/.go/bin" "$HOME/.local/bin" ];
 }
