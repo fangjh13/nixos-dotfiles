@@ -1,8 +1,7 @@
 { lib, pkgs, ... }: {
   # Python 
-  home.packages = with pkgs; [ python3 pipx ];
-  programs.pyenv = {
-    enable = true;
-    enableBashIntegration = true;
-  };
+  home.packages = with pkgs; [
+    (python311.withPackages (pyPkgs: with pyPkgs; [ ipython requests ]))
+    pipx
+  ];
 }
