@@ -44,6 +44,8 @@
         dl = "$HOME/Downloads";
       };
 
+      # manual add fpath for zsh-completions
+      initExtraFirst = "fpath+=$HOME/.zsh/plugins/zsh-completions/src";
       initExtra = "${lib.readFile ./extra.zshrc}";
 
       sessionVariables = {
