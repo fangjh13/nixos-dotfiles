@@ -175,6 +175,7 @@
       enable = true;
       forwardAgent = true;
       addKeysToAgent = "yes";
+      includes = [ "config.d/*" ];
     };
 
   };

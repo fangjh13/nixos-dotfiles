@@ -22,6 +22,9 @@ in {
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
     # fix man with bat color (https://github.com/sharkdp/bat/issues/652)
     MANROFFOPT = "-c";
+
+    # journalctl ignore case
+    SYSTEMD_LESS = "-iFRSXMK";
   };
 
   home.shellAliases = { k = "kubectl"; };

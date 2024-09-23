@@ -4,4 +4,12 @@
     "/share/zsh"
     "/share/bash-completion"
   ];
+
+  # reduce session timeouts when shutting down
+  systemd.extraConfig = ''
+    DefaultTimeoutStopSec=10s
+  '';
+  systemd.user.extraConfig = ''
+    DefaultTimeoutStopSec=10s
+  '';
 }
