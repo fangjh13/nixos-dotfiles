@@ -163,8 +163,6 @@
       plugins = [ pkgs.rofi-calc ];
     };
 
-    wezterm.enable = true;
-
     btop.enable = true; # replacement of htop/nmon
     fd.enable = true; # replacement of find
     eza.enable = true; # A modern replacement for ‘ls’
