@@ -21,6 +21,9 @@
 
     # Add clash service for freedom
     ../../modules/gfw.nix
+
+    # Add frpc service
+    ../../modules/frpc.nix
   ];
 
   # FIXME: Use the systemd-boot EFI boot loader.
