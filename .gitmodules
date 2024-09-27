@@ -3,4 +3,4 @@
 	url = https://github.com/jimeh/tmux-themepack.git
 [submodule "home/fcitx5/rime-config/share/rime-data"]
 	path = home/fcitx5/rime-config/share/rime-data
-	url = ssh://git@home.fangjiahui.me:2200/Fython/Rime.git
+	url = https://github.com/fangjh13/Rime.git
