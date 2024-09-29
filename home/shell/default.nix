@@ -10,6 +10,7 @@ in {
     ./prompt/starship.nix
     ./terminals/alacritty
     ./terminals/wezterm
+    ./terminals/kitty
   ];
 
   # add environment variables
