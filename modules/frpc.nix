@@ -9,8 +9,8 @@
     serviceConfig = {
       ExecStart = "${pkgs.frp}/bin/frpc -c /var/lib/private/frp/frpc.toml";
       Restart = "always";
-      RestartSec=5;
-      StartLimitBurst=99;
+      RestartSec = 5;
+      StartLimitBurst = 99;
     };
   };
 }

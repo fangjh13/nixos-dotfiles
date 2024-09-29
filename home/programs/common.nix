@@ -1,9 +1,6 @@
 { lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: {
   home.packages = with pkgs;
     ([
-      neofetch
-      # disk usage analyzer 
-      ncdu
       # archives
       zip
       unzip
@@ -16,22 +13,25 @@
       ripgrep # recursively searches directories for a regex pattern
       yq-go # yaml processor https://github.com/mikefarah/yq
       moreutils # sponge chronic errno ...
-
       htop
       tree
       android-tools
       dnsutils
 
       # misc
+      neofetch
       openssl
       libnotify
       wineWowPackages.wayland
       xdg-utils
       graphviz
+      ncdu # disk usage analyzer
       duf # `df` alternative
       tlrc # Official `tldr` client written in Rust
       evince # pdf viewer
       flameshot # screen capture
+      lshw
+      dmidecode
 
       # productivity
       obsidian
