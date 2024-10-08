@@ -69,12 +69,14 @@
       nvtopPackages.full
       gpu-viewer
 
+      # https://devenv.sh Developer Environments using Nix
+      pkgs-unstable.devenv
       # Synology Drive Client
-      pkgs.synology-drive-client
+      synology-drive-client
       # Password manager
       keepassxc
       # notebook
-      pkgs.logseq
+      logseq
       # IM
       nur.repos.novel2430.wechat-universal-bwrap
     ]
