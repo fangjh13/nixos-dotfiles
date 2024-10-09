@@ -5,8 +5,8 @@
   programs.starship = {
     enable = true;
     enableBashIntegration = true;
-    enableZshIntegration = false;
-    # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.starship.settings
+    enableZshIntegration = true;
+    # https://starship.rs/config/
     settings = {
       add_newline = false;
       scan_timeout = 60;
@@ -16,8 +16,16 @@
         error_symbol = "[✗](bold red)";
         vimcmd_symbol = "[V](bold green)";
       };
-      shlvl.disabled = false;
-      nix_shell.heuristic = true;
+      shlvl = {
+        disabled = false;
+        threshold = 3;
+      };
+      nix_shell = {
+        impure_msg = "[impure shell](bold red)";
+        pure_msg = "[pure shell](bold green)";
+        unknown_msg = "";
+        heuristic = true;
+      };
     };
   };
 }

@@ -21,11 +21,6 @@
           file = "fast-syntax-highlighting.plugin.zsh";
         })
         (mkZshPlugin { pkg = pkgs.zsh-history-substring-search; })
-        # Pretty, minimal and fast ZSH prompt
-        (mkZshPlugin {
-          pkg = pkgs.pure-prompt;
-          file = "";
-        })
         # fzf-git.sh
         (mkZshPlugin {
           pkg = pkgs.fzf-git-sh;
