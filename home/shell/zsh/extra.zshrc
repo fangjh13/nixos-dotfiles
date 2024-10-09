@@ -60,11 +60,6 @@ with_proxy() {
    HTTPS_PROXY=http://127.0.0.1:7890 HTTP_PROXY=https://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891 "$@"
 }
 
-# setup pure prompt
-autoload -U promptinit; promptinit
-prompt pure
-zstyle :prompt:pure:path color green
-
 # other fzf config
 # vi ~/**<tab> runs fzf_compgen_path() with the prefix (~/) as the first argument
 _fzf_compgen_path() {
