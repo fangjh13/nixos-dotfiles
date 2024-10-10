@@ -11,6 +11,8 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  # Enable IP forwarding
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/e9570f71-5a42-46f0-a895-9aca537eb875";

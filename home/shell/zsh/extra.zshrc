@@ -70,6 +70,10 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
+# fix kitty use with ssh https://wiki.archlinux.org/title/Kitty#Terminal_issues_with_SSH
+# add change TERM=xterm-256color display color PS1
+[ "$TERM" = "xterm-kitty" ] && alias ssh="TERM=xterm-256color kitty +kitten ssh"
+
 # support for the nix run and nix-shell environments
 # https://github.com/haslersn/any-nix-shell
 any-nix-shell zsh --info-right | source /dev/stdin
