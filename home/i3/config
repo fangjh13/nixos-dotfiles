@@ -273,9 +273,7 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # can use `xprop` command get info
 assign [class="Thunar"] $ws1
 assign [class="(?i)firefox"] $ws2
-# assign [class="Alacritty"] $ws3
 assign [class="thunderbird"] $ws4
-assign [class="TelegramDesktop"] $ws5
 
 # Open specific applications in floating mode
 for_window [title="alsamixer"] floating enable border pixel 1
@@ -299,7 +297,6 @@ for_window [urgent=latest] focus
 for_window [class=Alacritty] focus
 for_window [class=(?i)firefox] focus
 for_window [class=Thunar] focus
-for_window [class=TelegramDesktop] focus
 for_window [floating class=Alacritty] resize set 60 ppt 70 ppt, move position center
 
 # autostart password manager in scratchpad
@@ -311,6 +308,8 @@ bindsym $mod+Shift+p [class="(?i)KeePassXC"] scratchpad show, sticky enable bord
 for_window [class="wechat" title="微信"] move scratchpad
 for_window [title="图片查看"] floating enable, move position center
 bindsym $mod+Shift+w [class="wechat" title="微信"] scratchpad show, move position center
+# manage telegram window
+for_window [class="(?i)telegram.*"] floating enable border none, move position center, focus
 
 # autostart clipboard manager in scratchpad
 exec --no-startup-id copyq
