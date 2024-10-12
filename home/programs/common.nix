@@ -69,6 +69,8 @@
       nvtopPackages.full
       gpu-viewer
 
+      # office
+      libreoffice
       # https://devenv.sh Developer Environments using Nix
       pkgs-unstable.devenv
       # Synology Drive Client
@@ -79,6 +81,7 @@
       logseq
       # IM
       nur.repos.novel2430.wechat-universal-bwrap
+      telegram-desktop
     ]
     # C/C++ Languages
       ++ [
