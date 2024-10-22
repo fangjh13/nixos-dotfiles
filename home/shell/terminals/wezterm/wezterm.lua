@@ -31,7 +31,8 @@ config.window_decorations = "RESIZE"
 config.font = wezterm.font_with_fallback({
   -- { family = "Hack Nerd Font Mono", weight = "Bold" },
   { family = "Hack Nerd Font Mono" },
-  { family = "HarmonyOS Sans SC" },
+  -- { family = "HarmonyOS Sans SC" },
+  { family = "Source Han Sans SC" }, -- 上面的鸿蒙字体在显式不够圆润先用思源黑体吧
 })
 -- config.font = wezterm.font("LXGW WenKai", { weight = "Bold" })
 if wezterm.target_triple == "aarch64-apple-darwin" then
