@@ -92,7 +92,7 @@ mode "$mode_gaps_outer" {
 exec --no-startup-id dex --autostart --environment i3
 
 # set wallpaper
-exec --no-startup-id sleep 1 && feh --bg-fill ~/.config/i3/wallpapers/ghibli-inspired-nature-desktop-wallpaper-4k.jpg
+exec --no-startup-id sleep 1 && feh --bg-fill ~/.config/i3/wallpapers/SpaceX_20241013_192337_1845545948283572503_photo.jpg
 
 # set powersavings for display:
 # exec --no-startup-id xset s 480 dpms 600 600 600
