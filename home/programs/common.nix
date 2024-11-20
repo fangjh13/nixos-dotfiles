@@ -179,6 +179,9 @@
       forwardAgent = true;
       addKeysToAgent = "yes";
       includes = [ "config.d/*" ];
+      extraConfig = ''
+        SendEnv LANG LC_*
+      '';
     };
 
   };
