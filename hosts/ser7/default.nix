@@ -24,6 +24,9 @@
 
     # Add frpc service
     ../../modules/frpc.nix
+
+    # Add Docker
+    # ../../modules/docker.nix
   ];
 
   # FIXME: Use the systemd-boot EFI boot loader.
