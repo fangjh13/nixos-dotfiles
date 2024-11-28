@@ -1,4 +1,4 @@
-# zsh-history-substring-search bind keyboard shortcuts 
+# zsh-history-substring-search bind keyboard shortcuts
 # https://github.com/zsh-users/zsh-history-substring-search#zsh-history-substring-search
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
@@ -73,6 +73,9 @@ _fzf_compgen_dir() {
 # fix kitty use with ssh https://wiki.archlinux.org/title/Kitty#Terminal_issues_with_SSH
 # add change TERM=xterm-256color display color PS1
 [ "$TERM" = "xterm-kitty" ] && alias ssh="TERM=xterm-256color kitty +kitten ssh"
+
+# alacritty terminal ssh reset
+[ "$TERM" = "alacritty" ] && alias ssh="TERM=xterm-256color ssh"
 
 # support for the nix run and nix-shell environments
 # https://github.com/haslersn/any-nix-shell
