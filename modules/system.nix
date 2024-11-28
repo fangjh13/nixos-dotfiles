@@ -20,7 +20,7 @@ in {
   users.users."${username}" = {
     isNormalUser = true;
     description = capitalize "${username}";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" ];
     openssh.authorizedKeys.keys = [ ];
     shell = pkgs.zsh;
   };
@@ -108,28 +108,26 @@ in {
     scrot # screen capture tool, used by i3 blur lock to take a screenshot
   ];
 
-  # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
   services.power-profiles-daemon = { enable = true; };
   security.polkit.enable = true;
 
-  services = {
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      jack.enable = true;
+  # Enable sound with pulseaudio or pipewire.
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit = true;    ## If compatibility with 32-bit applications is desired.
+  # Or use pipewire
+  # services = {
+  #   pipewire = {
+  #     enable = true;
+  #     alsa.enable = true;
+  #     alsa.support32Bit = true;
+  #     pulse.enable = true;
+  #     # If you want to use JACK applications, uncomment this
+  #     # jack.enable = true;
+  #   };
+  # };
 
-      # use the example session manager (no others are packaged yet so this is enabled by default,
-      # no need to redefine it in your config for now)
-      #media-session.enable = true;
-    };
-
-    udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-  };
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   # Bluetooth 
   # https://nixos.wiki/wiki/Bluetooth
