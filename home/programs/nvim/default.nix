@@ -8,7 +8,7 @@
     plugins = [ ];
     withNodeJs = true;
     withPython3 = true;
-    extraPython3Packages = pyPkgs: with pyPkgs; [ ];
+    extraPython3Packages = pyPkgs: with pyPkgs; [ setuptools ];
 
     # These environment variables are needed to build and run binaries
     # with external package managers like mason.nvim.
