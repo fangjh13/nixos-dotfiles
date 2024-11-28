@@ -306,8 +306,10 @@ for_window [class="(?i)KeePassXC" title=".*KeePassXC.*"] focus, resize set 20 pp
 bindsym $mod+Shift+p [class="(?i)KeePassXC"] scratchpad show, sticky enable border none, resize set 50 ppt 60 ppt, move position center
 # manage wechat window
 for_window [class="wechat" title="微信"] move scratchpad
-for_window [title="图片查看"] floating enable, move position center
-bindsym $mod+Shift+w [class="wechat" title="微信"] scratchpad show, move position center
+bindsym $mod+Shift+w [class="wechat" title="微信"] scratchpad show, move position center 
+for_window [title="微信|公众号"] floating enable, move position center
+for_window [class="wechat" title="图片编辑|.*聊天记录.*|朋友圈|预览|消息阅读"] floating enable, move position center
+for_window [class="wechat"] focus 
 # manage telegram window
 for_window [class="(?i)telegram.*"] floating enable border none, move position center, focus
 
