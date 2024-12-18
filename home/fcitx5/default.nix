@@ -28,10 +28,6 @@
         # 支持 lua 脚本
         buildInputs = [ pkgs.fcitx5 pkgs.librime ];
       });
-    in with pkgs; [
-      local-fcitx5-rime
-      fcitx5-configtool
-      fcitx5-chinese-addons
-    ];
+    in with pkgs; [ local-fcitx5-rime fcitx5-configtool fcitx5-chinese-addons ];
   };
 }

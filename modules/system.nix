@@ -106,36 +106,37 @@ in {
     sysstat
     lm_sensors # for `sensors` command
     scrot # screen capture tool, used by i3 blur lock to take a screenshot
+    alsa-utils # Sound Architecture utils
   ];
 
   services.power-profiles-daemon = { enable = true; };
   security.polkit.enable = true;
 
   # Enable sound with pulseaudio or pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;    ## If compatibility with 32-bit applications is desired.
+  # If compatibility with 32-bit applications is desired.
+  hardware.pulseaudio.support32Bit = true;
   # Or use pipewire
-  # services = {
-  #   pipewire = {
-  #     enable = true;
-  #     alsa.enable = true;
-  #     alsa.support32Bit = true;
-  #     pulse.enable = true;
-  #     # If you want to use JACK applications, uncomment this
-  #     # jack.enable = true;
-  #   };
-  # };
+  services = {
+    pipewire = {
+      enable = false;
+      # alsa.enable = true;
+      # alsa.support32Bit = true;
+      # pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      # jack.enable = true;
+    };
+  };
 
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
-  # Bluetooth 
+  # Bluetooth
   # https://nixos.wiki/wiki/Bluetooth
   hardware.bluetooth = {
     enable = true; # enables support for Bluetooth
     powerOnBoot = true; # powers up the default Bluetooth controller on boot
   };
-  # use blueman-applet and blueman-manager 
+  # use blueman-applet and blueman-manager
   services.blueman.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
