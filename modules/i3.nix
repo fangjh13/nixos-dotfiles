@@ -5,16 +5,15 @@
   environment.pathsToLink =
     [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
 
-  services.displayManager = { defaultSession = "none+i3"; };
-
   services.xserver = {
     enable = true;
 
     desktopManager = { xterm.enable = false; };
 
     displayManager = {
-      lightdm.enable = false;
-      gdm.enable = true;
+      gdm.enable = false;
+      lightdm.enable = true;
+      defaultSession = "none+i3";
     };
 
     windowManager.i3 = {
@@ -44,7 +43,7 @@
     # Configure keymap in X11
     xkb = {
       variant = "";
-      options = xkbOptions; # defautl: Caps Lock as Ctrl
+      options = xkbOptions; # default: Caps Lock as Ctrl
       layout = "us";
     };
 

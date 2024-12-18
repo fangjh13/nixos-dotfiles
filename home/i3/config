@@ -44,7 +44,7 @@ gaps outer 1
 # Smart gaps (gaps used if only more than one container on the workspace)
 smart_gaps on
 
-# Smart borders (draw borders around container only if it is not the only container on this workspace) 
+# Smart borders (draw borders around container only if it is not the only container on this workspace)
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
 smart_borders on
 
@@ -105,7 +105,7 @@ exec --no-startup-id xautolock -time 10 -corners ---- -cornersize 5 -locker ~/.c
 # dunst config used ~/.config/dunst/dunstrc
 # set alternative config if needed:
 # exec --no-startup-id /usr/bin/dunst --config ~/.config/dunst/dunstrc
-# may yneed to run dbus-launch explicitly: 
+# may yneed to run dbus-launch explicitly:
 # exec --no-startup-id dbus-launch /usr/bin/dunst
 exec --no-startup-id dunst
 
@@ -121,7 +121,7 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -154,7 +154,7 @@ bindsym $mod+Print --release exec --no-startup-id ~/.config/i3/scripts/i3-scrot 
 # bindsym $mod+Shift+a --release exec --no-startup-id ~/.config/i3/scripts/i3-scrot -s
 bindsym $mod+Shift+a --release exec --no-startup-id flameshot gui
 
-# Sound
+# Sound need alsa-utils installed
 bindsym $mod+Ctrl+m exec alacritty -T "alsamixer" -e 'alsamixer'
 
 # focus_follows_mouse no
@@ -306,10 +306,10 @@ for_window [class="(?i)KeePassXC" title=".*KeePassXC.*"] focus, resize set 20 pp
 bindsym $mod+Shift+p [class="(?i)KeePassXC"] scratchpad show, sticky enable border none, resize set 50 ppt 60 ppt, move position center
 # manage wechat window
 for_window [class="wechat" title="微信"] move scratchpad
-bindsym $mod+Shift+w [class="wechat" title="微信"] scratchpad show, move position center 
+bindsym $mod+Shift+w [class="wechat" title="微信"] scratchpad show, move position center
 for_window [title="微信|公众号"] floating enable, move position center
 for_window [class="wechat" title="图片编辑|.*聊天记录.*|朋友圈|预览|消息阅读"] floating enable, move position center
-for_window [class="wechat"] focus 
+for_window [class="wechat"] focus
 # manage telegram window
 for_window [class="(?i)telegram.*"] floating enable border none, move position center, focus
 
@@ -344,8 +344,8 @@ mode "resize" {
         # move /left/right/up/down
         bindsym Shift+h move left 10 ppt
         bindsym Shift+l move right 10 ppt
-        bindsym Shift+j move down 10 ppt 
-        bindsym Shift+k move up 10 ppt 
+        bindsym Shift+j move down 10 ppt
+        bindsym Shift+k move up 10 ppt
         # move to center
 	bindsym c move position center
 
@@ -434,5 +434,5 @@ client.focused          #556064 #556064 #80FFF9 #FDF6E3
 client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
 client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
 client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
-client.placeholder      #000000 #0c0c0c #ffffff #000000 
+client.placeholder      #000000 #0c0c0c #ffffff #000000
 client.background       #2B2C2B
