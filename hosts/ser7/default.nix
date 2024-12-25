@@ -7,7 +7,8 @@
 {
   imports = [
     ../../modules/system.nix
-    # Use i3 
+
+    # Use i3
     # FIXME: specify video drivers
     (import ../../modules/i3.nix (args // {
       videoDrivers = [ "amdgpu" ];
@@ -27,6 +28,7 @@
 
     # Add Docker
     # ../../modules/docker.nix
+
   ];
 
   # FIXME: Use the systemd-boot EFI boot loader.
@@ -37,15 +39,9 @@
 
   # NOTE: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics
   hardware = {
-    amdgpu = {
-      initrd.enable = true;
-      opencl.enable = true;
-    };
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
-      extraPackages = with pkgs; [ rocmPackages.clr.icd ];
+      enable32Bit = true;
     };
   };
   environment.systemPackages = with pkgs; [ amdgpu_top ];

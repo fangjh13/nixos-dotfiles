@@ -29,9 +29,6 @@
             "security.insecure_connection_text.enabled" = true;
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           };
-          # https://github.com/FirefoxCSS-Store/FirefoxCSS-Store.github.io
-          # https://firefoxcss-store.github.io/
-          userChrome = builtins.readFile ./userChrome.css;
         };
       };
     };
