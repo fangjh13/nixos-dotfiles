@@ -23,6 +23,7 @@
       # fcitx5 rime input method
       local-fcitx5-rime = (pkgs.fcitx5-rime.override {
         # 引入自定义的配置
+        # https://github.com/NixOS/nixpkgs/blob/nixos-24.11/pkgs/tools/inputmethods/fcitx5/fcitx5-rime.nix#L14
         rimeDataPkgs = [ ./rime-config ];
       }).overrideAttrs (final: prev: {
         # 支持 lua 脚本

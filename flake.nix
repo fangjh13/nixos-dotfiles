@@ -23,11 +23,15 @@
       # FIXME: replace your username
       username = "fython";
       system = "x86_64-linux";
+      pkgs-unstable = import inputs.nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in {
       nixosConfigurations = {
         deskmini = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit username community-nur; };
+          specialArgs = { inherit username community-nur pkgs-unstable; };
 
           modules = [
             ./hosts/deskmini
@@ -38,11 +42,7 @@
                 useUserPackages = true;
                 users."${username}" = import ./home;
                 extraSpecialArgs = inputs // {
-                  inherit username;
-                  pkgs-unstable = import inputs.nixpkgs-unstable {
-                    inherit system;
-                    config.allowUnfree = true;
-                  };
+                  inherit username pkgs-unstable;
                 };
               };
             }
@@ -50,7 +50,7 @@
         };
         ser7 = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit username community-nur; };
+          specialArgs = { inherit username community-nur pkgs-unstable; };
 
           modules = [
             ./hosts/ser7
@@ -61,11 +61,7 @@
                 useUserPackages = true;
                 users."${username}" = import ./home;
                 extraSpecialArgs = inputs // {
-                  inherit username;
-                  pkgs-unstable = import inputs.nixpkgs-unstable {
-                    inherit system;
-                    config.allowUnfree = true;
-                  };
+                  inherit username pkgs-unstable;
                 };
               };
             }
