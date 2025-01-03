@@ -29,6 +29,8 @@
     # Add Docker
     # ../../modules/docker.nix
 
+    ../../modules/podman.nix
+
   ];
 
   # FIXME: Use the systemd-boot EFI boot loader.
