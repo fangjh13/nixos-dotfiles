@@ -10,6 +10,10 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+-- NOTE: text broken issue https://github.com/wez/wezterm/issues/5990
+config.front_end = "WebGpu"
+config.enable_wayland = false
+
 -- This is where you actually apply your config choices
 
 config.color_scheme = "Dracula"
@@ -48,18 +52,18 @@ config.hide_tab_bar_if_only_one_tab = true
 
 -- keymap
 local keymaps = {
-  { key = "z", mods = "ALT", action = wezterm.action.ShowLauncher },
+  { key = "z", mods = "ALT",  action = wezterm.action.ShowLauncher },
   {
     key = '"',
     mods = "CTRL|SHIFT|ALT",
     action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
   },
   -- Alt-b as backward-word
-  { key = "b", mods = "ALT", action = wezterm.action({ SendString = "\x1bb" }) },
+  { key = "b", mods = "ALT",  action = wezterm.action({ SendString = "\x1bb" }) },
   -- Alt-f as forward-word
-  { key = "f", mods = "ALT", action = wezterm.action({ SendString = "\x1bf" }) },
+  { key = "f", mods = "ALT",  action = wezterm.action({ SendString = "\x1bf" }) },
   -- Alt-d as delete-word
-  { key = "d", mods = "ALT", action = wezterm.action({ SendString = "\x1bd" }) },
+  { key = "d", mods = "ALT",  action = wezterm.action({ SendString = "\x1bd" }) },
   -- CTRL-SHIFT-l activates the debug overlay
   { key = "L", mods = "CTRL", action = wezterm.action.ShowDebugOverlay },
 }

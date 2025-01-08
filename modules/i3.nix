@@ -59,7 +59,11 @@
   environment.systemPackages = with pkgs; [
     xfce.thunar # xfce4's file manager
     xfce.xfconf # thunar need for image preview (https://gitlab.xfce.org/xfce/thunar/-/issues/1285)
+    xdg-desktop-portal-gnome
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-kde
   ];
+
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [
@@ -76,4 +80,15 @@
   services.gnome.gnome-keyring.enable = true;
   # GNOME keyring GUI
   programs.seahorse.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = false;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-kde
+    ];
+    config = { common = { default = [ "gtk" ]; }; };
+  };
 }
