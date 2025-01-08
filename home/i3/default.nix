@@ -30,6 +30,11 @@
     size = 40;
   };
 
+  services = {
+    # clipboard manager
+    copyq.enable = true;
+  };
+
   home.sessionVariables.GTK_THEME = "WhiteSur-Dark-solid";
   gtk = {
     enable = true;

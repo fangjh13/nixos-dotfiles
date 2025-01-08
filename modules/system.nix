@@ -1,12 +1,20 @@
-{ pkgs, lib, username, community-nur, ... }:
+{ pkgs, lib, username, community-nur, host, ... }@args:
 let
+  inherit (import ../hosts/${host}/variables.nix) wallpaper timezone;
   capitalize = str:
     let
       first = builtins.substring 0 1 str;
       rest = builtins.substring 1 (builtins.stringLength str - 1) str;
     in lib.toUpper first + rest;
 in {
-  imports = [ ./common.nix ./fonts.nix ./ssh.nix ./fhs.nix ];
+  imports = [
+    ./common.nix
+    (import ./stylix.nix (args // { wallpaper = "${wallpaper}"; }))
+    ./fonts.nix
+    ./ssh.nix
+    ./avahi.nix
+    ./fhs.nix
+  ];
 
   # enable zsh
   programs.zsh = {
@@ -44,10 +52,13 @@ in {
       # "https://mirrors.ustc.edu.cn/nix-channels/store"
 
       "https://cache.nixos.org"
+      "https://hyprland.cachix.org" # hyprland
     ];
 
-    trusted-public-keys =
-      [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" # hyprland
+    ];
     builders-use-substitutes = true;
   };
 
@@ -61,6 +72,7 @@ in {
   nixpkgs.config = {
     # Allow unfree packages
     allowUnfree = true;
+    # NOTE: temporarily allow insecure packages
     permittedInsecurePackages = [ "electron-27.3.11" ];
     packageOverrides = pkgs: {
       # make `pkgs.nur` available
@@ -72,7 +84,7 @@ in {
   };
 
   # Set your time zone.
-  time.timeZone = "Asia/Shanghai";
+  time.timeZone = "${timezone}";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -91,10 +103,14 @@ in {
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  programs.dconf.enable = true;
-  services.dbus.packages = with pkgs; [ dconf ];
   services.geoclue2.enable = true;
+  programs.dconf.enable = true;
+  # Allow non-root users to specify the allow_other or allow_root mount options, see mount.fuse3(8).
+  programs.fuse.userAllowOther = true;
+  # Enable periodic SSD TRIM of mounted partitions in background
+  services.fstrim.enable = true;
+  # Mount, trash, and other functionalities
+  services.gvfs.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -120,9 +136,9 @@ in {
   services = {
     pipewire = {
       enable = false;
-      # alsa.enable = true;
-      # alsa.support32Bit = true;
-      # pulse.enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
       # If you want to use JACK applications, uncomment this
       # jack.enable = true;
     };

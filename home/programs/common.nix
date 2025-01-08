@@ -14,14 +14,16 @@
       yq-go # yaml processor https://github.com/mikefarah/yq
       moreutils # sponge chronic errno ...
       htop
+      killall
       tree
       android-tools
       dnsutils
       tokei # count code, quickly
+      fastfetch
 
       # misc
-      neofetch
       openssl
+      ffmpeg
       libnotify
       wineWowPackages.wayland
       xdg-utils
@@ -145,28 +147,23 @@
       enable = true;
       config = {
         pager = "less -FR";
-        theme = "catppuccin-macchiato";
+        # theme = "catppuccin-macchiato";
       };
-      themes = {
-        catppuccin-macchiato = {
-          src = catppuccin-bat;
-          file = "themes/Catppuccin Macchiato.tmTheme";
-        };
-        dracula = {
-          src = pkgs.fetchFromGitHub {
-            owner = "dracula";
-            repo = "sublime"; # Bat uses sublime syntax for its themes
-            rev = "456d3289827964a6cb503a3b0a6448f4326f291b";
-            sha256 = "sha256-8mCovVSrBjtFi5q+XQdqAaqOt3Q+Fo29eIDwECOViro=";
-          };
-          file = "Dracula.tmTheme";
-        };
-      };
-    };
-
-    rofi = {
-      enable = true;
-      plugins = [ pkgs.rofi-calc ];
+      # themes = {
+      #   catppuccin-macchiato = {
+      #     src = catppuccin-bat;
+      #     file = "themes/Catppuccin Macchiato.tmTheme";
+      #   };
+      #   dracula = {
+      #     src = pkgs.fetchFromGitHub {
+      #       owner = "dracula";
+      #       repo = "sublime"; # Bat uses sublime syntax for its themes
+      #       rev = "456d3289827964a6cb503a3b0a6448f4326f291b";
+      #       sha256 = "sha256-8mCovVSrBjtFi5q+XQdqAaqOt3Q+Fo29eIDwECOViro=";
+      #     };
+      #     file = "Dracula.tmTheme";
+      #   };
+      # };
     };
 
     btop.enable = true; # replacement of htop/nmon
@@ -190,9 +187,6 @@
   services = {
     # auto mount usb drives
     udiskie.enable = true;
-
-    # clipboard manager
-    copyq.enable = true;
 
     # enable OpenSSH private key agent
     ssh-agent.enable = true;

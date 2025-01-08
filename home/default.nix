@@ -2,7 +2,8 @@
 
 {
 
-  imports = [ ./local-fonts ./fcitx5 ./i3 ./programs ./rofi ./shell ];
+  imports =
+    [ ./local-fonts ./fcitx5 ./programs ./rofi ./shell ./stylix ./hyprland ./scripts];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
