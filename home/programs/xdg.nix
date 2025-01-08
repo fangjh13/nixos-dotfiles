@@ -19,7 +19,7 @@ let
     "x-scheme-handler/unknown" = browser;
 
     "audio/*" = [ "mpv.desktop" ];
-    "video/*" = [ "mpv.dekstop" ];
+    "video/*" = [ "mpv.desktop" ];
     "image/png" = [ "imv-dir.desktop" ];
     "image/jpeg" = [ "imv-dir.desktop" ];
     "application/json" = browser;

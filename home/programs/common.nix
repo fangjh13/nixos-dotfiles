@@ -17,7 +17,7 @@
       tree
       android-tools
       dnsutils
-      tokei #  count code, quickly
+      tokei # count code, quickly
 
       # misc
       neofetch

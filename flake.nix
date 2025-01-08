@@ -16,6 +16,9 @@
         "github:catppuccin/bat?rev=d3feec47b16a8e99eabb34cdfbaa115541d374fc";
       flake = false;
     };
+
+    # nix language server
+    nixd.url = "github:nix-community/nixd";
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, community-nur, ... }:

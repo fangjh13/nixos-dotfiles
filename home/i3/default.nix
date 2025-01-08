@@ -1,7 +1,8 @@
 { pkgs, config, ... }: {
+  imports = [ ./dunst ];
+
   # i3 配置，基于 https://github.com/endeavouros-team/endeavouros-i3wm-setup
   # 直接从当前文件夹中读取配置文件作为配置内容
-
   home.file.".config/i3/config".source = ./config;
   home.file.".config/i3/i3blocks.conf".source = ./i3blocks.conf;
   home.file.".config/i3/scripts" = {

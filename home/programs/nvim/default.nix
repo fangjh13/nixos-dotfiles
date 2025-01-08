@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-unstable, nixd, ... }: {
   programs.neovim = {
     enable = true;
     package = pkgs-unstable.neovim-unwrapped;
@@ -47,5 +47,9 @@
     ];
   };
 
-  home.packages = with pkgs; [ python311Packages.pynvim ];
+  home.packages = with pkgs; [
+    python311Packages.pynvim
+    # nix language server
+    nixd.packages.${pkgs.system}.nixd
+  ];
 }
