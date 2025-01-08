@@ -1,4 +1,4 @@
-{pkgs, config, ...}: {
+{ pkgs, config, ... }: {
 
   stylix = {
     enable = true;
@@ -10,5 +10,6 @@
     targets.waybar.enable = false;
     targets.hyprland.enable = false;
     targets.hyprlock.enable = false;
+    targets.gtk.enable = false;
   };
 }

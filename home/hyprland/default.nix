@@ -1,18 +1,17 @@
 { pkgs, lib, username, host, config, inputs, ... }@args:
 
-
 let
   inherit (import ../../hosts/${host}/variables.nix)
     browser terminal extraMonitorSettings keyboardLayout wallpaper;
 in with lib; {
 
   imports = [
-     ./wlogout
-     ./hypridel.nix
-     (import ./hyprlock.nix {inherit username wallpaper;})
-     ./waybar.nix
-     ./swaync.nix
-    ];
+    ./wlogout
+    ./hypridel.nix
+    (import ./hyprlock.nix { inherit username wallpaper; })
+    ./waybar.nix
+    ./swaync.nix
+  ];
 
   # link wallpapers into home Pictures directory
   home.file."Pictures/Wallpapers" = {
@@ -20,13 +19,42 @@ in with lib; {
     recursive = true;
   };
 
+  # GTK+ 2/3 applications themes config
+  gtk = {
+    enable = true;
+    iconTheme = {
+      name = "WhiteSur-dark";
+      package = pkgs.whitesur-icon-theme;
+    };
+    theme = {
+      name = "WhiteSur-Dark-solid";
+      package = pkgs.whitesur-gtk-theme;
+    };
+    gtk3.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+    gtk4.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+    gtk3 = {
+      # FIXME: Bookmarks in the sidebar of the GTK file browser
+      bookmarks = [
+        "file:///home/fython/Downloads Downloads"
+        "file:///home/fython/Documents Documents"
+        "file:///home/fython/SynologyDrive Drive"
+      ];
+    };
+  };
+  # QT application style
+  qt = {
+    enable = true;
+    style.name = "adwaita-dark";
+    platformTheme.name = "gtk3";
+  };
+
   home.packages = with pkgs; [
-      # Wayland clipboard utilities (wl-copy and wl-paste)
-      wl-clipboard
-      # Wayland event viewer debug tool
-      wev
-      # Xorg tools
-      xorg.xprop
+    # Wayland clipboard utilities (wl-copy and wl-paste)
+    wl-clipboard
+    # Wayland event viewer debug tool
+    wev
+    # Xorg tools
+    xorg.xprop
   ];
 
   wayland.windowManager.hyprland = {
@@ -51,7 +79,7 @@ in with lib; {
       ################
 
       # See https://wiki.hyprland.org/Configuring/Monitors/
-      monitor=,preferred,3840x2160@60,1.5
+      monitor=,preferred,3840x2160@60,2
 
       # unscale XWayland
       xwayland {
@@ -357,6 +385,7 @@ in with lib; {
       bind = $mainMod SHIFT CONTROL, l, exec, hyprctl dispatch layoutmsg preselect r; notify-send "Right Direction"
       bind = $mainMod SHIFT CONTROL, j, exec, hyprctl dispatch layoutmsg preselect d; notify-send "Down Direction"
       bind = $mainMod SHIFT CONTROL, k, exec, hyprctl dispatch layoutmsg preselect u; notify-send "Up Direction"
+
       bind = $mainMod, w, togglegroup
       bind = $mainMod SHIFT, H, changegroupactive, b
       bind = $mainMod SHIFT, L, changegroupactive, f
