@@ -1,4 +1,4 @@
-{pkgs, wallpaper, ...}: {
+{ pkgs, wallpaper, ... }: {
   # stylix options
   # https://stylix.danth.me/options/nixos.html
   stylix = {
@@ -9,8 +9,8 @@
     image = ../. + "/wallpapers/${wallpaper}";
     polarity = "dark";
     opacity.terminal = 0.9;
-    cursor.package = pkgs.bibata-cursors;
-    cursor.name = "Bibata-Modern-Ice";
+    cursor.package = pkgs.capitaine-cursors;
+    cursor.name = "capitaine-cursors";
     cursor.size = 24;
     fonts = {
       monospace = {

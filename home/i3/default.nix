@@ -30,6 +30,11 @@
     size = 40;
   };
 
+  home.packages = with pkgs;
+    [
+      flameshot # screen capture
+    ];
+
   services = {
     # clipboard manager
     copyq.enable = true;
