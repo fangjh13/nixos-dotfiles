@@ -2,14 +2,20 @@
   description = "Fython's NixOS Configuration";
 
   inputs = {
-    # https://nixos.wiki/wiki/FAQ#What_are_channels_and_how_do_they_get_updated?
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    # https://wiki.nixos.org/wiki/FAQ#What_are_channels_and_how_do_they_get_updated?
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    community-nur = { url = "github:nix-community/NUR"; };
-
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # NUR community
+    community-nur.url = "github:nix-community/NUR";
+    # System-wide colorscheming and typography
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # bat theme
     catppuccin-bat = {
       url =
@@ -23,21 +29,23 @@
 
   outputs = inputs@{ self, nixpkgs, home-manager, community-nur, ... }:
     let
-      # FIXME: replace your username
-      username = "fython";
+      # FIXME: change your info
       system = "x86_64-linux";
+      host = "deskmini";
+      username = "fython";
       pkgs-unstable = import inputs.nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
       };
     in {
       nixosConfigurations = {
-        deskmini = nixpkgs.lib.nixosSystem {
+        "${host}" = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit username community-nur pkgs-unstable; };
+          specialArgs = { inherit username community-nur pkgs-unstable host; };
 
           modules = [
-            ./hosts/deskmini
+            ./hosts/${host}
+            inputs.stylix.nixosModules.stylix # stylix modules
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -45,26 +53,7 @@
                 useUserPackages = true;
                 users."${username}" = import ./home;
                 extraSpecialArgs = inputs // {
-                  inherit username pkgs-unstable;
-                };
-              };
-            }
-          ];
-        };
-        ser7 = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit username community-nur pkgs-unstable; };
-
-          modules = [
-            ./hosts/ser7
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users."${username}" = import ./home;
-                extraSpecialArgs = inputs // {
-                  inherit username pkgs-unstable;
+                  inherit username community-nur pkgs-unstable host;
                 };
               };
             }

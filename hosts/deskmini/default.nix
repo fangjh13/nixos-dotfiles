@@ -2,17 +2,22 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, ... }@args:
+{ config, pkgs, host, ... }@args:
 
 {
   imports = [
     ../../modules/system.nix
 
+    # import options modules
+    ../../modules/options/intel-drivers.nix
+
     # Use i3
     # FIXME: specify video drivers
     # (import ../../modules/i3.nix (args // { videoDrivers = [ "intel" ]; }))
     # or use default
-    (import ../../modules/i3.nix (args))
+    # (import ../../modules/i3.nix (args))
+
+    ../../modules/hyprland.nix
 
     # plasma5
     # ../../modules/plasma5.nix
@@ -21,23 +26,13 @@
     ./hardware-configuration.nix
   ];
 
+  # Enable imported option modules if you need
+  # FIXME: This computer is CPU: Intel 8700 and No other GPU
+  drivers.intel.enable = true;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # NOTE: CPU: Intel 8700 and No other GPU
-  hardware = {
-    opengl = {
-      enable = true;
-      extraPackages = with pkgs; [
-        intel-media-driver
-        intel-media-sdk
-        mesa.drivers
-      ];
-    };
-    # intel_gpu_top command
-    intel-gpu-tools.enable = true;
-  };
 
   # FIXME: Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -71,7 +66,7 @@
   networking.firewall.enable = false;
 
   # FIXME: define your hostname
-  networking.hostName = "deskmini";
+  networking.hostName = "${host}";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";

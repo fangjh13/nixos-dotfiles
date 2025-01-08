@@ -45,20 +45,30 @@
 
       # nerdfonts
       # https://github.com/NixOS/nixpkgs/blob/nixos-24.11/pkgs/data/fonts/nerdfonts/shas.nix
-      (nerdfonts.override {
-        fonts = [
-          # symbols icon only
-          "NerdFontsSymbolsOnly"
-          # Characters
-          "Noto"
-          "Hack"
-          "JetBrainsMono"
-          "FiraCode"
-          "FiraMono"
-          "RobotoMono"
-          "DejaVuSansMono"
-        ];
-      })
+      # (nerdfonts.override {
+      #   fonts = [
+      #     # symbols icon only
+      #     "NerdFontsSymbolsOnly"
+      #     # Characters
+      #     "Noto"
+      #     "Hack"
+      #     "JetBrainsMono"
+      #     "FiraCode"
+      #     "FiraMono"
+      #     "RobotoMono"
+      #     "DejaVuSansMono"
+      #   ];
+      # })
+      # symbols icon only
+      nerd-fonts.symbols-only
+      # Characters
+      nerd-fonts.noto
+      nerd-fonts.hack
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.fira-code
+      nerd-fonts.fira-mono
+      nerd-fonts.roboto-mono
+      nerd-fonts.dejavu-sans-mono
     ];
 
     fontconfig = {

@@ -74,8 +74,6 @@
   };
   # Thumbnail support for images preview
   services.tumbler.enable = true;
-  # Mount, trash, and other functionalities
-  services.gvfs.enable = true;
   # Manage users security credentials, such as user names and passwords
   services.gnome.gnome-keyring.enable = true;
   # GNOME keyring GUI
