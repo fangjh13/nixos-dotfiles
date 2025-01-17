@@ -1,5 +1,5 @@
-[submodule "home/programs/tmux/themepack"]
-	path = home/programs/tmux/themepack
+[submodule "home/apps/tmux/themepack"]
+	path = home/apps/tmux/themepack
 	url = https://github.com/jimeh/tmux-themepack.git
 [submodule "home/fcitx5/rime-config/share/rime-data"]
 	path = home/fcitx5/rime-config/share/rime-data

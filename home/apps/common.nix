@@ -31,7 +31,6 @@
       ncdu # disk usage analyzer
       duf # `df` alternative
       tlrc # Official `tldr` client written in Rust
-      evince # pdf viewer
       lshw
       dmidecode
 
@@ -144,25 +143,7 @@
 
     bat = {
       enable = true;
-      config = {
-        pager = "less -FR";
-        # theme = "catppuccin-macchiato";
-      };
-      # themes = {
-      #   catppuccin-macchiato = {
-      #     src = catppuccin-bat;
-      #     file = "themes/Catppuccin Macchiato.tmTheme";
-      #   };
-      #   dracula = {
-      #     src = pkgs.fetchFromGitHub {
-      #       owner = "dracula";
-      #       repo = "sublime"; # Bat uses sublime syntax for its themes
-      #       rev = "456d3289827964a6cb503a3b0a6448f4326f291b";
-      #       sha256 = "sha256-8mCovVSrBjtFi5q+XQdqAaqOt3Q+Fo29eIDwECOViro=";
-      #     };
-      #     file = "Dracula.tmTheme";
-      #   };
-      # };
+      config = { pager = "less -FR"; };
     };
 
     btop = {
@@ -172,6 +153,16 @@
     fd.enable = true; # replacement of find
     eza.enable = true; # A modern replacement for ‘ls’
     jq.enable = true; # A lightweight and flexible command-line JSON processor
+
+    # pdf viewer
+    zathura = {
+      enable = true;
+      package = pkgs.zathura.override {
+        # https://wiki.archlinux.org/title/Zathura
+        useMupdf = true;
+      };
+      options = { selection-clipboard = "clipboard"; };
+    };
 
     # ssh client
     ssh = {

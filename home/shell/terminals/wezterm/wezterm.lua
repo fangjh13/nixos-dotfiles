@@ -10,10 +10,6 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
--- NOTE: text broken issue https://github.com/wez/wezterm/issues/5990
-config.front_end = "WebGpu"
-config.enable_wayland = false
-
 -- This is where you actually apply your config choices
 
 config.color_scheme = "Dracula"
@@ -29,7 +25,7 @@ config.window_padding = {
   top = "0.5cell",
   bottom = "0cell",
 }
-config.window_decorations = "RESIZE"
+-- config.window_decorations = "RESIZE"
 
 -- font
 config.font = wezterm.font_with_fallback({

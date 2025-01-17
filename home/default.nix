@@ -1,9 +1,20 @@
-{ config, pkgs, username, ... }:
+{ config, pkgs, username, host, ... }:
 
 {
 
-  imports =
-    [ ./local-fonts ./fcitx5 ./programs ./rofi ./shell ./stylix ./hyprland ./scripts];
+  imports = [
+    ./local-fonts
+    ./fcitx5
+    ./xdg
+    ./rofi
+    ./shell
+    ./stylix
+    ./qt
+    ./gtk
+    ./hyprland
+    ./scripts
+    ./apps
+  ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.

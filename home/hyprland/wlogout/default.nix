@@ -31,7 +31,7 @@
       }
       {
         "label" = "lock";
-        "action" = "sleep 1; hyprlock";
+        "action" = "sleep 1; screenlock";
         "text" = "Lock";
         "keybind" = "l";
       }

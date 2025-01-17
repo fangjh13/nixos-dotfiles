@@ -1,52 +1,17 @@
 { pkgs, lib, username, host, config, inputs, ... }@args:
 
-let
-  inherit (import ../../hosts/${host}/variables.nix)
-    browser terminal extraMonitorSettings keyboardLayout wallpaper;
+let inherit (import ../../hosts/${host}/variables.nix) monitor wallpaper;
 in with lib; {
 
   imports = [
     ./wlogout
     ./hypridel.nix
-    (import ./hyprlock.nix { inherit username wallpaper; })
+    ./hyprlock.nix
     ./waybar.nix
     ./swaync.nix
+    ./cliphist.nix
+    ./screenshot.nix
   ];
-
-  # link wallpapers into home Pictures directory
-  home.file."Pictures/Wallpapers" = {
-    source = ../../wallpapers;
-    recursive = true;
-  };
-
-  # GTK+ 2/3 applications themes config
-  gtk = {
-    enable = true;
-    iconTheme = {
-      name = "WhiteSur-dark";
-      package = pkgs.whitesur-icon-theme;
-    };
-    theme = {
-      name = "WhiteSur-Dark-solid";
-      package = pkgs.whitesur-gtk-theme;
-    };
-    gtk3.extraConfig = { gtk-application-prefer-dark-theme = 1; };
-    gtk4.extraConfig = { gtk-application-prefer-dark-theme = 1; };
-    gtk3 = {
-      # FIXME: Bookmarks in the sidebar of the GTK file browser
-      bookmarks = [
-        "file:///home/fython/Downloads Downloads"
-        "file:///home/fython/Documents Documents"
-        "file:///home/fython/SynologyDrive Drive"
-      ];
-    };
-  };
-  # QT application style
-  qt = {
-    enable = true;
-    style.name = "adwaita-dark";
-    platformTheme.name = "gtk3";
-  };
 
   home.packages = with pkgs; [
     # Wayland clipboard utilities (wl-copy and wl-paste)
@@ -55,31 +20,33 @@ in with lib; {
     wev
     # Xorg tools
     xorg.xprop
+    # control device brightness
+    brightnessctl
+    # An archive manager utility for thunar
+    file-roller
+    # GTK settings editor
+    nwg-look
   ];
 
+  # Enable Ozone Wayland support chromium and Electron based applications
+  # This allows these applications to run without Xwayland
+  home.sessionVariables.NIXOS_OZONE_WL = "1";
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    systemd.enable = true;
+    systemd = {
+      enable = true;
+      variables = [ "--all" ];
+    };
     extraConfig = ''
-      # This is an example Hyprland config file.
-      # Refer to the wiki for more information.
+      # Hyprland config file
+
+      # https://github.com/hyprwm/Hyprland/blob/main/example/hyprland.conf
       # https://wiki.hyprland.org/Configuring/
 
-      # Please note not all available settings / options are set here.
-      # For a full list, see the wiki
-
-      # You can split this configuration into multiple files
-      # Create your files separately and then link them to this file like this:
-      # source = ~/.config/hypr/myColors.conf
-
-
       ################
-      ### MONITORS ###
+      ### XWayland ###
       ################
-
-      # See https://wiki.hyprland.org/Configuring/Monitors/
-      monitor=,preferred,3840x2160@60,2
 
       # unscale XWayland
       xwayland {
@@ -91,6 +58,14 @@ in with lib; {
       env = XCURSOR_SIZE,22
 
 
+      ################
+      ### MONITORS ###
+      ################
+
+      # See https://wiki.hyprland.org/Configuring/Monitors/
+      # monitor=,preferred,auto,auto
+      ${monitor}
+
       ###################
       ### MY PROGRAMS ###
       ###################
@@ -99,8 +74,25 @@ in with lib; {
 
       # Set programs that you use
       $terminal = kitty
-      $fileManager = dolphin
-      $menu = wofi --show drun
+
+
+      #############################
+      ### ENVIRONMENT VARIABLES ###
+      #############################
+
+      # See https://wiki.hyprland.org/Configuring/Environment-variables/
+
+      # XDG Specifications
+      env = XDG_CURRENT_DESKTOP,Hyprland
+      env = XDG_SESSION_TYPE,wayland
+      env = XDG_SESSION_DESKTOP,Hyprland
+      # Qt Variables
+      env = QT_AUTO_SCREEN_SCALE_FACTOR,1          # enables automatic scaling, based on the monitor’s pixel density
+      env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1  # Disables window decorations on Qt applications
+      env = QT_QPA_PLATFORM,wayland;xcb            # Qt: Use wayland if available, fall back to x11 if not.
+      env = GDK_BACKEND,wayland,x11                # GTK: Use wayland if available. If not: try x11, then any other GDK backend.
+      env = SDL_VIDEODRIVER,wayland                # Run SDL2 applications on Wayland. Remove or set to x11 if games that provide older versions of SDL cause compatibility issues
+      env = CLUTTER_BACKEND,wayland                # Clutter package already has wayland enabled, this variable will force Clutter applications to try and use the Wayland backend
 
 
       #################
@@ -110,20 +102,12 @@ in with lib; {
       # Autostart necessary processes (like notifications daemons, status bars, etc.)
       # Or execute your favorite apps at launch like this:
 
-      # exec-once = $terminal
-      # exec-once = nm-applet &
-      # exec-once = waybar & hyprpaper & firefox
+      exec-once = dbus-update-activation-environment --systemd --all
+      exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = killall -q waybar;sleep .5 && waybar
-
-
-      #############################
-      ### ENVIRONMENT VARIABLES ###
-      #############################
-
-      # See https://wiki.hyprland.org/Configuring/Environment-variables/
-
-      # env = XCURSOR_SIZE,24
-      env = HYPRCURSOR_SIZE,24
+      exec-once = nm-applet --indicator
+      exec-once = lxqt-policykit-agent
+      exec-once = sleep 7 && synology-drive
 
 
       #####################
@@ -134,17 +118,17 @@ in with lib; {
 
       # https://wiki.hyprland.org/Configuring/Variables/#general
       general {
-          gaps_in = 5
-          gaps_out = 20
+          gaps_in = 3
+          gaps_out = 8
 
-          border_size = 2
+          border_size = 1
 
           # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
-          col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-          col.inactive_border = rgba(595959aa)
+          col.active_border = rgb(${config.stylix.base16Scheme.base08}) rgb(${config.stylix.base16Scheme.base0C}) 45deg
+          # col.inactive_border = rgb(${config.stylix.base16Scheme.base01})
 
           # Set to true enable resizing windows by clicking and dragging on borders and gaps
-          resize_on_border = false
+          resize_on_border = true
 
           # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
           allow_tearing = false
@@ -170,8 +154,8 @@ in with lib; {
           # https://wiki.hyprland.org/Configuring/Variables/#blur
           blur {
               enabled = true
-              size = 3
-              passes = 1
+              size = 5
+              passes = 3
 
               vibrancy = 0.1696
           }
@@ -183,28 +167,17 @@ in with lib; {
 
           # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
 
-          bezier = easeOutQuint,0.23,1,0.32,1
-          bezier = easeInOutCubic,0.65,0.05,0.36,1
-          bezier = linear,0,0,1,1
-          bezier = almostLinear,0.5,0.5,0.75,1.0
-          bezier = quick,0.15,0,0.1,1
-
-          animation = global, 1, 10, default
-          animation = border, 1, 5.39, easeOutQuint
-          animation = windows, 1, 4.79, easeOutQuint
-          animation = windowsIn, 1, 4.1, easeOutQuint, popin 87%
-          animation = windowsOut, 1, 1.49, linear, popin 87%
-          animation = fadeIn, 1, 1.73, almostLinear
-          animation = fadeOut, 1, 1.46, almostLinear
-          animation = fade, 1, 3.03, quick
-          animation = layers, 1, 3.81, easeOutQuint
-          animation = layersIn, 1, 4, easeOutQuint, fade
-          animation = layersOut, 1, 1.5, linear, fade
-          animation = fadeLayersIn, 1, 1.79, almostLinear
-          animation = fadeLayersOut, 1, 1.39, almostLinear
-          animation = workspaces, 1, 1.94, almostLinear, fade
-          animation = workspacesIn, 1, 1.21, almostLinear, fade
-          animation = workspacesOut, 1, 1.94, almostLinear, fade
+          bezier = wind, 0.05, 0.9, 0.1, 1.05
+          bezier = winIn, 0.1, 1.1, 0.1, 1.1
+          bezier = winOut, 0.3, -0.3, 0, 1
+          bezier = liner, 1, 1, 1, 1
+          animation = windows, 1, 6, wind, slide
+          animation = windowsIn, 1, 6, winIn, slide
+          animation = windowsOut, 1, 5, winOut, slide
+          animation = windowsMove, 1, 5, wind, slide
+          animation = border, 1, 1, liner
+          animation = fade, 1, 10, default
+          animation = workspaces, 1, 5, wind
       }
 
       # Ref https://wiki.hyprland.org/Configuring/Workspace-Rules/
@@ -233,6 +206,10 @@ in with lib; {
       misc {
           force_default_wallpaper = -1 # Set to 0 or 1 to disable the anime mascot wallpapers
           disable_hyprland_logo = false # If true disables the random hyprland logo / anime girl background. :(
+          initial_workspace_tracking = 0 # if enabled, windows will open on the workspace they were invoked on. 0 - disabled, 1 - single-shot, 2 - persistent (all children too)
+          mouse_move_enables_dpms = true # If DPMS is set to off, wake up the monitors if the mouse moves.
+          key_press_enables_dpms = false # If DPMS is set to off, wake up the monitors if a key is pressed.
+          focus_on_activate = true # focus an app that requests to be focused (an activate request)
       }
 
 
@@ -245,7 +222,7 @@ in with lib; {
           kb_layout = us
           kb_variant =
           kb_model =
-          kb_options =
+          kb_options = ctrl:nocaps # Remap Caps-Lock to Ctrl
           kb_rules =
 
           follow_mouse = 1
@@ -253,13 +230,18 @@ in with lib; {
           sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
 
           touchpad {
-              natural_scroll = false
+              natural_scroll = true
+              disable_while_typing = true
+              scroll_factor = 0.8
           }
+          sensitivity = 0 # Sets the mouse input sensitivity, Value is clamped to the range -1.0 to 1.0.
+          accel_profile = flat
       }
 
       # https://wiki.hyprland.org/Configuring/Variables/#gestures
       gestures {
-          workspace_swipe = false
+          workspace_swipe = true
+          workspace_swipe_fingers = 3
       }
 
       # Example per-device config
@@ -284,15 +266,19 @@ in with lib; {
       # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
       bind = $mainMod, Return, exec, $terminal
       bind = $mainMod, D, exec, rofi-launcher
+      bind = $mainMod, X, exec, rofi-wo
+      bind = $mainMod, equal, exec, rofi-calc
+      bind = $mainMod SHIFT, V, exec, rofi-clipboard
+      bind = $mainMod, T, exec, rofi -show window
       bind = $mainMod, Tab, workspace, previous
       bind = $mainMod SHIFT, Q, killactive,
-      # exit hyprland
       bind = $mainMod CONTROL SHIFT, Q, exit,
-      # bind = $mainMod, E, exec, $fileManager
-      bind = $mainMod SHIFT, SPACE, togglefloating,
-      bind = $mainMod, R, exec, $menu
+      # bind = $mainMod SHIFT, SPACE, togglefloating,
+      # use smart togglefloating script
+      bind = $mainMod SHIFT, SPACE, exec, hypr-smarttf
       bind = $mainMod, P, pseudo, # dwindle
-      # bind = $mainMod, J, togglesplit, # dwindle
+      bind = $mainMod SHIFT, F, fullscreen,
+      bind = $mainMod SHIFT, A, exec, screenshot
 
       # Move focus with mainMod + arrow keys / hjkl
       bind = $mainMod, left, movefocus, l
@@ -354,6 +340,10 @@ in with lib; {
       binde = $mainMod CONTROL, right, moveactive, 50 0
       binde = $mainMod CONTROL, up, moveactive, 0 -50
       binde = $mainMod CONTROL, down, moveactive, 0 50
+      # change focus
+      binde = $mainMod, SPACE, cyclenext, prev
+      # bring activate to top
+      binde = $mainMod CONTROL, SPACE, alterzorder, top
 
       # Resize and Move window submap
       bind = $mainMod, R, exec, hyprctl dispatch submap resize; notify-send "Enter Window Change Mode"
@@ -393,11 +383,18 @@ in with lib; {
       bind = $mainMod SHIFT, E, exec, wlogout
 
 
-      # Laptop multimedia keys for volume and LCD brightness
-      bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
-      bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-      bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-      bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+      # Volume Control
+      # if you use pipewire service
+      # bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+      # bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+      # bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+      # bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+      # if you use pulseaudio use pactl instead
+      bindel = ,XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%
+      bindel = ,XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5%
+      bindel = ,XF86AudioMute, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle
+      bindel = ,XF86AudioMicMute, exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle
+      # LCD brightness
       bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
       bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 10%-
 
@@ -414,12 +411,6 @@ in with lib; {
       # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
       # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
 
-      # Example windowrule v1
-      # windowrule = float, ^(kitty)$
-
-      # Example windowrule v2
-      # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
-
       # Ignore maximize requests from apps. You'll probably like this.
       windowrulev2 = suppressevent maximize, class:.*
 
@@ -428,209 +419,30 @@ in with lib; {
 
       # windowrule = float, nm-connection-editor|blueman-manager
       windowrule = workspace 2, firefox
+      windowrule = float, ^(org.gnome.FileRoller)$
+      # windowrulev2 = float, class:^(kitty)$, title:^(kitty)$
+      # windowrulev2 = size 60% 70%, initialClass:^(kitty)$
       windowrulev2 = float, class:org.pulseaudio.pavucontrol
+      windowrulev2 = stayfocused, title:^()$,class:^(steam)$
+      windowrulev2 = minsize 1 1, title:^()$,class:^(steam)$
+      windowrulev2 = opacity 0.9 0.7, class:^(thunar)$
 
       # keepassxc auto start and move to special workspace (scratchpad)
-      exec-once = [workspace special:keepassxc] keepassxc
+      exec-once = [workspace special:keepassxc silent] keepassxc
       windowrulev2 = float, class:org.keepassxc.KeePassXC
       windowrulev2 = size 40% 40%, class:org.keepassxc.KeePassXC
       windowrulev2 = workspace special:keepassxc, class:org.keepassxc.KeePassXC
-      bind = $mainMod SHIFT, P, togglespecialworkspace, keepassxc
+      bind = $mainMod SHIFT, P, exec, hyprctl dispatch togglespecialworkspace keepassxc && hyprctl dispatch centerwindow
 
       # wechat
-      windowrulev2 = float, initialTitle:微信
+      # windowrulev2 = float, initialTitle:微信
       windowrulev2 = noborder, initialTitle:微信
-      windowrulev2 = float, initialClass:wechat
+      # windowrulev2 = float, initialClass:wechat
       windowrulev2 = noborder, initialClass:wechat
       windowrulev2 = centerwindow, initialTitle:微信
       windowrulev2 = workspace special:wechat, initialClass:wechat
       windowrulev2 = workspace special:wechat, initialClass:微信
       bind = $mainMod SHIFT, W, togglespecialworkspace, wechat
-
     '';
-    # extraConfig =
-    #   let
-    #     modifier = "SUPER";
-    #   in
-    #   concatStrings [
-    #     ''
-    #       env = NIXOS_OZONE_WL, 1
-    #       env = NIXPKGS_ALLOW_UNFREE, 1
-    #       env = XDG_CURRENT_DESKTOP, Hyprland
-    #       env = XDG_SESSION_TYPE, wayland
-    #       env = XDG_SESSION_DESKTOP, Hyprland
-    #       env = GDK_BACKEND, wayland, x11
-    #       env = CLUTTER_BACKEND, wayland
-    #       env = QT_QPA_PLATFORM=wayland;xcb
-    #       env = QT_WAYLAND_DISABLE_WINDOWDECORATION, 1
-    #       env = QT_AUTO_SCREEN_SCALE_FACTOR, 1
-    #       env = SDL_VIDEODRIVER, x11
-    #       env = MOZ_ENABLE_WAYLAND, 1
-    #       exec-once = dbus-update-activation-environment --systemd --all
-    #       exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-    #       exec-once = killall -q swww;sleep .5 && swww init
-    #       exec-once = killall -q waybar;sleep .5 && waybar
-    #       exec-once = killall -q swaync;sleep .5 && swaync
-    #       exec-once = nm-applet --indicator
-    #       exec-once = lxqt-policykit-agent
-    #       exec-once = sleep 1.5 && swww img /home/${username}/Pictures/Wallpapers/beautifulmountainscape.jpg
-    #       monitor=,preferred,auto,1
-    #       ${extraMonitorSettings}
-    #       general {
-    #         gaps_in = 6
-    #         gaps_out = 8
-    #         border_size = 2
-    #         layout = dwindle
-    #         resize_on_border = true
-    #         col.active_border = rgb(${config.stylix.base16Scheme.base08}) rgb(${config.stylix.base16Scheme.base0C}) 45deg
-    #         col.inactive_border = rgb(${config.stylix.base16Scheme.base01})
-    #       }
-    #       input {
-    #         kb_layout = ${keyboardLayout}
-    #         kb_options = grp:alt_shift_toggle
-    #         kb_options = caps:super
-    #         follow_mouse = 1
-    #         touchpad {
-    #           natural_scroll = true
-    #           disable_while_typing = true
-    #           scroll_factor = 0.8
-    #         }
-    #         sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
-    #         accel_profile = flat
-    #       }
-    #       windowrule = noborder,^(wofi)$
-    #       windowrule = center,^(wofi)$
-    #       windowrule = center,^(steam)$
-    #       windowrule = float, nm-connection-editor|blueman-manager
-    #       windowrule = float, swayimg|vlc|Viewnior|pavucontrol
-    #       windowrule = float, nwg-look|qt5ct|mpv
-    #       windowrule = float, zoom
-    #       windowrulev2 = stayfocused, title:^()$,class:^(steam)$
-    #       windowrulev2 = minsize 1 1, title:^()$,class:^(steam)$
-    #       windowrulev2 = opacity 0.9 0.7, class:^(Brave)$
-    #       windowrulev2 = opacity 0.9 0.7, class:^(thunar)$
-    #       gestures {
-    #         workspace_swipe = true
-    #         workspace_swipe_fingers = 3
-    #       }
-    #       misc {
-    #         initial_workspace_tracking = 0
-    #         mouse_move_enables_dpms = true
-    #         key_press_enables_dpms = false
-    #       }
-    #       animations {
-    #         enabled = yes
-    #         bezier = wind, 0.05, 0.9, 0.1, 1.05
-    #         bezier = winIn, 0.1, 1.1, 0.1, 1.1
-    #         bezier = winOut, 0.3, -0.3, 0, 1
-    #         bezier = liner, 1, 1, 1, 1
-    #         animation = windows, 1, 6, wind, slide
-    #         animation = windowsIn, 1, 6, winIn, slide
-    #         animation = windowsOut, 1, 5, winOut, slide
-    #         animation = windowsMove, 1, 5, wind, slide
-    #         animation = border, 1, 1, liner
-    #         animation = fade, 1, 10, default
-    #         animation = workspaces, 1, 5, wind
-    #       }
-    #       decoration {
-    #         rounding = 10
-    #         drop_shadow = true
-    #         shadow_range = 4
-    #         shadow_render_power = 3
-    #         col.shadow = rgba(1a1a1aee)
-    #         blur {
-    #             enabled = true
-    #             size = 5
-    #             passes = 3
-    #             new_optimizations = on
-    #             ignore_opacity = off
-    #         }
-    #       }
-    #       plugin {
-    #         hyprtrails {
-    #         }
-    #       }
-    #       dwindle {
-    #         pseudotile = true
-    #         preserve_split = true
-    #       }
-    #       bind = ${modifier},Return,exec,${terminal}
-    #       bind = ${modifier}SHIFT,Return,exec,rofi-launcher
-    #       bind = ${modifier}SHIFT,W,exec,web-search
-    #       bind = ${modifier}ALT,W,exec,wallsetter
-    #       bind = ${modifier}SHIFT,N,exec,swaync-client -rs
-    #       bind = ${modifier},W,exec,${browser}
-    #       bind = ${modifier},E,exec,emopicker9000
-    #       bind = ${modifier},S,exec,screenshootin
-    #       bind = ${modifier},D,exec,discord
-    #       bind = ${modifier},O,exec,obs
-    #       bind = ${modifier},C,exec,hyprpicker -a
-    #       bind = ${modifier},G,exec,gimp
-    #       bind = ${modifier}SHIFT,G,exec,godot4
-    #       bind = ${modifier},T,exec,thunar
-    #       bind = ${modifier},M,exec,spotify
-    #       bind = ${modifier},Q,killactive,
-    #       bind = ${modifier},P,pseudo,
-    #       bind = ${modifier}SHIFT,I,togglesplit,
-    #       bind = ${modifier},F,fullscreen,
-    #       bind = ${modifier}SHIFT,F,togglefloating,
-    #       bind = ${modifier}SHIFT,C,exit,
-    #       bind = ${modifier}SHIFT,left,movewindow,l
-    #       bind = ${modifier}SHIFT,right,movewindow,r
-    #       bind = ${modifier}SHIFT,up,movewindow,u
-    #       bind = ${modifier}SHIFT,down,movewindow,d
-    #       bind = ${modifier}SHIFT,h,movewindow,l
-    #       bind = ${modifier}SHIFT,l,movewindow,r
-    #       bind = ${modifier}SHIFT,k,movewindow,u
-    #       bind = ${modifier}SHIFT,j,movewindow,d
-    #       bind = ${modifier},left,movefocus,l
-    #       bind = ${modifier},right,movefocus,r
-    #       bind = ${modifier},up,movefocus,u
-    #       bind = ${modifier},down,movefocus,d
-    #       bind = ${modifier},h,movefocus,l
-    #       bind = ${modifier},l,movefocus,r
-    #       bind = ${modifier},k,movefocus,u
-    #       bind = ${modifier},j,movefocus,d
-    #       bind = ${modifier},1,workspace,1
-    #       bind = ${modifier},2,workspace,2
-    #       bind = ${modifier},3,workspace,3
-    #       bind = ${modifier},4,workspace,4
-    #       bind = ${modifier},5,workspace,5
-    #       bind = ${modifier},6,workspace,6
-    #       bind = ${modifier},7,workspace,7
-    #       bind = ${modifier},8,workspace,8
-    #       bind = ${modifier},9,workspace,9
-    #       bind = ${modifier},0,workspace,10
-    #       bind = ${modifier}SHIFT,SPACE,movetoworkspace,special
-    #       bind = ${modifier},SPACE,togglespecialworkspace
-    #       bind = ${modifier}SHIFT,1,movetoworkspace,1
-    #       bind = ${modifier}SHIFT,2,movetoworkspace,2
-    #       bind = ${modifier}SHIFT,3,movetoworkspace,3
-    #       bind = ${modifier}SHIFT,4,movetoworkspace,4
-    #       bind = ${modifier}SHIFT,5,movetoworkspace,5
-    #       bind = ${modifier}SHIFT,6,movetoworkspace,6
-    #       bind = ${modifier}SHIFT,7,movetoworkspace,7
-    #       bind = ${modifier}SHIFT,8,movetoworkspace,8
-    #       bind = ${modifier}SHIFT,9,movetoworkspace,9
-    #       bind = ${modifier}SHIFT,0,movetoworkspace,10
-    #       bind = ${modifier}CONTROL,right,workspace,e+1
-    #       bind = ${modifier}CONTROL,left,workspace,e-1
-    #       bind = ${modifier},mouse_down,workspace, e+1
-    #       bind = ${modifier},mouse_up,workspace, e-1
-    #       bindm = ${modifier},mouse:272,movewindow
-    #       bindm = ${modifier},mouse:273,resizewindow
-    #       bind = ALT,Tab,cyclenext
-    #       bind = ALT,Tab,bringactivetotop
-    #       bind = ,XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
-    #       bind = ,XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-    #       binde = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-    #       bind = ,XF86AudioPlay, exec, playerctl play-pause
-    #       bind = ,XF86AudioPause, exec, playerctl play-pause
-    #       bind = ,XF86AudioNext, exec, playerctl next
-    #       bind = ,XF86AudioPrev, exec, playerctl previous
-    #       bind = ,XF86MonBrightnessDown,exec,brightnessctl set 5%-
-    #       bind = ,XF86MonBrightnessUp,exec,brightnessctl set +5%
-    #     ''
-    #   ];
   };
 }

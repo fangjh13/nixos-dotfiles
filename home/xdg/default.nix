@@ -3,6 +3,7 @@ let
   browser = [ "firefox.desktop" ];
 
   # XDG MIME types
+  # find .desktop files in $XDG_DATA_DIRS
   associations = {
     "application/x-extension-htm" = browser;
     "application/x-extension-html" = browser;
@@ -23,7 +24,7 @@ let
     "image/png" = [ "imv-dir.desktop" ];
     "image/jpeg" = [ "imv-dir.desktop" ];
     "application/json" = browser;
-    "application/pdf" = [ "org.gnome.Evince.desktop" ];
+    "application/pdf" = [ "org.pwmt.zathura.desktop;" ];
     "x-scheme-handler/discord" = [ "discordcanary.desktop" ];
     "x-scheme-handler/spotify" = [ "spotify.desktop" ];
     "x-scheme-handler/tg" = [ "telegramdesktop.desktop" ];
@@ -51,5 +52,11 @@ in {
         XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/Screenshots";
       };
     };
+  };
+
+  # link wallpapers into home Pictures directory
+  home.file."Pictures/Wallpapers" = {
+    source = ../../wallpapers;
+    recursive = true;
   };
 }

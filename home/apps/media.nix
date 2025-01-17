@@ -1,14 +1,10 @@
-{ pkgs, config, ... }:
-# media - control and enjoy audio/video
-{
-  # imports = [
-  # ];
+# media - control and view tools audio/video/image
+{ pkgs, config, ... }: {
 
   home.packages = with pkgs; [
     # audio control
     pavucontrol
     playerctl
-    pulsemixer
     # images
     imv
   ];

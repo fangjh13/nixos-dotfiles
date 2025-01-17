@@ -1,10 +1,11 @@
 { pkgs, config, ... }:
 
 {
-  home.packages = with pkgs; [
+  home.packages = with pkgs;
+    [
       # notification daemon
       swaynotificationcenter
-  ];
+    ];
 
   home.file.".config/swaync/config.json".text = ''
     {
@@ -61,7 +62,7 @@
         },
         "backlight": {
           "label": "󰃟"
-        },
+        }
       }
     }
   '';

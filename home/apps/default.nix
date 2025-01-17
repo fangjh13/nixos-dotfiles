@@ -6,7 +6,6 @@
     ./nvim
     ./git.nix
     ./media.nix
-    ./xdg.nix
     ./tmux
     ./python
     ./go
