@@ -1,13 +1,14 @@
 { pkgs, username, ... }: {
 
   environment.systemPackages = with pkgs; [
-  greetd.tuigreet
-  # thunar need for image preview (https://gitlab.xfce.org/xfce/thunar/-/issues/1285)
-  xfce.xfconf
-  # LXQt PolicyKit agent
-  lxqt.lxqt-policykit
-  # GNOME network-manager-aplet
-  networkmanagerapplet
+    # Graphical console greeter for greetd.
+    greetd.tuigreet
+    # thunar need for image preview (https://gitlab.xfce.org/xfce/thunar/-/issues/1285)
+    xfce.xfconf
+    # LXQt PolicyKit agent
+    lxqt.lxqt-policykit
+    # GNOME network-manager-aplet
+    networkmanagerapplet
   ];
 
   services = {
@@ -59,8 +60,8 @@
   programs.seahorse.enable = true;
   # Enables GnuPG agent with socket-activation for every user session.
   programs.gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
+    enable = true;
+    enableSSHSupport = true;
+  };
 
 }

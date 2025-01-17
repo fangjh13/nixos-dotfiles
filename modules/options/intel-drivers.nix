@@ -1,14 +1,7 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}:
+{ lib, pkgs, config, ... }:
 with lib;
-let
-  cfg = config.drivers.intel;
-in
-{
+let cfg = config.drivers.intel;
+in {
   options.drivers.intel = {
     enable = mkEnableOption "Enable Intel Graphics Drivers";
   };
@@ -20,20 +13,17 @@ in
 
     # OpenGL
     hardware = {
-      opengl = {
+      graphics = {
         enable = true;
         extraPackages = with pkgs; [
-        # intel-media-driver
-        # intel-media-sdk
-        # mesa.drivers
           intel-media-driver
           vaapiIntel
           vaapiVdpau
           libvdpau-va-gl
         ];
       };
-    # intel_gpu_top command
-    intel-gpu-tools.enable = true;
+      # intel_gpu_top command
+      intel-gpu-tools.enable = true;
     };
   };
 }

@@ -1,16 +1,24 @@
 {
-  # Hyprland Settings
-  extraMonitorSettings = "";
+  # Hyprland Monitor config
+  monitor = ''
+    # default
+    # monitor=,preferred,auto,auto
 
-  # Waybar Settings
-  clock24h = false;
+    # 4k monitor
+    monitor=,preferred,3840x2160@60,2
+  '';
+
   # Choose a wallpaper file name from wallpapers folder
   wallpaper = "SpaceX_20241013_192337_1845545948283572503_photo.jpg";
+
   timezone = "Asia/Shanghai";
 
-  # Program Options
-  browser ="firefox"; # Set Default Browser (google-chrome-stable for google-chrome)
-  terminal = "kitty"; # Set Default System Terminal
-  keyboardLayout = "us";
+  # Bookmarks in the sidebar of the GTK file browser
+  bookmarks = [
+    "file:///home/fython/Downloads Downloads"
+    "file:///home/fython/Documents Documents"
+    "file:///home/fython/Pictures Pictures"
+    "file:///home/fython/SynologyDrive Drive"
+  ];
 }
 

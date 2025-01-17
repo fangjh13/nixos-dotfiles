@@ -24,11 +24,11 @@ in {
   };
   environment.shells = [ pkgs.bashInteractive pkgs.zsh ];
 
-  # FIXME: Define a user account. Don't forget to set a password with ‘passwd’.
+  # NOTE: Define a main user account
   users.users."${username}" = {
     isNormalUser = true;
     description = capitalize "${username}";
-    extraGroups = [ "networkmanager" "wheel" "audio" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     openssh.authorizedKeys.keys = [ ];
     shell = pkgs.zsh;
   };
@@ -128,23 +128,10 @@ in {
   services.power-profiles-daemon = { enable = true; };
   security.polkit.enable = true;
 
-  # Enable sound with pulseaudio or pipewire.
-  hardware.pulseaudio.enable = true;
-  # If compatibility with 32-bit applications is desired.
-  hardware.pulseaudio.support32Bit = true;
-  # Or use pipewire
-  services = {
-    pipewire = {
-      enable = false;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      # jack.enable = true;
-    };
-  };
-
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
+
+  # Enable PAM hyprlock to perform authentication
+  security.pam.services.hyprlock = { };
 
   # Bluetooth
   # https://nixos.wiki/wiki/Bluetooth

@@ -10,6 +10,8 @@
 
     # import options modules
     ../../modules/options/intel-drivers.nix
+    ../../modules/options/pulseaudio.nix
+    ../../modules/options/pipewire.nix
 
     # Use i3
     # FIXME: specify video drivers
@@ -26,9 +28,12 @@
     ./hardware-configuration.nix
   ];
 
-  # Enable imported option modules if you need
+  # NOTE: Enable imported option modules if you need
   # FIXME: This computer is CPU: Intel 8700 and No other GPU
   drivers.intel.enable = true;
+  # Enable sound with pipwire or pulseaudio. If you are not experiencing strange problems please use the more advanced pirewire
+  multimedia.pipewire.enable = false;
+  multimedia.pulseaudio.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
