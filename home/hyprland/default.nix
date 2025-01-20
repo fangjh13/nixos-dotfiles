@@ -430,7 +430,7 @@ in with lib; {
       # keepassxc auto start and move to special workspace (scratchpad)
       exec-once = [workspace special:keepassxc silent] keepassxc
       windowrulev2 = float, class:org.keepassxc.KeePassXC
-      windowrulev2 = size 40% 40%, class:org.keepassxc.KeePassXC
+      windowrulev2 = center, floating:1, class:org.keepassxc.KeePassXC
       windowrulev2 = workspace special:keepassxc, class:org.keepassxc.KeePassXC
       bind = $mainMod SHIFT, P, exec, hyprctl dispatch togglespecialworkspace keepassxc && hyprctl dispatch centerwindow
 

@@ -1,3 +1,4 @@
+# https://wiki.nixos.org/wiki/Intel_Graphics
 { lib, pkgs, config, ... }:
 with lib;
 let cfg = config.drivers.intel;
