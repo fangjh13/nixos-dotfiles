@@ -1,15 +1,14 @@
 {
   # Hyprland Monitor config
   monitor = ''
-    # default
     # monitor=,preferred,auto,auto
-
-    # 4k monitor
-    monitor=,preferred,3840x2160@60,2
+    # or 4k monitor like this
+    monitor=,preferred,3840x2160@60,1.5
   '';
 
   # `ctrl:nocaps` Caps Lock as Ctrl
-  xkbOptions = "ctrl:nocaps";
+  # `altwin:swap_lalt_lwin` Left Alt is swapped with Left Win
+  xkbOptions = "ctrl:nocaps,altwin:swap_lalt_lwin";
 
   # Choose a wallpaper file name from wallpapers folder
   wallpaper = "SpaceX_20241013_192337_1845545948283572503_photo.jpg";
