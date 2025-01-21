@@ -14,6 +14,8 @@
     ../../modules/options/pulseaudio.nix
     ../../modules/options/pipewire.nix
     ../../modules/options/zen-kernel.nix
+    ../../modules/options/docker.nix
+    ../../modules/options/podman.nix
 
     # Use i3
     # FIXME: specify video drivers
@@ -39,6 +41,9 @@
   multimedia.pulseaudio.enable = true;
   # whether use zen kernel
   kernel.zen.enable = true;
+  # Docker or Podman
+  addon.docker.enable = false;
+  addon.podman.enable = false;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

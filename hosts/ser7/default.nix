@@ -1,57 +1,63 @@
 # Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# your system. Help is available in the configuration.nix(5) man page, on
+# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, lib, ... }@args:
+{ config, pkgs, host, ... }@args:
 
 {
   imports = [
     ../../modules/system.nix
 
-    # Use i3
-    # FIXME: specify video drivers
-    (import ../../modules/i3.nix (args // {
-      videoDrivers = [ "amdgpu" ];
-      xkbOptions = "ctrl:nocaps,altwin:swap_lalt_lwin";
-    }))
-    # Or use plasma5
-    # ../../modules/plasma5.nix
+    # import options modules
+    ../../modules/options/intel-drivers.nix
+    ../../modules/options/amdgpu-drivers.nix
+    ../../modules/options/pulseaudio.nix
+    ../../modules/options/pipewire.nix
+    ../../modules/options/zen-kernel.nix
+    ../../modules/options/docker.nix
+    ../../modules/options/podman.nix
+
+    # wayland compositor
+    ../../modules/hyprland.nix
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
     # Add clash service for freedom
-    ../../modules/gfw.nix
+    ../../modules/options/gfw.nix
 
     # Add frpc service
-    ../../modules/frpc.nix
-
-    # Add Docker
-    # ../../modules/docker.nix
-
-    ../../modules/podman.nix
-
+    ../../modules/options/frpc.nix
   ];
 
-  # FIXME: Use the systemd-boot EFI boot loader.
+  # NOTE: Enable imported option modules if you need
+  drivers.intel.enable = false;
+  drivers.amdgpu.enable = false;
+  # Enable sound with pipwire or pulseaudio. If you are not experiencing strange problems please use the more advanced pirewire
+  multimedia.pipewire.enable = true;
+  multimedia.pulseaudio.enable = false;
+  # whether use zen kernel
+  kernel.zen.enable = false;
+  # Docker or Podman
+  addon.docker.enable = false;
+  addon.podman.enable = true;
+
+  # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # Prevent boot partition running out of disk space
-  boot.loader.systemd-boot.configurationLimit = 10;
+  # Plymouth boot splash screen
+  boot.plymouth.enable = true;
 
-  # NOTE: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics
-  hardware = {
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
-  };
-  environment.systemPackages = with pkgs; [ amdgpu_top ];
-
-  # FIXME: Pick only one of the below networking options.
+  # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable =
     true; # Easiest to use and most distros use this by default.
+  networking.hostName = "${host}";
+
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.s = [ ... ];
+  # Or disable the firewall altogether.
+  networking.firewall.enable = false;
 
   # Disable DNS management by NetworkManager
   networking.networkmanager.dns = "none";
@@ -63,33 +69,14 @@
 
   networking.enableIPv6 = false; # disable ipv6
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp2s0.useDHCP = lib.mkDefault true;
-
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.s = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
-
-  # FIXME: define your hostname
-  networking.hostName = "ser7";
-
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Select internationalisation properties.
-  #i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
+  # Copy the NixOS configuration file and link it from the resulting system
+  # (/run/current-system/configuration.nix). This is useful in case you
+  # accidentally delete configuration.nix.
+  # system.copySystemConfiguration = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -110,4 +97,3 @@
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.05"; # Did you read the comment?
 }
-

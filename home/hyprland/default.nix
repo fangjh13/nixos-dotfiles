@@ -1,6 +1,6 @@
 { pkgs, lib, username, host, config, inputs, ... }@args:
 
-let inherit (import ../../hosts/${host}/variables.nix) monitor wallpaper;
+let inherit (import ../../hosts/${host}/variables.nix) monitor xkbOptions;
 in with lib; {
 
   imports = [
@@ -222,7 +222,7 @@ in with lib; {
           kb_layout = us
           kb_variant =
           kb_model =
-          kb_options = ctrl:nocaps # Remap Caps-Lock to Ctrl
+          kb_options = ${xkbOptions}
           kb_rules =
 
           follow_mouse = 1

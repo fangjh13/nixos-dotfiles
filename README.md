@@ -45,6 +45,7 @@ Change the hostname and username in `flake.nix` and some other configurations in
 Rebuild NixOS
 
 ```shell
+git add .
 git submodule init
 git submodule update --remote
 NIX_CONFIG="experimental-features = nix-command flakes"
