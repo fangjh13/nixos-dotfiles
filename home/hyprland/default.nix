@@ -435,13 +435,26 @@ in with lib; {
       bind = $mainMod SHIFT, P, exec, hyprctl dispatch togglespecialworkspace keepassxc && hyprctl dispatch centerwindow
 
       # wechat
-      # windowrulev2 = float, initialTitle:微信
       windowrulev2 = noborder, initialTitle:微信
-      # windowrulev2 = float, initialClass:wechat
-      windowrulev2 = noborder, initialClass:wechat
+      windowrulev2 = float, initialTitle:微信
       windowrulev2 = centerwindow, initialTitle:微信
+      # 发送文件
+      windowrulev2 = pin, class:^(wechat)$, title:^(Open)$
+      # 点击出来的框框
+      windowrulev2 = noborder, title:^(wechat)$, class:^(wechat)$
+      windowrulev2 = noanim, title:^(wechat)$, class:^(wechat)$
+      windowrulev2 = pin, title:^(wechat)$, class:^(wechat)$
+      windowrulev2 = move onscreen cursor, title:^(wechat)$, class:^(wechat)$
+      # 聊天记录
+      windowrulev2 = float, title:^(.*聊天记录.*)$, class:^(wechat)$
+      # 图片预览
+      windowrulev2 = float, title:^(预览)$, class:^(wechat)$
+      windowrulev2 = centerwindow, title:^(预览)$, class:^(wechat)$
+      # 公众号
+      windowrulev2 = float, title:^(公众号)$, class:^()$
+      # move all to special workspace
       windowrulev2 = workspace special:wechat, initialClass:wechat
-      windowrulev2 = workspace special:wechat, initialClass:微信
+      windowrulev2 = workspace special:wechat, initialTitle:微信
       bind = $mainMod SHIFT, W, togglespecialworkspace, wechat
     '';
   };
