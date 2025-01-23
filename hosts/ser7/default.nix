@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, host, ... }@args:
+{ host, ... }@args:
 
 {
   imports = [
@@ -14,11 +14,11 @@
     ../../modules/options/pulseaudio.nix
     ../../modules/options/pipewire.nix
     ../../modules/options/zen-kernel.nix
-    ../../modules/options/docker.nix
+    (import ../../modules/options/docker.nix args)
     ../../modules/options/podman.nix
 
     # wayland compositor
-    ../../modules/hyprland.nix
+    ../../modules/wm/hyprland.nix
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
