@@ -9,6 +9,7 @@ let
 in {
   imports = [
     ./common.nix
+    ./bluetooth.nix
     (import ./stylix.nix (args // { wallpaper = "${wallpaper}"; }))
     ./fonts.nix
     ./ssh.nix
@@ -134,15 +135,6 @@ in {
 
   # Enable PAM hyprlock to perform authentication
   security.pam.services.hyprlock = { };
-
-  # Bluetooth
-  # https://nixos.wiki/wiki/Bluetooth
-  hardware.bluetooth = {
-    enable = true; # enables support for Bluetooth
-    powerOnBoot = true; # powers up the default Bluetooth controller on boot
-  };
-  # use blueman-applet and blueman-manager
-  services.blueman.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;

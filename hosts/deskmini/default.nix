@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, host, ... }@args:
+{ host, ... }@args:
 
 {
   imports = [
@@ -14,16 +14,17 @@
     ../../modules/options/pulseaudio.nix
     ../../modules/options/pipewire.nix
     ../../modules/options/zen-kernel.nix
-    ../../modules/options/docker.nix
+    (import ../../modules/options/docker.nix
+      (args // { storageDriver = "btrfs"; }))
     ../../modules/options/podman.nix
 
     # Use i3
     # FIXME: specify video drivers
-    # (import ../../modules/i3.nix (args // { videoDrivers = [ "intel" ]; }))
+    # (import ../../modules/wm/i3.nix (args // { videoDrivers = [ "intel" ]; }))
     # or use default
-    # (import ../../modules/i3.nix (args))
+    # (import ../../modules/wm/i3.nix (args))
 
-    ../../modules/hyprland.nix
+    ../../modules/wm/hyprland.nix
 
     # plasma5
     # ../../modules/plasma5.nix

@@ -8,6 +8,7 @@
 | [rofi-wayland](https://github.com/lbonn/rofi)                                                   | Application launcher      |
 | [waybar](https://github.com/Alexays/Waybar)                                                     | Status bar                |
 | [swaynotificationcenter](https://github.com/ErikReider/SwayNotificationCenter)                  | Notifications daemons     |
+| [hyprlock](https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/)                                  | Screen lock               |
 | [thunar](https://gitlab.xfce.org/xfce/thunar)                                                   | File manager              |
 | [lxqt-policykit](https://github.com/lxqt/lxqt-policykit)                                        | GUI PolicyKit agent       |
 | [cliphist](https://github.com/sentriz/cliphist)                                                 | Clipboard manager         |
