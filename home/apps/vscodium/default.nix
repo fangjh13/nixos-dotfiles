@@ -6,11 +6,23 @@
     enableUpdateCheck = false;
     # community-driven vscode, Telemetry is disabled.
     package = pkgs-unstable.vscodium;
+    # if you need Remote SSH extension use official vscode
+    # package = pkgs-unstable.vscode;
     extensions = with pkgs-unstable.vscode-extensions; [
-      vscodevim.vim # vim keybinding
-      mkhl.direnv # direnv support
-      jnoortheen.nix-ide # Nix language support
-      golang.go # Go language
+      # vim keybinding
+      vscodevim.vim
+      # direnv support
+      mkhl.direnv
+      # Nix language support
+      jnoortheen.nix-ide
+      # Go language
+      golang.go
+      # Rust language
+      rust-lang.rust-analyzer
+      # Toml
+      tamasfe.even-better-toml
+      # Remote SSH
+      # ms-vscode-remote.remote-ssh # can not use vscodium package
     ];
     userSettings = {
       "terminal.integrated.copyOnSelection" = true;

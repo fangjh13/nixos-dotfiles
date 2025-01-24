@@ -427,6 +427,7 @@ in with lib; {
       windowrulev2 = minsize 1 1, title:^()$,class:^(steam)$
       windowrulev2 = opacity 0.9 0.7, class:^(thunar)$
       windowrulev2 = float, title:^(Authentication Required)$
+      windowrulev2 = float, title:^(Open Folder)$
 
       # keepassxc auto start and move to special workspace (scratchpad)
       exec-once = [workspace special:keepassxc silent] keepassxc
