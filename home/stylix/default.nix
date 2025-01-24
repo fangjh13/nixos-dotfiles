@@ -10,6 +10,7 @@
     targets.waybar.enable = false;
     targets.hyprland.enable = false;
     targets.hyprlock.enable = false;
+    targets.vscode.enable = false;
     targets.gtk.enable = false;
   };
 }
