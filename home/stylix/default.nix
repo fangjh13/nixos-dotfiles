@@ -12,5 +12,6 @@
     targets.hyprlock.enable = false;
     targets.vscode.enable = false;
     targets.gtk.enable = false;
+    targets.qt.enable = false;
   };
 }

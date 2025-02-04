@@ -25,11 +25,9 @@
         package = pkgs.noto-fonts;
         name = "Noto Serif";
       };
-      sizes = {
-        applications = 12;
-        terminal = 15;
-        desktop = 11;
-        popups = 12;
+      emoji = {
+        name = "Noto Color Emoji";
+        package = pkgs.noto-fonts-emoji-blob-bin;
       };
     };
   };
