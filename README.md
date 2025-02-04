@@ -19,6 +19,13 @@
 
 ### Install
 
+#### Requires
+
+- nixos system
+- git command installed
+
+---
+
 Clone this repo to local and enter it.
 
 ```shell

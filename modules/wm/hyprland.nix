@@ -1,5 +1,7 @@
 { pkgs, username, ... }: {
 
+  imports = [ ../gpg.nix ];
+
   environment.systemPackages = with pkgs; [
     # Graphical console greeter for greetd.
     greetd.tuigreet
@@ -58,10 +60,5 @@
   services.gnome.gnome-keyring.enable = true;
   # a GNOME application for managing encryption keys and passwords in the GNOME Keyring
   programs.seahorse.enable = true;
-  # Enables GnuPG agent with socket-activation for every user session.
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
 
 }
