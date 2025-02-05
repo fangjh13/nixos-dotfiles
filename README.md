@@ -19,7 +19,7 @@
 
 ### Install
 
-#### Requires
+#### Requirements
 
 - nixos system
 - git command installed
