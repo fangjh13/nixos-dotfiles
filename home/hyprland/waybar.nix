@@ -15,6 +15,7 @@ in with lib; {
       modules-left =
         [ "custom/startmenu" "hyprland/window" "pulseaudio" "cpu" "memory" ];
       modules-right = [
+        "network"
         "idle_inhibitor"
         "custom/notification"
         "custom/exit"
@@ -35,10 +36,27 @@ in with lib; {
       };
       "clock" = {
         format = if clock24h then " {:L%H:%M}" else " {:L%I:%M %p}";
+        format-alt = " {:%A, %B %d, %Y (%R)}";
         tooltip = true;
-        tooltip-format = ''
-          <big>{:%A, %d.%B %Y }</big>
-          <tt><small>{calendar}</small></tt>'';
+        tooltip-format = "<tt><small>{calendar}</small></tt>";
+        calendar = {
+          mode = "year";
+          mode-mon-col = 3;
+          weeks-pos = "right";
+          on-scroll = 1;
+          format = {
+            months = "<span color='#ffead3'><b>{}</b></span>";
+            days = "<span color='#ecc6d9'><b>{}</b></span>";
+            weeks = "<span color='#99ffdd'><b>W{}</b></span>";
+            weekdays = "<span color='#ffcc66'><b>{}</b></span>";
+            today = "<span color='#ff6699'><b><u>{}</u></b></span>";
+          };
+        };
+        actions = {
+          on-click-right = "mode";
+          on-scroll-up = "shift_up";
+          on-scroll-down = "shift_down";
+        };
       };
       "hyprland/window" = {
         max-length = 22;
@@ -60,14 +78,19 @@ in with lib; {
         tooltip = true;
       };
       "network" = {
-        format-icons = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
-        format-ethernet = " {bandwidthDownOctets}";
-        format-wifi = "{icon} {signalStrength}%";
-        format-disconnected = "󰤮";
-        tooltip = true;
-        tooltip-format = "{essid} {signalStrength}% {ifname} via {gwaddr} ";
-        format-linked = "{ifname} (No IP) ";
+        interval = 1;
         format-alt = "{ifname} {gwaddr}";
+        format-icons = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
+        format-wifi = "{icon}  {bandwidthDownBytes}  {bandwidthUpBytes} ";
+        format-ethernet = "{icon}  {bandwidthDownBytes}  {bandwidthUpBytes} ";
+        format-disconnected = "󰌙";
+        tooltip-format = "{essid} {signalStrength}% {ifname} via {gwaddr}";
+        format-linked = "󰈁 {ifname} (No IP)";
+        tooltip-format-wifi =
+          "{essid} {ipaddr} {icon} {signalStrength}% {frequency}GHz";
+        tooltip-format-ethernet = "{ifname} {ipaddr} 󰌘";
+        tooltip-format-disconnected = "󰌙 Disconnected";
+        max-length = 30;
       };
       "tray" = { spacing = 12; };
       "pulseaudio" = {
@@ -213,11 +236,21 @@ in with lib; {
         padding: 0px 28px 0px 13px;
         border-radius: 0px 0px 40px 0px;
       }
-      #idle_inhibitor, #network, #battery,
+      #idle_inhibitor, #battery,
       #custom-notification, #tray, #custom-exit {
         font-weight: bold;
         background: #${config.stylix.base16Scheme.base0F};
         color: #${config.stylix.base16Scheme.base00};
+        margin: 4px 0px;
+        margin-right: 7px;
+        border-radius: 10px 24px 10px 24px;
+        padding: 0px 18px;
+      }
+      #network {
+        color: #${config.stylix.base16Scheme.base05};
+        border: 1px solid #${config.stylix.base16Scheme.base05};
+        background: transparent;
+        font-weight: bold;
         margin: 4px 0px;
         margin-right: 7px;
         border-radius: 10px 24px 10px 24px;
