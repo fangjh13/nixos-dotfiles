@@ -79,16 +79,16 @@ in with lib; {
       };
       "network" = {
         interval = 1;
-        format-alt = "{ifname} {gwaddr}";
+        format-alt = "{ifname} via {gwaddr}";
         format-icons = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
-        format-wifi = "{icon}  {bandwidthDownBytes}  {bandwidthUpBytes} ";
-        format-ethernet = "{icon}  {bandwidthDownBytes}  {bandwidthUpBytes} ";
+        format-wifi = "  {bandwidthDownBytes}  {bandwidthUpBytes} ";
+        format-ethernet = "󰈀  {bandwidthDownBytes}  {bandwidthUpBytes} ";
         format-disconnected = "󰌙";
         tooltip-format = "{essid} {signalStrength}% {ifname} via {gwaddr}";
         format-linked = "󰈁 {ifname} (No IP)";
         tooltip-format-wifi =
           "{essid} {ipaddr} {icon} {signalStrength}% {frequency}GHz";
-        tooltip-format-ethernet = "{ifname} {ipaddr} 󰌘";
+        tooltip-format-ethernet = "{ifname} {ipaddr} 󰈀";
         tooltip-format-disconnected = "󰌙 Disconnected";
         max-length = 30;
       };
@@ -119,7 +119,6 @@ in with lib; {
       "custom/startmenu" = {
         tooltip = false;
         format = "";
-        # exec = "rofi -show drun";
         on-click = "sleep 0.1 && rofi-launcher";
       };
       "idle_inhibitor" = {
