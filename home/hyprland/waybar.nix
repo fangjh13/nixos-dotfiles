@@ -166,7 +166,7 @@ in with lib; {
     style = ''
       * {
         font-family: Noto Sans Mono;
-        font-size: 12px;
+        font-size: 9px;
         border-radius: 0px;
         border: none;
         min-height: 0px;
@@ -177,13 +177,12 @@ in with lib; {
       #workspaces {
         color: #${config.stylix.base16Scheme.base00};
         background: #${config.stylix.base16Scheme.base01};
-        margin: 4px 4px;
         padding: 5px 5px;
         border-radius: 16px;
       }
       #workspaces button {
         font-weight: bold;
-        padding: 0px 5px;
+        padding: 0px 3px;
         margin: 0px 3px;
         border-radius: 16px;
         color: #${config.stylix.base16Scheme.base00};
@@ -193,14 +192,14 @@ in with lib; {
       }
       #workspaces button.active {
         font-weight: bold;
-        padding: 0px 5px;
+        padding: 0px 3px;
         margin: 0px 3px;
         border-radius: 16px;
         color: #${config.stylix.base16Scheme.base00};
         background: linear-gradient(45deg, #${config.stylix.base16Scheme.base08}, #${config.stylix.base16Scheme.base0D});
         transition: ${betterTransition};
         opacity: 1.0;
-        min-width: 40px;
+        min-width: 20px;
       }
       #workspaces button:hover {
         font-weight: bold;
@@ -230,7 +229,7 @@ in with lib; {
       #custom-startmenu {
         color: #${config.stylix.base16Scheme.base0B};
         background: #${config.stylix.base16Scheme.base02};
-        font-size: 28px;
+        font-size: 24px;
         margin: 0px;
         padding: 0px 28px 0px 13px;
         border-radius: 0px 0px 40px 0px;
