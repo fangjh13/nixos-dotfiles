@@ -12,8 +12,14 @@ in with lib; {
       layer = "top";
       position = "top";
       modules-center = [ "hyprland/workspaces" ];
-      modules-left =
-        [ "custom/startmenu" "hyprland/window" "pulseaudio" "cpu" "memory" ];
+      modules-left = [
+        "custom/startmenu"
+        "hyprland/window"
+        "pulseaudio"
+        "temperature"
+        "cpu"
+        "memory"
+      ];
       modules-right = [
         "network"
         "idle_inhibitor"
@@ -91,6 +97,11 @@ in with lib; {
         tooltip-format-ethernet = "{ifname} {ipaddr} 󰈀";
         tooltip-format-disconnected = "󰌙 Disconnected";
         max-length = 30;
+      };
+      "temperature" = {
+        critical-threshold = 80;
+        format = "{icon} {temperatureC}°C";
+        format-icons = [ "" "" "" ];
       };
       "tray" = { spacing = 12; };
       "pulseaudio" = {
@@ -217,7 +228,7 @@ in with lib; {
       tooltip label {
         color: #${config.stylix.base16Scheme.base08};
       }
-      #window, #pulseaudio, #cpu, #memory {
+      #window, #pulseaudio, #cpu, #temperature, #memory {
         font-weight: bold;
         margin: 4px 0px;
         margin-left: 7px;

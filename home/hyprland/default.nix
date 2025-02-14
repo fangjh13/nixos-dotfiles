@@ -118,8 +118,8 @@ in with lib; {
 
       # https://wiki.hyprland.org/Configuring/Variables/#general
       general {
-          gaps_in = 3
-          gaps_out = 8
+          gaps_in = 2
+          gaps_out = 5
 
           border_size = 1
 
