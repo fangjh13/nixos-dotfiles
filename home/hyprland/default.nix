@@ -13,7 +13,17 @@ in with lib; {
     ./screenshot.nix
   ];
 
-  home.packages = with pkgs; [
+  home.packages = let
+    # An archive manager utility for thunar
+    # wrap manual set dark theme
+    fileRollerWrapped = pkgs.file-roller.overrideAttrs (oldAttrs: {
+      postInstall = (oldAttrs.postInstall or "") + ''
+        wrapProgram $out/bin/file-roller \
+          --set GTK_THEME "WhiteSur-Dark-solid"
+      '';
+    });
+  in with pkgs; [
+    fileRollerWrapped
     # Wayland clipboard utilities (wl-copy and wl-paste)
     wl-clipboard
     # Wayland event viewer debug tool
@@ -22,8 +32,6 @@ in with lib; {
     xorg.xprop
     # control device brightness
     brightnessctl
-    # An archive manager utility for thunar
-    file-roller
     # GTK settings editor
     nwg-look
   ];
