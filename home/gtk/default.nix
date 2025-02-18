@@ -17,4 +17,14 @@ in {
     gtk3 = { bookmarks = bookmarks; };
   };
 
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/interface" = {
+        gtk-scheme = "WhiteSur-Dark-solid";
+        color-scheme = "prefer-dark";
+      };
+    };
+  };
+
 }
