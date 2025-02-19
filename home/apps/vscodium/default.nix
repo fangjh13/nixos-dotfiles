@@ -17,8 +17,6 @@
       jnoortheen.nix-ide
       # Go language
       golang.go
-      # Rust language
-      rust-lang.rust-analyzer
       # Toml
       tamasfe.even-better-toml
       # Remote SSH

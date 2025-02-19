@@ -1,4 +1,4 @@
-{ lib, pkgs, catppuccin-bat, pkgs-unstable, ... }: {
+{ lib, pkgs, pkgs-unstable, ... }: {
   home.packages = with pkgs;
     ([
       # archives
