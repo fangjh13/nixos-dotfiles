@@ -1,105 +1,113 @@
 { lib, pkgs, pkgs-unstable, ... }: {
-  home.packages = with pkgs;
-    ([
-      # archives
-      zip
-      unzip
-      unrar
-      xz
-      p7zip
+  home.packages = let
+    scale-wechat-bwrap =
+      pkgs.nur.repos.novel2430.wechat-universal-bwrap.overrideAttrs (oldAttrs: {
+        postInstall = (oldAttrs.postInstall or "") + ''
+          wrapProgram $out/bin/wechat-universal-bwrap \
+            --set QT_SCALE_FACTOR 1.5
+        '';
+      });
+  in with pkgs;
+  ([
+    # archives
+    zip
+    unzip
+    unrar
+    xz
+    p7zip
 
-      # utils
-      file
-      ripgrep # recursively searches directories for a regex pattern
-      yq-go # yaml processor https://github.com/mikefarah/yq
-      moreutils # sponge chronic errno ...
-      htop
-      killall
-      tree
-      android-tools
-      dnsutils
-      tokei # count code, quickly
-      fastfetch
+    # utils
+    file
+    ripgrep # recursively searches directories for a regex pattern
+    yq-go # yaml processor https://github.com/mikefarah/yq
+    moreutils # sponge chronic errno ...
+    htop
+    killall
+    tree
+    android-tools
+    dnsutils
+    tokei # count code, quickly
+    fastfetch
 
-      # misc
-      openssl
-      ffmpeg
-      libnotify
-      wineWowPackages.wayland
-      xdg-utils
-      graphviz
-      ncdu # disk usage analyzer
-      duf # `df` alternative
-      tlrc # Official `tldr` client written in Rust
-      lshw
-      dmidecode
+    # misc
+    openssl
+    ffmpeg
+    libnotify
+    wineWowPackages.wayland
+    xdg-utils
+    graphviz
+    ncdu # disk usage analyzer
+    duf # `df` alternative
+    tlrc # Official `tldr` client written in Rust
+    lshw
+    dmidecode
 
-      # productivity
-      obsidian
+    # productivity
+    obsidian
 
-      # IDE
-      insomnia # API debug
+    # IDE
+    insomnia # API debug
 
-      # cloud native
-      docker-compose
-      kubectl
+    # cloud native
+    docker-compose
+    kubectl
 
-      # db related
-      dbeaver-bin
-      mycli
-      pgcli
+    # db related
+    dbeaver-bin
+    mycli
+    pgcli
 
-      # nix related
-      #
-      # it provides the command `nom` works just like `nix`
-      # with more details log output
-      nix-output-monitor
+    # nix related
+    #
+    # it provides the command `nom` works just like `nix`
+    # with more details log output
+    nix-output-monitor
 
-      # system call monitoring
-      strace # system call monitoring
-      ltrace # library call monitoring
-      lsof # list open files
+    # system call monitoring
+    strace # system call monitoring
+    ltrace # library call monitoring
+    lsof # list open files
 
-      # system tools
-      sysstat
-      lm_sensors # for `sensors` command
-      ethtool
-      pciutils # lspci
-      usbutils # lsusb
-      # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
-      nvtopPackages.full
-      gpu-viewer
+    # system tools
+    sysstat
+    lm_sensors # for `sensors` command
+    ethtool
+    pciutils # lspci
+    usbutils # lsusb
+    # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
+    nvtopPackages.full
+    gpu-viewer
 
-      # office
-      libreoffice
-      # https://devenv.sh Developer Environments using Nix
-      pkgs-unstable.devenv
-      # Synology Drive Client
-      synology-drive-client
-      # Password manager
-      keepassxc
-      # notebook
-      logseq
-      # IM
-      nur.repos.novel2430.wechat-universal-bwrap
-      telegram-desktop
+    # office
+    libreoffice
+    # https://devenv.sh Developer Environments using Nix
+    pkgs-unstable.devenv
+    # Synology Drive Client
+    synology-drive-client
+    # Password manager
+    keepassxc
+    # notebook
+    logseq
+    # IM
+    scale-wechat-bwrap
+    telegram-desktop
+  ]
+  # C/C++ Languages
+    ++ [
+      gcc
+      gdb
+      cmake
+      gnumake
+      checkmake
+      pkg-config
     ]
-    # C/C++ Languages
-      ++ [
-        gcc
-        gdb
-        cmake
-        gnumake
-        checkmake
-        pkg-config
-      ]
-      # Rust
-      ++ [
-        rustc
-        pkgs-unstable.cargo # rust package manager
-      ]
-      # Web Development
-      ++ [ nodePackages.nodejs nodePackages.yarn nodePackages.typescript ]);
+    # Rust
+    ++ [
+      rustc
+      pkgs-unstable.cargo # rust package manager
+    ]
+    # Web Development
+    ++ [ nodePackages.nodejs nodePackages.yarn nodePackages.typescript ]);
 
   programs = {
 
