@@ -408,6 +408,8 @@ in with lib; {
       bind = $mainMod SHIFT, L, changegroupactive, f
 
       bind = $mainMod SHIFT, E, exec, wlogout
+      # hide waybar
+      bind = $mainMod SHIFT, M, exec, pkill -SIGUSR1 waybar
 
 
       # Volume Control
