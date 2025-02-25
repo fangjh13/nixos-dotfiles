@@ -90,6 +90,7 @@
     logseq
     # IM
     scale-wechat-bwrap
+    # wechat-uos
     telegram-desktop
   ]
   # C/C++ Languages
