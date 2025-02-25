@@ -92,6 +92,9 @@
     scale-wechat-bwrap
     # wechat-uos
     telegram-desktop
+    # man doc
+    man-pages
+    man-pages-posix
   ]
   # C/C++ Languages
     ++ [
