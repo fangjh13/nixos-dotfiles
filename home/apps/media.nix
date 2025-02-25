@@ -18,6 +18,18 @@
 
     imv = {
       enable = true;
+      package = pkgs.imv.override {
+        # add freeimage to support webp
+        withBackends = [
+          "libjxl"
+          "libtiff"
+          "libjpeg"
+          "libpng"
+          "librsvg"
+          "libheif"
+          "freeimage"
+        ];
+      };
       # https://man.archlinux.org/man/imv.1.en
       settings = {
         # Define some key bindings
