@@ -23,6 +23,8 @@ let
     "video/*" = [ "mpv.desktop" ];
     "image/png" = [ "imv-dir.desktop" ];
     "image/jpeg" = [ "imv-dir.desktop" ];
+    "image/gif" = [ "imv-dir.desktop" ];
+    "image/webp" = [ "imv-dir.desktop" ];
     "application/json" = browser;
     "application/pdf" = [ "org.pwmt.zathura.desktop;" ];
     "x-scheme-handler/discord" = [ "discordcanary.desktop" ];
