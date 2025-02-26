@@ -1,4 +1,4 @@
-{ lib, pkgs, pkgs-unstable, ... }: {
+{ lib, pkgs, config, pkgs-unstable, ... }: {
   home.packages = let
     scale-wechat-bwrap =
       pkgs.nur.repos.novel2430.wechat-universal-bwrap.overrideAttrs (oldAttrs: {
@@ -120,8 +120,8 @@
       fdOptions = "--follow --hidden --exclude .git --color=always";
       copyCommand = ''
         ${if pkgs.stdenvNoCC.isLinux then
-        # TODO: judge Wayland environment use wl-copy
-          "xclip -sel clip"
+        # Wayland use wl-copy or X windows use xclip
+          if pkgs.wlroots != null then "wl-copy" else "xclip -sel clip"
         else
           "pbcopy"}
       '';
@@ -143,7 +143,12 @@
         "--ansi"
         "--preview='[[ -d {} ]] && eza --tree --color=always {} || ([[ \\$(file --mime {}) =~ binary ]] && echo {} is a binary file) || (bat --style=numbers --color=always --line-range=:500 {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -300'"
         "--preview-window='right:hidden:wrap'"
+        # <ctrl-w>: text preview
+        # <ctrl-y>: copy file name
         "--bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-w:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | ${copyCommand})'"
+        # <ctrl-g>: Re-filtering of filtered results can be repeated
+        "--bind='ctrl-g:+clear-selection+select-all+clear-query+execute-silent:touch /tmp/wait-result'"
+        "--bind='result:+transform:[ -f /tmp/wait-result ] && { rm /tmp/wait-result; echo +toggle-all+exclude-multi; }'"
       ];
       # FZF_CTRL_T_COMMAND
       fileWidgetCommand = "fd ${fdOptions}";
