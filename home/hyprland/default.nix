@@ -24,6 +24,8 @@ in with lib; {
     });
   in with pkgs; [
     fileRollerWrapped
+    # Color pickers
+    hyprpicker
     # Wayland clipboard utilities (wl-copy and wl-paste)
     wl-clipboard
     # Wayland event viewer debug tool
@@ -373,8 +375,9 @@ in with lib; {
       binde = $mainMod CONTROL, SPACE, alterzorder, top
 
       # Resize and Move window submap
-      bind = $mainMod, R, exec, hyprctl dispatch submap resize; notify-send "Enter Window Change Mode"
-      submap = resize
+      $resize-mode = Resize: [   ]  Move: ctrl + [   ]
+      bind = $mainMod, R, submap, $resize-mode
+      submap = $resize-mode
       binde = , right, resizeactive, 10 0
       binde = , left, resizeactive, -10 0
       binde = , up, resizeactive, 0 -10
@@ -392,9 +395,10 @@ in with lib; {
       binde = CONTROL, up, moveactive, 0 -10
       binde = CONTROL, down, moveactive, 0 10
       bind = , c, centerwindow,
-      # back to normal: `Escape` or `Control+[`
-      bind = , escape, exec, hyprctl dispatch submap reset; notify-send "Exit Window Change Mode"
-      bind = CONTROL, BracketLeft, exec, hyprctl dispatch submap reset; notify-send "Exit Window Change Mode"
+      # back to normal: `Escape` or `Control+[` or `q`
+      bind = , escape, submap, reset
+      bind = CONTROL, BracketLeft, submap, reset
+      bind = , q, submap, reset
       submap = reset
 
       bind = $mainMod, Q, layoutmsg, togglesplit
@@ -457,6 +461,9 @@ in with lib; {
       windowrulev2 = opacity 0.9 0.7, class:^(thunar)$
       windowrulev2 = float, title:^(Authentication Required)$
       windowrulev2 = float, title:^(Open Folder)$
+
+      # float title is `FloatWindow`
+      windowrulev2 = float, title:^(FloatWindow)$
 
       # keepassxc auto start and move to special workspace (scratchpad)
       exec-once = [workspace special:keepassxc silent] keepassxc
