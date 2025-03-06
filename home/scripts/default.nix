@@ -9,5 +9,6 @@
     (import ./screenshot.nix { inherit pkgs; })
     (import ./screenlock.nix { inherit pkgs; })
     (import ./hypr-smarttf.nix { inherit pkgs; })
+    (import ./cpu-temp.nix { inherit pkgs; })
   ];
 }
