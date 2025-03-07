@@ -374,6 +374,17 @@ in with lib; {
       # bring activate to top
       binde = $mainMod CONTROL, SPACE, alterzorder, top
 
+      # Temp minimize one windows
+      bind = $mainMod, S, togglespecialworkspace, magic
+      bind = $mainMod, S, movetoworkspace, +0
+      bind = $mainMod, S, togglespecialworkspace, magic
+      bind = $mainMod, S, movetoworkspace, special:magic
+      bind = $mainMod, S, togglespecialworkspace, magic
+
+      # Move window to special workspace
+      bind = $mainMod SHIFT, minus, movetoworkspace, special:minus
+      bind = $mainMod, minus, togglespecialworkspace, minus
+
       # Resize and Move window submap
       $resize-mode = Resize: [   ]  Move: ctrl + [   ]
       bind = $mainMod, R, submap, $resize-mode
@@ -450,7 +461,6 @@ in with lib; {
       # Fix some dragging issues with XWayland
       windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
 
-      # windowrule = float, nm-connection-editor|blueman-manager
       windowrule = workspace 2, firefox
       windowrule = float, ^(org.gnome.FileRoller)$
       # windowrulev2 = float, class:^(kitty)$, title:^(kitty)$
@@ -471,6 +481,11 @@ in with lib; {
       windowrulev2 = center, floating:1, class:org.keepassxc.KeePassXC
       windowrulev2 = workspace special:keepassxc, class:org.keepassxc.KeePassXC
       bind = $mainMod SHIFT, P, exec, hyprctl dispatch togglespecialworkspace keepassxc && hyprctl dispatch centerwindow
+
+      # Telegram desktop
+      windowrulev2 = float, initialClass:org.telegram.desktop
+      windowrulev2 = center, floating:1, initialClass:org.telegram.desktop
+      windowrulev2 = noborder, floating:1, initialClass:org.telegram.desktop
 
       # wechat
       windowrulev2 = noborder, initialTitle:微信
