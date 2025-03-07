@@ -1,6 +1,8 @@
 { pkgs, lib, config, ... }:
 
-let clock24h = true;
+let
+  clock24h = true;
+  betterTransition = "all 0.3s cubic-bezier(.55,-0.68,.48,1.682)";
 in with lib; {
   # Configure & Theme Waybar
   programs.waybar = {
@@ -321,6 +323,7 @@ in with lib; {
         tooltip-format-enumerate-connected = "{device_alias}";
         tooltip-format-enumerate-connected-battery =
           "{device_alias}: {device_battery_percentage}%";
+        on-click = "blueman-manager";
       };
 
     }];
@@ -362,6 +365,7 @@ in with lib; {
       #pulseaudio,
       #network .brif,
       #network .ethernet,
+      #network .wifi,
       #custom-exit,
       #custom-notification,
       #memory {
@@ -390,9 +394,11 @@ in with lib; {
       }
       #cpu,
       #custom-cputemp {
+        font-weight: bold;
         color: #fc9003;
       }
       #memory {
+        font-weight: bold;
         color: #41fc03;
       }
       #clock {
@@ -402,7 +408,9 @@ in with lib; {
       #window {
         color: #C9A4F5;
       }
-      #custom-screen {
+      #custom-screen,
+      #custom-snip,
+      #custom-picker {
         color: #F6CF5E;
       }
       #bluetooth {
@@ -439,6 +447,7 @@ in with lib; {
       #memory:hover,
       #network .brif:hover,
       #network .ethernet:hover,
+      #network .wifi:hover,
       #workspaces button:hover,
       #clock:hover {
         color: @hover-color;
@@ -454,9 +463,19 @@ in with lib; {
         box-shadow: inset 0px -3px transparent;
       }
       #workspaces button {
+        font-weight: bold;
         padding: 0px 5px;
+        transition: ${betterTransition};
         background-color: transparent;
         color: @gf;
+      }
+      #workspaces button.active {
+        font-weight: bold;
+        transition: ${betterTransition};
+      }
+      #workspaces button.hover {
+        font-weight: bold;
+        transition: ${betterTransition};
       }
 
       tooltip {
