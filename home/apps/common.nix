@@ -54,6 +54,7 @@
 
     # db related
     dbeaver-bin
+    jetbrains.datagrip
     mycli
     pgcli
 
