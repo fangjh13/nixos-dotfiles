@@ -491,7 +491,6 @@ in with lib; {
       windowrulev2 = noborder, initialTitle:微信
       windowrulev2 = float, initialTitle:微信
       windowrulev2 = centerwindow, initialTitle:微信
-      windowrulev2 = stayfocused,initialTitle:微信,floating:1
       # 发送文件
       windowrulev2 = pin, class:^(wechat)$, title:^(Open)$
       # 点击出来的框框
