@@ -16,6 +16,7 @@
     ../../modules/options/zen-kernel.nix
     (import ../../modules/options/docker.nix args)
     ../../modules/options/podman.nix
+    ../../modules/options/nfs.nix
 
     # wayland compositor
     ../../modules/wm/hyprland.nix
@@ -35,6 +36,8 @@
   # Docker or Podman
   addon.docker.enable = false;
   addon.podman.enable = false;
+  # NFS filesystem
+  filesystem.nfs.enable = false;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
