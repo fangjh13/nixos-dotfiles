@@ -17,6 +17,7 @@
     (import ../../modules/options/docker.nix
       (args // { storageDriver = "btrfs"; }))
     ../../modules/options/podman.nix
+    ../../modules/options/nfs.nix
 
     # Use i3
     # FIXME: specify video drivers
@@ -45,6 +46,8 @@
   # Docker or Podman
   addon.docker.enable = false;
   addon.podman.enable = false;
+  # NFS filesystem
+  filesystem.nfs.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
