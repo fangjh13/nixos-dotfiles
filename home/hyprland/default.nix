@@ -474,6 +474,8 @@ in with lib; {
 
       # float title is `FloatWindow`
       windowrulev2 = float, title:^(FloatWindow)$
+      windowrulev2 = size 70% 70%, title:^(FloatWindow)$
+      windowrulev2 = center, floating:1, title:^(FloatWindow)$
 
       # keepassxc auto start and move to special workspace (scratchpad)
       exec-once = [workspace special:keepassxc silent] keepassxc
