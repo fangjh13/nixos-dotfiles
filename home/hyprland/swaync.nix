@@ -88,6 +88,7 @@
     }
     .notification-content {
       background: #${config.stylix.base16Scheme.base00};
+      opacity: 0.8;
       padding: 10px;
       border-radius: 5px;
       border: 2px solid #${config.stylix.base16Scheme.base0D};
