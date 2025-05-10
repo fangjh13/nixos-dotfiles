@@ -93,6 +93,7 @@
     scale-wechat-bwrap
     # wechat-uos
     telegram-desktop
+    discord
     # man doc
     man-pages
     man-pages-posix

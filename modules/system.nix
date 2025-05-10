@@ -76,7 +76,7 @@ in {
     # NOTE: temporarily allow insecure packages
     permittedInsecurePackages = [
       "electron-27.3.11" # for logseq
-      "freeimage-unstable-2021-11-01" # for imv
+      "freeimage-3.18.0-unstable-2024-04-18" # for imv
     ];
     packageOverrides = pkgs: {
       # make `pkgs.nur` available

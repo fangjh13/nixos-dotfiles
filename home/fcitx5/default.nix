@@ -16,9 +16,11 @@
     # apply themes
     "fcitx5/conf/classicui.conf".source = ./conf/classicui.conf;
     "fcitx5/conf/rime.conf".source = ./conf/rime.conf;
+    "fcitx5/conf/quickphrase.conf".source = ./conf/quickphrase.conf;
   };
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    type = "fcitx5";
+    enable = true;
     fcitx5.addons = let
       # fcitx5 rime input method
       local-fcitx5-rime = (pkgs.fcitx5-rime.override {
