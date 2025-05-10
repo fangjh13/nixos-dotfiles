@@ -15,5 +15,10 @@
     targets.gtk.enable = false;
     targets.qt.enable = false;
     targets.kitty.enable = false;
+    targets.fcitx5.enable = false;
+    targets.fzf.enable = false;
+
+    # firefox use default profile
+    targets.firefox.profileNames = [ "default" ];
   };
 }

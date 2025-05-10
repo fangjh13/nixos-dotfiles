@@ -40,8 +40,9 @@
       };
 
       # manual add fpath for zsh-completions
-      initExtraFirst = "fpath+=$HOME/.zsh/plugins/zsh-completions/src";
-      initExtra = "${lib.readFile ./extra.zshrc}";
+      initContent = ''
+        fpath+=$HOME/.zsh/plugins/zsh-completions/src 
+         ${lib.readFile ./extra.zshrc}'';
 
       sessionVariables = {
         LC_ALL = "en_US.UTF-8";

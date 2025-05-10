@@ -214,10 +214,10 @@ in with lib; {
       # uncomment all if you wish to use that.
       # workspace = w[tv1], gapsout:0, gapsin:0
       # workspace = f[1], gapsout:0, gapsin:0
-      # windowrulev2 = bordersize 0, floating:0, onworkspace:w[tv1]
-      # windowrulev2 = rounding 0, floating:0, onworkspace:w[tv1]
-      # windowrulev2 = bordersize 0, floating:0, onworkspace:f[1]
-      # windowrulev2 = rounding 0, floating:0, onworkspace:f[1]
+      # windowrule = bordersize 0, floating:0, onworkspace:w[tv1]
+      # windowrule = rounding 0, floating:0, onworkspace:w[tv1]
+      # windowrule = bordersize 0, floating:0, onworkspace:f[1]
+      # windowrule = rounding 0, floating:0, onworkspace:f[1]
 
       # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
       dwindle {
@@ -456,77 +456,81 @@ in with lib; {
       # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
 
       # Ignore maximize requests from apps. You'll probably like this.
-      windowrulev2 = suppressevent maximize, class:.*
+      windowrule = suppressevent maximize, class:.*
 
       # Fix some dragging issues with XWayland
-      windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+      windowrule = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
 
-      windowrule = workspace 2, firefox
-      windowrule = float, ^(org.gnome.FileRoller)$
-      # windowrulev2 = float, class:^(kitty)$, title:^(kitty)$
-      # windowrulev2 = size 60% 70%, initialClass:^(kitty)$
-      windowrulev2 = float, class:org.pulseaudio.pavucontrol
-      windowrulev2 = stayfocused, title:^()$,class:^(steam)$
-      windowrulev2 = minsize 1 1, title:^()$,class:^(steam)$
-      windowrulev2 = opacity 0.9 0.7, class:^(thunar)$
-      windowrulev2 = float, title:^(Authentication Required)$
-      windowrulev2 = float, title:^(Open Folder)$
+      windowrule = workspace 2, class:firefox
+      windowrule = float, class:^(org.gnome.FileRoller)$
+      # windowrule = float, class:^(kitty)$, title:^(kitty)$
+      # windowrule = size 60% 70%, initialClass:^(kitty)$
+      windowrule = float, class:org.pulseaudio.pavucontrol
+      windowrule = stayfocused, title:^()$,class:^(steam)$
+      windowrule = minsize 1 1, title:^()$,class:^(steam)$
+      windowrule = opacity 0.9 0.7, class:^(thunar)$
+      windowrule = float, title:^(Authentication Required)$
+      windowrule = float, title:^(Open Folder)$
 
       # float title is `FloatWindow`
-      windowrulev2 = float, title:^(FloatWindow)$
-      windowrulev2 = size 70% 70%, title:^(FloatWindow)$
-      windowrulev2 = center, floating:1, title:^(FloatWindow)$
+      windowrule = float, title:^(FloatWindow)$
+      windowrule = size 70% 70%, title:^(FloatWindow)$
+      windowrule = center, floating:1, title:^(FloatWindow)$
 
       # keepassxc auto start and move to special workspace (scratchpad)
       exec-once = [workspace special:keepassxc silent] keepassxc
-      windowrulev2 = float, class:org.keepassxc.KeePassXC
-      windowrulev2 = center, floating:1, class:org.keepassxc.KeePassXC
-      windowrulev2 = workspace special:keepassxc, class:org.keepassxc.KeePassXC
+      windowrule = float, class:org.keepassxc.KeePassXC
+      windowrule = center, floating:1, class:org.keepassxc.KeePassXC
+      windowrule = workspace special:keepassxc, class:org.keepassxc.KeePassXC
       bind = $mainMod SHIFT, P, exec, hyprctl dispatch togglespecialworkspace keepassxc && hyprctl dispatch centerwindow
 
       # Telegram desktop
-      windowrulev2 = float, initialClass:org.telegram.desktop
-      windowrulev2 = center, floating:1, initialClass:org.telegram.desktop
-      windowrulev2 = noborder, floating:1, initialClass:org.telegram.desktop
+      windowrule = float, initialClass:org.telegram.desktop
+      windowrule = center, floating:1, initialClass:org.telegram.desktop
+      windowrule = noborder, floating:1, initialClass:org.telegram.desktop
+
+      # discord
+      windowrule = float, class:discord
+      windowrule = noborder, class:discord
 
       # wechat
-      windowrulev2 = noborder, initialTitle:微信
-      windowrulev2 = float, initialTitle:微信
-      windowrulev2 = centerwindow, initialTitle:微信
+      windowrule = noborder, initialTitle:微信
+      windowrule = float, initialTitle:微信
+      windowrule = centerwindow, initialTitle:微信
       # 发送文件
-      windowrulev2 = pin, class:^(wechat)$, title:^(Open)$
+      windowrule = pin, class:^(wechat)$, title:^(Open)$
       # 点击出来的框框
-      windowrulev2 = noborder, title:^(wechat)$, class:^(wechat)$
-      windowrulev2 = noanim, title:^(wechat)$, class:^(wechat)$
-      windowrulev2 = pin, title:^(wechat)$, class:^(wechat)$
-      windowrulev2 = move onscreen cursor, title:^(wechat)$, class:^(wechat)$
+      windowrule = noborder, title:^(wechat)$, class:^(wechat)$
+      windowrule = noanim, title:^(wechat)$, class:^(wechat)$
+      windowrule = pin, title:^(wechat)$, class:^(wechat)$
+      windowrule = move onscreen cursor, title:^(wechat)$, class:^(wechat)$
       # 聊天记录
-      windowrulev2 = float, title:^(.*聊天记录.*)$, class:^(wechat)$
+      windowrule = float, title:^(.*聊天记录.*)$, class:^(wechat)$
       # 图片预览
-      windowrulev2 = float, title:^(预览)$, class:^(wechat)$
-      windowrulev2 = centerwindow, title:^(预览)$, class:^(wechat)$
+      windowrule = float, title:^(预览)$, class:^(wechat)$
+      windowrule = centerwindow, title:^(预览)$, class:^(wechat)$
       # 公众号
-      windowrulev2 = float, title:^(公众号)$, class:^()$
+      windowrule = float, title:^(公众号)$, class:^()$
       # move all to special workspace
-      windowrulev2 = workspace special:wechat, initialClass:wechat
-      windowrulev2 = workspace special:wechat, initialTitle:微信
+      windowrule = workspace special:wechat, initialClass:wechat
+      windowrule = workspace special:wechat, initialTitle:微信
       bind = $mainMod SHIFT, W, togglespecialworkspace, wechat
 
       # -- Fix odd behaviors in IntelliJ IDEs --
       # https://github.com/hyprwm/Hyprland/issues/3450
       #! Fix focus issues when dialogs are opened or closed
-      #windowrulev2 = windowdance,class:^(jetbrains-.*)$,floating:1
+      #windowrule = windowdance,class:^(jetbrains-.*)$,floating:1
       #! Fix splash screen showing in weird places and prevent annoying focus takeovers
-      windowrulev2 = center,class:^(jetbrains-.*)$,title:^(splash)$,floating:1
-      windowrulev2 = nofocus,class:^(jetbrains-.*)$,title:^(splash)$,floating:1
-      windowrulev2 = noborder,class:^(jetbrains-.*)$,title:^(splash)$,floating:1
+      windowrule = center,class:^(jetbrains-.*)$,title:^(splash)$,floating:1
+      windowrule = nofocus,class:^(jetbrains-.*)$,title:^(splash)$,floating:1
+      windowrule = noborder,class:^(jetbrains-.*)$,title:^(splash)$,floating:1
 
       #! Center popups/find windows
-      windowrulev2 = center,class:^(jetbrains-.*)$,title:^( )$,floating:1
-      windowrulev2 = stayfocused,class:^(jetbrains-.*)$,title:^( )$,floating:1
-      windowrulev2 = noborder,class:^(jetbrains-.*)$,title:^( )$,floating:1
+      windowrule = center,class:^(jetbrains-.*)$,title:^( )$,floating:1
+      windowrule = stayfocused,class:^(jetbrains-.*)$,title:^( )$,floating:1
+      windowrule = noborder,class:^(jetbrains-.*)$,title:^( )$,floating:1
       #! Disable window flicker when autocomplete or tooltips appear
-      windowrulev2 = nofocus,class:^(jetbrains-.*)$,title:^(win.*)$,floating:1
+      windowrule = nofocus,class:^(jetbrains-.*)$,title:^(win.*)$,floating:1
     '';
   };
 }
