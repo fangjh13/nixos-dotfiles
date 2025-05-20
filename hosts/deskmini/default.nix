@@ -45,7 +45,7 @@
   kernel.zen.enable = true;
   # Docker or Podman
   addon.docker.enable = false;
-  addon.podman.enable = false;
+  addon.podman.enable = true;
   # NFS filesystem
   filesystem.nfs.enable = true;
 

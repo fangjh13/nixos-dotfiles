@@ -17,6 +17,7 @@
     "fcitx5/conf/classicui.conf".source = ./conf/classicui.conf;
     "fcitx5/conf/rime.conf".source = ./conf/rime.conf;
     "fcitx5/conf/quickphrase.conf".source = ./conf/quickphrase.conf;
+    "fcitx5/conf/clipboard.conf".source = ./conf/clipboard.conf;
   };
   i18n.inputMethod = {
     type = "fcitx5";
