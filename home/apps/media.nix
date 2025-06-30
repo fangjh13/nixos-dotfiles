@@ -19,7 +19,6 @@
     imv = {
       enable = true;
       package = pkgs.imv.override {
-        # add freeimage to support webp
         withBackends = [
           "libjxl"
           "libtiff"
@@ -27,7 +26,10 @@
           "libpng"
           "librsvg"
           "libheif"
-          "freeimage"
+          "libnsgif"
+          # add freeimage to support webp
+          # TODO: freeimage-3.18.0-unstable-2024-04-18 package error
+          # "freeimage"
         ];
       };
       # https://man.archlinux.org/man/imv.1.en
