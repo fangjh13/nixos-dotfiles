@@ -1,6 +1,6 @@
 { pkgs, lib, username, community-nur, host, ... }@args:
 let
-  inherit (import ../hosts/${host}/variables.nix) wallpaper timezone;
+  inherit (import ../hosts/${host}/variables.nix) useGUI wallpaper timezone;
   capitalize = str:
     let
       first = builtins.substring 0 1 str;
@@ -9,12 +9,15 @@ let
 in {
   imports = [
     ./common.nix
-    ./bluetooth.nix
-    (import ./stylix.nix (args // { wallpaper = "${wallpaper}"; }))
-    ./fonts.nix
     ./ssh.nix
     ./avahi.nix
     ./fhs.nix
+  ] ++ lib.optionals useGUI [
+    # wayland compositor
+    ./wm/hyprland.nix
+    ./bluetooth.nix
+    (import ./stylix.nix (args // { wallpaper = "${wallpaper}"; }))
+    ./fonts.nix
   ];
 
   # enable zsh
@@ -133,8 +136,6 @@ in {
 
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
-  # Enable PAM hyprlock to perform authentication
-  security.pam.services.hyprlock = { };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;

@@ -18,9 +18,6 @@
     ../../modules/options/podman.nix
     ../../modules/options/nfs.nix
 
-    # wayland compositor
-    ../../modules/wm/hyprland.nix
-
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];

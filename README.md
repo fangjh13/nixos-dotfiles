@@ -56,6 +56,6 @@ Rebuild NixOS
 git add .
 git submodule init
 git submodule update --remote
-NIX_CONFIG="experimental-features = nix-command flakes"
+export NIX_CONFIG="experimental-features = nix-command flakes"
 sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 ```
