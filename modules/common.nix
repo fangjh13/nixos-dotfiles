@@ -6,9 +6,9 @@
   ];
 
   # reduce session timeouts when shutting down
-  systemd.extraConfig = ''
-    DefaultTimeoutStopSec=10s
-  '';
+  systemd.settings.Manager = {
+    DefaultTimeoutStopSec=10;
+  };
   systemd.user.extraConfig = ''
     DefaultTimeoutStopSec=10s
   '';

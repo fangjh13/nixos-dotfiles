@@ -23,8 +23,8 @@
   outputs = inputs@{ self, nixpkgs, home-manager, community-nur, ... }:
     let
       # FIXME: change your info
-      system = "x86_64-linux";
-      host = "deskmini";
+      system = "aarch64-linux";  # support x86_64-linux or aarch64-linux
+      host = "vm001";
       username = "fython";
       pkgs-unstable = import inputs.nixpkgs-unstable {
         inherit system;
@@ -38,7 +38,8 @@
 
           modules = [
             ./hosts/${host}
-            inputs.stylix.nixosModules.stylix # stylix modules
+            # TODO: move to internal hosts
+            # inputs.stylix.nixosModules.stylix # stylix modules
             home-manager.nixosModules.home-manager
             {
               home-manager = {

@@ -61,4 +61,6 @@
   # a GNOME application for managing encryption keys and passwords in the GNOME Keyring
   programs.seahorse.enable = true;
 
+  # Enable PAM hyprlock to perform authentication
+  security.pam.services.hyprlock = { };
 }

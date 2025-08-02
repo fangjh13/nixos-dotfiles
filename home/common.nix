@@ -1,13 +1,5 @@
 { lib, pkgs, config, pkgs-unstable, ... }: {
-  home.packages = let
-    scale-wechat-bwrap =
-      pkgs.nur.repos.novel2430.wechat-universal-bwrap.overrideAttrs (oldAttrs: {
-        postInstall = (oldAttrs.postInstall or "") + ''
-          wrapProgram $out/bin/wechat-universal-bwrap \
-            --set QT_SCALE_FACTOR 1.5
-        '';
-      });
-  in with pkgs;
+  home.packages = with pkgs;
   ([
     # archives
     zip
@@ -32,29 +24,17 @@
     # misc
     openssl
     ffmpeg
-    libnotify
-    wineWowPackages.wayland
-    xdg-utils
-    graphviz
     ncdu # disk usage analyzer
     duf # `df` alternative
     tlrc # Official `tldr` client written in Rust
     lshw
     dmidecode
 
-    # productivity
-    obsidian
-
-    # IDE
-    insomnia # API debug
-
     # cloud native
     docker-compose
     kubectl
 
     # db related
-    dbeaver-bin
-    jetbrains.datagrip
     mycli
     pgcli
 
@@ -77,23 +57,10 @@
     usbutils # lsusb
     # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
     nvtopPackages.full
-    gpu-viewer
 
-    # office
-    libreoffice
     # https://devenv.sh Developer Environments using Nix
     pkgs-unstable.devenv
-    # Synology Drive Client
-    synology-drive-client
-    # Password manager
-    keepassxc
-    # notebook
-    logseq
-    # IM
-    scale-wechat-bwrap
-    # wechat-uos
-    telegram-desktop
-    discord
+
     # man doc
     man-pages
     man-pages-posix

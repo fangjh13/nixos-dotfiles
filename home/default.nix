@@ -1,19 +1,19 @@
-{ config, pkgs, username, host, ... }:
-
+{ config, lib, pkgs, username, host, ... }:
+let
+  inherit (import ../hosts/${host}/variables.nix) useGUI;
+in
 {
 
   imports = [
-    ./local-fonts
-    ./fcitx5
-    ./xdg
-    ./rofi
+    ./common.nix
+    ./git.nix
     ./shell
-    ./stylix
-    ./qt
-    ./gtk
-    ./hyprland
+    ./nvim
+    ./tmux
     ./scripts
-    ./apps
+    ./programming
+  ] ++ lib.optionals useGUI [
+    ./gui
   ];
 
   # Home Manager needs a bit of information about you and the
