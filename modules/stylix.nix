@@ -1,4 +1,8 @@
-{ pkgs, wallpaper, ... }: {
+{
+  pkgs,
+  wallpaper,
+  ...
+}: {
   # stylix options
   # https://stylix.danth.me/options/nixos.html
   stylix = {

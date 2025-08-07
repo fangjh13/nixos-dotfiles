@@ -1,5 +1,5 @@
-{ pkgs, ... }: {
-  home.packages = [ pkgs.gh ];
+{pkgs, ...}: {
+  home.packages = [pkgs.gh];
 
   programs.git = {
     enable = true;
@@ -7,6 +7,11 @@
     # FIXME: replace your git username and email
     userName = "Fython";
     userEmail = "fang.jia.hui123@gmail.com";
+
+    aliases = {
+      cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 -r git branch -d";
+      prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+    };
 
     extraConfig = {
       core = {
@@ -25,8 +30,8 @@
         enable = true;
         autoupdate = true;
       };
-      diff = { colorMoved = "default"; };
-      init = { defaultBranch = "main"; };
+      diff = {colorMoved = "default";};
+      init = {defaultBranch = "main";};
       pull.rebase = true;
     };
 
@@ -43,7 +48,7 @@
         side-by-side = true;
         line-numbers-left-format = "";
         line-numbers-right-format = "│ ";
-        interactive = { keep-plus-minus-markers = false; };
+        interactive = {keep-plus-minus-markers = false;};
         decorations = {
           commit-decoration-style = "blue ol";
           commit-style = "raw";

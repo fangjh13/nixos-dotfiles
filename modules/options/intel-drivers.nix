@@ -1,7 +1,12 @@
 # https://wiki.nixos.org/wiki/Intel_Graphics
-{ lib, pkgs, config, ... }:
-with lib;
-let cfg = config.drivers.intel;
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.drivers.intel;
 in {
   options.drivers.intel = {
     enable = mkEnableOption "Enable Intel Graphics Drivers";
@@ -9,7 +14,7 @@ in {
 
   config = mkIf cfg.enable {
     nixpkgs.config.packageOverrides = pkgs: {
-      vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+      vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
     };
 
     # OpenGL
@@ -28,4 +33,3 @@ in {
     };
   };
 }
-

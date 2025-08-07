@@ -1,7 +1,7 @@
 {
   imports = [
-./go
-./python
-./nix
+    ./go
+    ./python
+    ./nix
   ];
 }

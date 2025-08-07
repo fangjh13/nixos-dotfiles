@@ -1,6 +1,10 @@
 # https://wiki.archlinux.org/title/Rofi
-{ pkgs, config, host, ... }:
-let
+{
+  pkgs,
+  config,
+  host,
+  ...
+}: let
   inherit (import ../../hosts/${host}/variables.nix) wallpaper;
   dataHome = config.xdg.dataHome;
 in {
@@ -10,7 +14,7 @@ in {
     package = pkgs.rofi-wayland;
     plugins = with pkgs; [
       # rofi calculator [https://github.com/svenstaro/rofi-calc]
-      (rofi-calc.override { rofi-unwrapped = rofi-wayland-unwrapped; })
+      (rofi-calc.override {rofi-unwrapped = rofi-wayland-unwrapped;})
       # rofi-emoji https://github.com/Mange/rofi-emoji
       rofi-emoji-wayland
     ];

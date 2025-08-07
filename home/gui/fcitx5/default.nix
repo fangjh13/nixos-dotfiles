@@ -1,6 +1,8 @@
-{ pkgs, pkgs-unstable, ... }:
-
 {
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   # themes
   home.file.".local/share/fcitx5/themes" = {
     source = ./themes;
@@ -24,14 +26,16 @@
     enable = true;
     fcitx5.addons = let
       # fcitx5 rime input method
-      local-fcitx5-rime = (pkgs.fcitx5-rime.override {
-        # 引入自定义的配置
-        # https://github.com/NixOS/nixpkgs/blob/nixos-24.11/pkgs/tools/inputmethods/fcitx5/fcitx5-rime.nix#L14
-        rimeDataPkgs = [ ./rime-config ];
-      }).overrideAttrs (final: prev: {
-        # 支持 lua 脚本
-        buildInputs = [ pkgs.fcitx5 pkgs.librime ];
-      });
-    in with pkgs; [ local-fcitx5-rime fcitx5-configtool fcitx5-chinese-addons ];
+      local-fcitx5-rime =
+        (pkgs.fcitx5-rime.override {
+          # 引入自定义的配置
+          # https://github.com/NixOS/nixpkgs/blob/nixos-24.11/pkgs/tools/inputmethods/fcitx5/fcitx5-rime.nix#L14
+          rimeDataPkgs = [./rime-config];
+        }).overrideAttrs (final: prev: {
+          # 支持 lua 脚本
+          buildInputs = [pkgs.fcitx5 pkgs.librime];
+        });
+    in
+      with pkgs; [local-fcitx5-rime fcitx5-configtool fcitx5-chinese-addons];
   };
 }

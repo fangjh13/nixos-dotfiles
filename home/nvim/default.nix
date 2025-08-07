@@ -1,14 +1,19 @@
-{ pkgs, pkgs-unstable, nixd, ... }: {
+{
+  pkgs,
+  pkgs-unstable,
+  nixd,
+  ...
+}: {
   programs.neovim = {
     enable = true;
     package = pkgs-unstable.neovim-unwrapped;
 
     viAlias = true;
 
-    plugins = [ ];
+    plugins = [];
     withNodeJs = true;
     withPython3 = true;
-    extraPython3Packages = pyPkgs: with pyPkgs; [ setuptools ];
+    extraPython3Packages = pyPkgs: with pyPkgs; [setuptools];
 
     # These environment variables are needed to build and run binaries
     # with external package managers like mason.nvim.
@@ -43,7 +48,7 @@
       "--suffix"
       "LD_LIBRARY_PATH"
       ":"
-      "${lib.makeLibraryPath [ stdenv.cc.cc zlib fontconfig freetype ]}"
+      "${lib.makeLibraryPath [stdenv.cc.cc zlib fontconfig freetype]}"
     ];
   };
 
@@ -59,7 +64,7 @@
     exec = "kitty nvim %F";
     icon = "nvim";
     type = "Application";
-    categories = [ "Utility" "TextEditor" ];
+    categories = ["Utility" "TextEditor"];
     startupNotify = false;
     mimeType = [
       "text/english"
@@ -80,5 +85,4 @@
       "text/x-python"
     ];
   };
-
 }

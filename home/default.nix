@@ -1,20 +1,26 @@
-{ config, lib, pkgs, username, host, ... }:
-let
-  inherit (import ../hosts/${host}/variables.nix) useGUI;
-in
 {
-
-  imports = [
-    ./common.nix
-    ./git.nix
-    ./shell
-    ./nvim
-    ./tmux
-    ./scripts
-    ./programming
-  ] ++ lib.optionals useGUI [
-    ./gui
-  ];
+  config,
+  lib,
+  pkgs,
+  username,
+  host,
+  ...
+}: let
+  inherit (import ../hosts/${host}/variables.nix) useGUI;
+in {
+  imports =
+    [
+      ./common.nix
+      ./git.nix
+      ./shell
+      ./nvim
+      ./tmux
+      ./scripts
+      ./programming
+    ]
+    ++ lib.optionals useGUI [
+      ./gui
+    ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.

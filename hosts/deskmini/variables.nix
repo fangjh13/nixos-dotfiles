@@ -25,4 +25,3 @@
     "file:///home/fython/SynologyDrive Drive"
   ];
 }
-

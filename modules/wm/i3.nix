@@ -1,15 +1,17 @@
-{ pkgs, videoDrivers ? [ "modesetting" "fbdev" ], xkbOptions ? "ctrl:nocaps"
-, ... }: {
-
+{
+  pkgs,
+  videoDrivers ? ["modesetting" "fbdev"],
+  xkbOptions ? "ctrl:nocaps",
+  ...
+}: {
   # i3 related options
-  environment.pathsToLink =
-    [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
+  environment.pathsToLink = ["/libexec"]; # links /libexec from derivations to /run/current-system/sw
 
   services = {
     xserver = {
       enable = true;
 
-      desktopManager = { xterm.enable = false; };
+      desktopManager = {xterm.enable = false;};
 
       displayManager = {
         gdm.enable = false;
@@ -52,7 +54,7 @@
       videoDrivers = videoDrivers;
     };
 
-    displayManager = { defaultSession = "none+i3"; };
+    displayManager = {defaultSession = "none+i3";};
   };
 
   # thunar file manager(part of xfce) related options
@@ -87,6 +89,6 @@
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-kde
     ];
-    config = { common = { default = [ "gtk" ]; }; };
+    config = {common = {default = ["gtk"];};};
   };
 }

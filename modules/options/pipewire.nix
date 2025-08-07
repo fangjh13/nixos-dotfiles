@@ -1,7 +1,12 @@
 # https://wiki.nixos.org/wiki/PipeWire
-{ lib, pkgs, config, ... }:
-with lib;
-let cfg = config.multimedia.pipewire;
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.multimedia.pipewire;
 in {
   options.multimedia.pipewire = {
     enable = mkEnableOption "Enable PipeWire multimedia framework";
@@ -22,4 +27,3 @@ in {
     };
   };
 }
-

@@ -1,4 +1,10 @@
-{ lib, config, username, storageDriver ? null, ... }:
+{
+  lib,
+  config,
+  username,
+  storageDriver ? null,
+  ...
+}:
 with lib;
 assert assertOneOf "Docker: storageDriver" storageDriver [
   null
@@ -8,10 +14,10 @@ assert assertOneOf "Docker: storageDriver" storageDriver [
   "overlay"
   "overlay2"
   "zfs"
-];
-let cfg = config.addon.docker;
+]; let
+  cfg = config.addon.docker;
 in {
-  options.addon.docker = { enable = mkEnableOption "Enable Docker"; };
+  options.addon.docker = {enable = mkEnableOption "Enable Docker";};
 
   config = mkIf cfg.enable {
     virtualisation.docker = {
@@ -20,7 +26,6 @@ in {
       enableOnBoot = false;
       storageDriver = storageDriver;
     };
-    users.users."${username}".extraGroups = [ "docker" ];
+    users.users."${username}".extraGroups = ["docker"];
   };
 }
-

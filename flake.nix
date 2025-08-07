@@ -20,39 +20,46 @@
     nixd.url = "github:nix-community/nixd";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, community-nur, ... }:
-    let
-      # FIXME: change your info
-      system = "aarch64-linux";  # support x86_64-linux or aarch64-linux
-      host = "vm001";
-      username = "fython";
-      pkgs-unstable = import inputs.nixpkgs-unstable {
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    home-manager,
+    community-nur,
+    ...
+  }: let
+    # FIXME: change your info
+    system = "aarch64-linux"; # support x86_64-linux or aarch64-linux
+    host = "vmnixos";
+    username = "fython";
+    pkgs-unstable = import inputs.nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
+  in {
+    nixosConfigurations = {
+      "${host}" = nixpkgs.lib.nixosSystem {
         inherit system;
-        config.allowUnfree = true;
-      };
-    in {
-      nixosConfigurations = {
-        "${host}" = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit username community-nur pkgs-unstable host; };
+        specialArgs = {inherit username community-nur pkgs-unstable host;};
 
-          modules = [
-            ./hosts/${host}
-            # TODO: move to internal hosts
-            # inputs.stylix.nixosModules.stylix # stylix modules
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users."${username}" = import ./home;
-                extraSpecialArgs = inputs // {
+        modules = [
+          ./hosts/${host}
+          # TODO: move to internal hosts
+          # inputs.stylix.nixosModules.stylix # stylix modules
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users."${username}" = import ./home;
+              extraSpecialArgs =
+                inputs
+                // {
                   inherit username community-nur pkgs-unstable host;
                 };
-              };
-            }
-          ];
-        };
+            };
+          }
+        ];
       };
     };
+  };
 }

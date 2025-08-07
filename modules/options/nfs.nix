@@ -1,15 +1,19 @@
-{ lib, config, pkgs, ... }:
-with lib;
-let cfg = config.filesystem.nfs;
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.filesystem.nfs;
 in {
-  options.filesystem.nfs = { enable = mkEnableOption "Enable NFS filesystem"; };
+  options.filesystem.nfs = {enable = mkEnableOption "Enable NFS filesystem";};
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ nfs-utils ];
+    environment.systemPackages = with pkgs; [nfs-utils];
     boot.initrd = {
-      supportedFilesystems = [ "nfs" ];
-      kernelModules = [ "nfs" ];
+      supportedFilesystems = ["nfs"];
+      kernelModules = ["nfs"];
     };
   };
 }
-

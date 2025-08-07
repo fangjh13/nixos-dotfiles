@@ -1,10 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ host, ... }@args:
-
-{
+{host, ...} @ args: {
   imports = [
     ../../modules/system.nix
 
@@ -15,7 +12,7 @@
     ../../modules/options/pipewire.nix
     ../../modules/options/zen-kernel.nix
     (import ../../modules/options/docker.nix
-      (args // { storageDriver = "btrfs"; }))
+      (args // {storageDriver = "btrfs";}))
     ../../modules/options/podman.nix
     ../../modules/options/nfs.nix
 
@@ -117,6 +114,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
-

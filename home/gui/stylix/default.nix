@@ -1,5 +1,8 @@
-{ pkgs, config, ... }: {
-
+{
+  pkgs,
+  config,
+  ...
+}: {
   stylix = {
     enable = true;
     # auto enable targets
@@ -19,6 +22,6 @@
     targets.fzf.enable = false;
 
     # firefox use default profile
-    targets.firefox.profileNames = [ "default" ];
+    targets.firefox.profileNames = ["default"];
   };
 }

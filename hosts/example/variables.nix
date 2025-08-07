@@ -24,4 +24,3 @@
     # "file:///home/fython/Downloads Downloads"
   ];
 }
-
