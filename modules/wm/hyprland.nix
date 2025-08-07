@@ -1,6 +1,9 @@
-{ pkgs, username, ... }: {
-
-  imports = [ ../gpg.nix ];
+{
+  pkgs,
+  username,
+  ...
+}: {
+  imports = [../gpg.nix];
 
   environment.systemPackages = with pkgs; [
     # Graphical console greeter for greetd.
@@ -14,7 +17,7 @@
   ];
 
   services = {
-    xserver = { enable = false; };
+    xserver = {enable = false;};
     greetd = {
       enable = true;
       # The virtual console (tty) that greetd should use
@@ -24,8 +27,7 @@
           # Wayland Desktop Manager is installed only for user ${username} via home-manager
           user = "${username}";
           # Start Hyprland with a TUI login manager
-          command =
-            "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
         };
       };
     };
@@ -36,7 +38,7 @@
     enable = true;
     # enable desktop portal for wlroots-based desktops.
     wlr.enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal ];
+    extraPortals = [pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal];
     configPackages = [
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-hyprland
@@ -62,5 +64,5 @@
   programs.seahorse.enable = true;
 
   # Enable PAM hyprlock to perform authentication
-  security.pam.services.hyprlock = { };
+  security.pam.services.hyprlock = {};
 }

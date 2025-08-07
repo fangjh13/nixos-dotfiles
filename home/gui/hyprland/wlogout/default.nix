@@ -1,6 +1,4 @@
-{ config, ... }:
-
-{
+{config, ...}: {
   # Logout Menu Tools
   programs.wlogout = {
     enable = true;
@@ -106,6 +104,4 @@
     source = ./icons;
     recursive = true;
   };
-
 }
-

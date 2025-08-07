@@ -1,71 +1,78 @@
-{ lib, pkgs, config, pkgs-unstable, ... }: {
-  home.packages = with pkgs;
-  ([
-    # archives
-    zip
-    unzip
-    unrar
-    xz
-    p7zip
+{
+  lib,
+  pkgs,
+  config,
+  pkgs-unstable,
+  ...
+}: {
+  home.packages = with pkgs; ([
+      # archives
+      zip
+      unzip
+      unrar
+      xz
+      p7zip
 
-    # utils
-    file
-    ripgrep # recursively searches directories for a regex pattern
-    yq-go # yaml processor https://github.com/mikefarah/yq
-    moreutils # sponge chronic errno ...
-    htop
-    killall
-    tree
-    android-tools
-    dnsutils
-    tokei # count code, quickly
-    fastfetch
+      # utils
+      psmisc
+      file
+      ripgrep # recursively searches directories for a regex pattern
+      yq-go # yaml processor https://github.com/mikefarah/yq
+      moreutils # sponge chronic errno ...
+      htop
+      killall
+      tree
+      android-tools
+      dnsutils
+      tokei # count code, quickly
+      fastfetch
 
-    # misc
-    openssl
-    ffmpeg
-    ncdu # disk usage analyzer
-    duf # `df` alternative
-    tlrc # Official `tldr` client written in Rust
-    lshw
-    dmidecode
+      # misc
+      openssl
+      ffmpeg
+      ncdu # disk usage analyzer
+      duf # `df` alternative
+      tlrc # Official `tldr` client written in Rust
+      lshw
+      dmidecode
 
-    # cloud native
-    docker-compose
-    kubectl
+      # cloud native
+      docker-compose
+      kubectl
+      devspace
 
-    # db related
-    mycli
-    pgcli
+      # db related
+      mycli
+      pgcli
 
-    # nix related
-    #
-    # it provides the command `nom` works just like `nix`
-    # with more details log output
-    nix-output-monitor
+      # nix related
+      #
+      # it provides the command `nom` works just like `nix`
+      # with more details log output
+      nix-output-monitor
 
-    # system call monitoring
-    strace # system call monitoring
-    ltrace # library call monitoring
-    lsof # list open files
+      # system call monitoring
+      strace # system call monitoring
+      ltrace # library call monitoring
+      lsof # list open files
 
-    # system tools
-    sysstat
-    lm_sensors # for `sensors` command
-    ethtool
-    pciutils # lspci
-    usbutils # lsusb
-    # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
-    nvtopPackages.full
+      # system tools
+      sysstat
+      lm_sensors # for `sensors` command
+      ethtool
+      pciutils # lspci
+      usbutils # lsusb
+      # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
+      nvtopPackages.full
 
-    # https://devenv.sh Developer Environments using Nix
-    pkgs-unstable.devenv
+      # https://devenv.sh Developer Environments using Nix
+      pkgs-unstable.devenv
 
-    # man doc
-    man-pages
-    man-pages-posix
-  ]
-  # C/C++ Languages
+      # man doc
+      man-pages
+      man-pages-posix
+    ]
+    # C/C++ Languages
     ++ [
       gcc
       gdb
@@ -80,27 +87,29 @@
       pkgs-unstable.cargo # rust package manager
     ]
     # Web Development
-    ++ [ nodePackages.nodejs nodePackages.yarn nodePackages.typescript ]);
+    ++ [nodePackages.nodejs nodePackages.yarn nodePackages.typescript]);
 
   programs = {
-
     # A command-line fuzzy finder
     fzf = let
       fdOptions = "--follow --hidden --exclude .git --color=always";
       copyCommand = ''
-        ${if pkgs.stdenvNoCC.isLinux then
-        # Wayland use wl-copy or X windows use xclip
-          if pkgs.wlroots != null then "wl-copy" else "xclip -sel clip"
-        else
-          "pbcopy"}
+        ${
+          if pkgs.stdenvNoCC.isLinux
+          then
+            # Wayland use wl-copy or X windows use xclip
+            if pkgs.wlroots != null
+            then "wl-copy"
+            else "xclip -sel clip"
+          else "pbcopy"
+        }
       '';
     in {
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
       # FZF_DEFAULT_COMMAND
-      defaultCommand =
-        "git ls-tree -r --name-only HEAD --cached --others --exclude-standard || fd --type f --type l ${fdOptions}";
+      defaultCommand = "git ls-tree -r --name-only HEAD --cached --others --exclude-standard || fd --type f --type l ${fdOptions}";
       # FZF_DEFAULT_OPTS
       defaultOptions = [
         "--no-mouse"
@@ -122,19 +131,19 @@
       # FZF_CTRL_T_COMMAND
       fileWidgetCommand = "fd ${fdOptions}";
       # FZF_CTRL_R_OPTS
-      historyWidgetOptions = [ "--layout=default" ];
+      historyWidgetOptions = ["--layout=default"];
       # FZF_ALT_C_COMMAND
       changeDirWidgetCommand = "fd --type d ${fdOptions}";
     };
 
     bat = {
       enable = true;
-      config = { pager = "less -FR"; };
+      config = {pager = "less -FR";};
     };
 
     btop = {
       enable = true; # replacement of htop/nmon
-      settings = { vim_keys = true; };
+      settings = {vim_keys = true;};
     };
     fd.enable = true; # replacement of find
     eza.enable = true; # A modern replacement for ‘ls’
@@ -147,7 +156,7 @@
         # https://wiki.archlinux.org/title/Zathura
         useMupdf = true;
       };
-      options = { selection-clipboard = "clipboard"; };
+      options = {selection-clipboard = "clipboard";};
     };
 
     # ssh client
@@ -155,12 +164,11 @@
       enable = true;
       forwardAgent = true;
       addKeysToAgent = "yes";
-      includes = [ "config.d/*" ];
+      includes = ["config.d/*"];
       extraConfig = ''
         SendEnv LANG LC_*
       '';
     };
-
   };
 
   services = {

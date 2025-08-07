@@ -1,5 +1,8 @@
-{ pkgs, username, ... }: {
-
+{
+  pkgs,
+  username,
+  ...
+}: {
   home.packages = with pkgs; [
     # Screenshoot tools
     grim
@@ -21,5 +24,4 @@
     early_exit=true
     fill_shape=false
   '';
-
 }

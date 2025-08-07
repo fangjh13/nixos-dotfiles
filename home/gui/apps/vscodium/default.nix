@@ -1,6 +1,10 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   programs.vscode = {
     enable = true;
     # community-driven vscode, Telemetry is disabled.
@@ -26,11 +30,10 @@
       userSettings = {
         "terminal.integrated.copyOnSelection" = true;
         # "terminal.integrated.fontFamily" = "'Hack Nerd Font Mono', 'JetbrainsMono Nerd Font', Monaco";
-        workbench = { startupEditor = "none"; };
+        workbench = {startupEditor = "none";};
 
         editor = {
-          fontFamily =
-            "'Hack Nerd Font Mono', 'JetbrainsMono Nerd Font', Monaco";
+          fontFamily = "'Hack Nerd Font Mono', 'JetbrainsMono Nerd Font', Monaco";
           fontLigatures = true;
           fontSize = 14;
           formatOnSave = true;
@@ -43,10 +46,12 @@
         # Vim settings
         "vim.leader" = ",";
         "vim.useSystemClipboard" = true;
-        "vim.normalModeKeyBindings" = [{
-          before = [ "<leader>" "f" "s" ];
-          commands = [ "workbench.action.files.save" ];
-        }];
+        "vim.normalModeKeyBindings" = [
+          {
+            before = ["<leader>" "f" "s"];
+            commands = ["workbench.action.files.save"];
+          }
+        ];
 
         # nix
         nix = {
@@ -54,7 +59,7 @@
           # https://github.com/oxalica/nil
           serverPath = "${pkgs.nil}/bin/nil";
           serverSettings = {
-            nil = { formatting = { command = [ "nixfmt" ]; }; };
+            nil = {formatting = {command = ["nixfmt"];};};
           };
           formatterPath = "${pkgs.nixfmt-classic}/bin/nixfmt";
         };
@@ -79,6 +84,5 @@
     };
   };
   # dependencies
-  home.packages = with pkgs; [ nixfmt-classic nil ];
+  home.packages = with pkgs; [nixfmt-classic nil];
 }
-

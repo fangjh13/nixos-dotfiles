@@ -1,5 +1,9 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   dataHome = config.xdg.dataHome;
   configHome = config.xdg.configHome;
   cacheHome = config.xdg.cacheHome;
@@ -34,8 +38,8 @@ in {
     SYSTEMD_LESS = "-iFRSXMK";
   };
 
-  home.shellAliases = { k = "kubectl"; };
+  home.shellAliases = {k = "kubectl";};
 
   # Add a directory to PATH
-  home.sessionPath = [ "$HOME/.go/bin" "$HOME/.local/bin" ];
+  home.sessionPath = ["$HOME/.go/bin" "$HOME/.local/bin"];
 }

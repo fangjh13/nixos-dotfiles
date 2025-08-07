@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   home.file.".tmux-themepack" = {
     source = ./themepack;
     recursive = true;

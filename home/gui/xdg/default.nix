@@ -1,6 +1,5 @@
-{ config, ... }:
-let
-  browser = [ "firefox.desktop" ];
+{config, ...}: let
+  browser = ["firefox.desktop"];
 
   # XDG MIME types
   # find .desktop files in $XDG_DATA_DIRS
@@ -13,23 +12,23 @@ let
     "application/xhtml+xml" = browser;
     "text/html" = browser;
     "x-scheme-handler/about" = browser;
-    "x-scheme-handler/chrome" = [ "chromium-browser.desktop" ];
+    "x-scheme-handler/chrome" = ["chromium-browser.desktop"];
     "x-scheme-handler/ftp" = browser;
     "x-scheme-handler/http" = browser;
     "x-scheme-handler/https" = browser;
     "x-scheme-handler/unknown" = browser;
 
-    "audio/*" = [ "mpv.desktop" ];
-    "video/*" = [ "mpv.desktop" ];
-    "image/png" = [ "imv-dir.desktop" ];
-    "image/jpeg" = [ "imv-dir.desktop" ];
-    "image/gif" = [ "imv-dir.desktop" ];
-    "image/webp" = [ "imv-dir.desktop" ];
+    "audio/*" = ["mpv.desktop"];
+    "video/*" = ["mpv.desktop"];
+    "image/png" = ["imv-dir.desktop"];
+    "image/jpeg" = ["imv-dir.desktop"];
+    "image/gif" = ["imv-dir.desktop"];
+    "image/webp" = ["imv-dir.desktop"];
     "application/json" = browser;
-    "application/pdf" = [ "org.pwmt.zathura.desktop;" ];
-    "x-scheme-handler/discord" = [ "discordcanary.desktop" ];
-    "x-scheme-handler/spotify" = [ "spotify.desktop" ];
-    "x-scheme-handler/tg" = [ "telegramdesktop.desktop" ];
+    "application/pdf" = ["org.pwmt.zathura.desktop;"];
+    "x-scheme-handler/discord" = ["discordcanary.desktop"];
+    "x-scheme-handler/spotify" = ["spotify.desktop"];
+    "x-scheme-handler/tg" = ["telegramdesktop.desktop"];
   };
 in {
   xdg = {

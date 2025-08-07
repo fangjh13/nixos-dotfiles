@@ -1,5 +1,4 @@
-{ pkgs }:
-
+{pkgs}:
 pkgs.writeShellScriptBin "rofi-calc" ''
   rofi -show calc \
        -modi calc \
@@ -8,4 +7,3 @@ pkgs.writeShellScriptBin "rofi-calc" ''
        -theme ~/.config/rofi/one-col.rasi \
        -calc-command "echo -n '{result}' | wl-copy"
 ''
-

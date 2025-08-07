@@ -1,11 +1,12 @@
-{ pkgs, config, ... }:
-
 {
-  home.packages = with pkgs;
-    [
-      # notification daemon
-      swaynotificationcenter
-    ];
+  pkgs,
+  config,
+  ...
+}: {
+  home.packages = with pkgs; [
+    # notification daemon
+    swaynotificationcenter
+  ];
 
   home.file.".config/swaync/config.json".text = ''
     {
@@ -317,4 +318,3 @@
     }
   '';
 }
-

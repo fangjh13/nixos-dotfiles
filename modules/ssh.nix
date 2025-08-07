@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   # Enable the OpenSSH daemon.
   services = {
     openssh = {
@@ -26,5 +30,4 @@
     #   };
     # };
   };
-
 }

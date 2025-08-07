@@ -1,7 +1,12 @@
 # https://wiki.nixos.org/wiki/PulseAudio
-{ lib, username, config, ... }:
-with lib;
-let cfg = config.multimedia.pulseaudio;
+{
+  lib,
+  username,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.multimedia.pulseaudio;
 in {
   options.multimedia.pulseaudio = {
     enable = mkEnableOption "Enable Pulseaudio";
@@ -14,7 +19,6 @@ in {
       # If compatibility with 32-bit applications is desired.
       support32Bit = true;
     };
-    users.users."${username}".extraGroups = [ "audio" ];
+    users.users."${username}".extraGroups = ["audio"];
   };
 }
-

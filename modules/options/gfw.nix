@@ -1,4 +1,8 @@
-{ pkgs-unstable, lib, ... }: {
+{
+  pkgs-unstable,
+  lib,
+  ...
+}: {
   services.mihomo = {
     package = pkgs-unstable.mihomo;
     enable = true;

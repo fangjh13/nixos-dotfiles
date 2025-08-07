@@ -1,5 +1,9 @@
-{ pkgs, host, ... }:
-let inherit (import ../../hosts/${host}/variables.nix) bookmarks;
+{
+  pkgs,
+  host,
+  ...
+}: let
+  inherit (import ../../hosts/${host}/variables.nix) bookmarks;
 in {
   # GTK+ 2/3 applications themes config
   gtk = {
@@ -12,9 +16,9 @@ in {
       name = "WhiteSur-Dark-solid";
       package = pkgs.whitesur-gtk-theme;
     };
-    gtk3.extraConfig = { gtk-application-prefer-dark-theme = 1; };
-    gtk4.extraConfig = { gtk-application-prefer-dark-theme = 1; };
-    gtk3 = { bookmarks = bookmarks; };
+    gtk3.extraConfig = {gtk-application-prefer-dark-theme = 1;};
+    gtk4.extraConfig = {gtk-application-prefer-dark-theme = 1;};
+    gtk3 = {bookmarks = bookmarks;};
   };
 
   dconf = {
@@ -26,5 +30,4 @@ in {
       };
     };
   };
-
 }

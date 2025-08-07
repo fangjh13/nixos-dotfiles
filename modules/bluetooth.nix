@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   # Bluetooth
   # https://wiki.nixos.org/wiki/Bluetooth
   hardware.bluetooth = {
@@ -7,5 +7,4 @@
   };
   # use blueman-applet and blueman-manager
   services.blueman.enable = true;
-
 }

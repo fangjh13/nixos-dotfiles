@@ -1,8 +1,13 @@
-{ lib, config, username, ... }:
-with lib;
-let cfg = config.addon.podman;
+{
+  lib,
+  config,
+  username,
+  ...
+}:
+with lib; let
+  cfg = config.addon.podman;
 in {
-  options.addon.podman = { enable = mkEnableOption "Enable podman"; };
+  options.addon.podman = {enable = mkEnableOption "Enable podman";};
 
   config = mkIf cfg.enable {
     # Enable common container config files in /etc/containers
@@ -21,8 +26,7 @@ in {
 
     users.users."${username}" = {
       isNormalUser = true;
-      extraGroups = [ "podman" ];
+      extraGroups = ["podman"];
     };
   };
 }
-

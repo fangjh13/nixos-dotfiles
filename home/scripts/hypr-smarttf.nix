@@ -1,8 +1,7 @@
 # hyprland smart toggle floating
 # some of apps like kitty toggle to floating set window size
 # https://github.com/hyprwm/Hyprland/issues/7926
-{ pkgs }:
-
+{pkgs}:
 pkgs.writeShellScriptBin "hypr-smarttf" ''
 
   floating=$(hyprctl activewindow -j | jq '.floating')
@@ -36,4 +35,3 @@ pkgs.writeShellScriptBin "hypr-smarttf" ''
   esac
 
 ''
-

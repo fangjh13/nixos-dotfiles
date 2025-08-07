@@ -1,24 +1,32 @@
-{ pkgs, lib, username, community-nur, host, ... }@args:
-let
+{
+  pkgs,
+  lib,
+  username,
+  community-nur,
+  host,
+  ...
+} @ args: let
   inherit (import ../hosts/${host}/variables.nix) useGUI wallpaper timezone;
-  capitalize = str:
-    let
-      first = builtins.substring 0 1 str;
-      rest = builtins.substring 1 (builtins.stringLength str - 1) str;
-    in lib.toUpper first + rest;
+  capitalize = str: let
+    first = builtins.substring 0 1 str;
+    rest = builtins.substring 1 (builtins.stringLength str - 1) str;
+  in
+    lib.toUpper first + rest;
 in {
-  imports = [
-    ./common.nix
-    ./ssh.nix
-    ./avahi.nix
-    ./fhs.nix
-  ] ++ lib.optionals useGUI [
-    # wayland compositor
-    ./wm/hyprland.nix
-    ./bluetooth.nix
-    (import ./stylix.nix (args // { wallpaper = "${wallpaper}"; }))
-    ./fonts.nix
-  ];
+  imports =
+    [
+      ./common.nix
+      ./ssh.nix
+      ./avahi.nix
+      ./fhs.nix
+    ]
+    ++ lib.optionals useGUI [
+      # wayland compositor
+      ./wm/hyprland.nix
+      ./bluetooth.nix
+      (import ./stylix.nix (args // {wallpaper = "${wallpaper}";}))
+      ./fonts.nix
+    ];
 
   # enable zsh
   programs.zsh = {
@@ -26,25 +34,25 @@ in {
     enableCompletion = true;
     enableBashCompletion = true;
   };
-  environment.shells = [ pkgs.bashInteractive pkgs.zsh ];
+  environment.shells = [pkgs.bashInteractive pkgs.zsh];
 
   # NOTE: Define a main user account
   users.users."${username}" = {
     isNormalUser = true;
     description = capitalize "${username}";
-    extraGroups = [ "networkmanager" "wheel" ];
-    openssh.authorizedKeys.keys = [ ];
+    extraGroups = ["networkmanager" "wheel"];
+    openssh.authorizedKeys.keys = [];
     shell = pkgs.zsh;
   };
   # given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`
-  nix.settings.trusted-users = [ "${username}" ];
+  nix.settings.trusted-users = ["${username}"];
 
   # customise /etc/nix/nix.conf declaratively via `nix.settings`
   nix.settings = {
     # enable flakes globally
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = ["nix-command" "flakes"];
     # save disk space use hard links
     auto-optimise-store = true;
 
@@ -131,11 +139,10 @@ in {
     alsa-utils # Sound Architecture utils
   ];
 
-  services.power-profiles-daemon = { enable = true; };
+  services.power-profiles-daemon = {enable = true;};
   security.polkit.enable = true;
 
-  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
-
+  services.udev.packages = with pkgs; [gnome-settings-daemon];
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;

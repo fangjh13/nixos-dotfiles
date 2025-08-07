@@ -1,6 +1,9 @@
 # media - control and view tools audio/video/image
-{ pkgs, config, ... }: {
-
+{
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [
     # audio control
     pavucontrol
@@ -10,8 +13,8 @@
   programs = {
     mpv = {
       enable = true;
-      defaultProfiles = [ "gpu-hq" ];
-      scripts = [ pkgs.mpvScripts.mpris ];
+      defaultProfiles = ["gpu-hq"];
+      scripts = [pkgs.mpvScripts.mpris];
     };
 
     obs-studio.enable = true;
@@ -95,5 +98,5 @@
     };
   };
 
-  services = { playerctld.enable = true; };
+  services = {playerctld.enable = true;};
 }

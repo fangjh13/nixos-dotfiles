@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   # Enable Hypridle, Hyprland's idle daemon.
   services = {
     hypridle = {
@@ -32,5 +32,4 @@
       };
     };
   };
-
 }

@@ -1,7 +1,12 @@
 # https://wiki.nixos.org/wiki/AMD_GPU
-{ lib, pkgs, config, ... }:
-with lib;
-let cfg = config.drivers.amdgpu;
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.drivers.amdgpu;
 in {
   options.drivers.amdgpu = {
     enable = mkEnableOption "Enable AMD Graphics Drivers";
@@ -16,11 +21,10 @@ in {
     systemd.tmpfiles.rules = let
       rocmEnv = pkgs.symlinkJoin {
         name = "rocm-combined";
-        paths = with pkgs.rocmPackages; [ rocblas hipblas clr ];
+        paths = with pkgs.rocmPackages; [rocblas hipblas clr];
       };
-    in [ "L+    /opt/rocm   -    -    -     -    ${rocmEnv}" ];
+    in ["L+    /opt/rocm   -    -    -     -    ${rocmEnv}"];
 
-    environment.systemPackages = with pkgs; [ amdgpu_top ];
+    environment.systemPackages = with pkgs; [amdgpu_top];
   };
 }
-

@@ -1,5 +1,4 @@
-{ pkgs }:
-
+{pkgs}:
 pkgs.writeShellScriptBin "rofi-clipboard" ''
   rofi -modi clipboard:~/.config/rofi/scripts/cliphist-rofi-img.sh \
        -show clipboard \

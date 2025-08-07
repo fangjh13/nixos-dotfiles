@@ -1,5 +1,5 @@
 # https://github.com/ryan4yin/nix-config/blob/7438aa04eaa28999e03abb719e5fdc6320b62d89/modules/nixos/desktop/fhs.nix
-{ pkgs, ... }: {
+{pkgs, ...}: {
   # TODO: FHS environment, flatpak, appImage, etc.
   # environment.systemPackages = [
   #   # create a fhs environment by command `fhs`, so we can run non-nixos packages in nixos!

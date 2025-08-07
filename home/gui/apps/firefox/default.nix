@@ -1,4 +1,8 @@
-{ pkgs, config, ... }: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   programs = {
     firefox = {
       enable = true;
@@ -20,8 +24,7 @@
             "browser.display.background_color.dark" = "#1C1B22";
             "browser.display.foreground_color" = "#000000";
             "browser.display.foreground_color.dark" = "#FBFBFE";
-            "browser.search.hiddenOneOffs" =
-              "Google,Amazon.com,Bing,DuckDuckGo,Wikipedia (en)";
+            "browser.search.hiddenOneOffs" = "Google,Amazon.com,Bing,DuckDuckGo,Wikipedia (en)";
             "browser.search.suggest.enabled" = true;
             "browser.urlbar.placeholderName" = "Google";
             "browser.urlbar.speculativeConnect.enabled" = true;
