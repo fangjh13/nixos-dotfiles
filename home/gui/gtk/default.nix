@@ -3,7 +3,7 @@
   host,
   ...
 }: let
-  inherit (import ../../hosts/${host}/variables.nix) bookmarks;
+  inherit (import ../../../hosts/${host}/variables.nix) bookmarks;
 in {
   # GTK+ 2/3 applications themes config
   gtk = {

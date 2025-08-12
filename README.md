@@ -48,6 +48,12 @@ sudo nixos-generate-config --show-hardware-config > hosts/<your hostname>/hardwa
 
 Change the hostname and username in `flake.nix` and some other configurations in `hosts/<your hostname>/variables.nix`
 
+| Variable | Description                                    |
+| -------- | ---------------------------------------------- |
+| useGUI   | Enable graphical user interface. i.e. hyprland |
+| monitor  | Monitor config for hyprland                    |
+| timezone | Timezone for the system                        |
+
 > Some optional configurations (like graphic driver) can be enabled in `hosts/<your hostname>/default.nix`
 
 Rebuild NixOS

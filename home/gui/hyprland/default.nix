@@ -7,7 +7,7 @@
   inputs,
   ...
 } @ args: let
-  inherit (import ../../hosts/${host}/variables.nix) monitor xkbOptions;
+  inherit (import ../../../hosts/${host}/variables.nix) monitor xkbOptions;
 in
   with lib; {
     imports = [

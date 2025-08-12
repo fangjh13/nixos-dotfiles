@@ -20,8 +20,6 @@
     xserver = {enable = false;};
     greetd = {
       enable = true;
-      # The virtual console (tty) that greetd should use
-      vt = 3;
       settings = {
         default_session = {
           # Wayland Desktop Manager is installed only for user ${username} via home-manager

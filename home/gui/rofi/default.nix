@@ -5,7 +5,7 @@
   host,
   ...
 }: let
-  inherit (import ../../hosts/${host}/variables.nix) wallpaper;
+  inherit (import ../../../hosts/${host}/variables.nix) wallpaper;
   dataHome = config.xdg.dataHome;
 in {
   programs.rofi = {
