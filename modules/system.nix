@@ -28,22 +28,6 @@ in {
       ./fonts.nix
     ];
 
-  # enable zsh
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    enableBashCompletion = true;
-  };
-  environment.shells = [pkgs.bashInteractive pkgs.zsh];
-
-  # NOTE: Define a main user account
-  users.users."${username}" = {
-    isNormalUser = true;
-    description = capitalize "${username}";
-    extraGroups = ["networkmanager" "wheel"];
-    openssh.authorizedKeys.keys = [];
-    shell = pkgs.zsh;
-  };
   # given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`

@@ -1,4 +1,8 @@
 {
+  # Whether to enable the desktop environment
+  # If false, only the command-line will be available.
+  useGUI = true;
+
   # Hyprland Monitor config
   monitor = ''
     # default

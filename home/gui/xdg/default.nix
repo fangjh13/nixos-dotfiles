@@ -57,7 +57,7 @@ in {
 
   # link wallpapers into home Pictures directory
   home.file."Pictures/Wallpapers" = {
-    source = ../../wallpapers;
+    source = ../../../wallpapers;
     recursive = true;
   };
 }

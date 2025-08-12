@@ -28,37 +28,22 @@
     ...
   }: let
     # FIXME: change your info
-    system = "aarch64-linux"; # support x86_64-linux or aarch64-linux
-    host = "vmnixos";
+    system = "x86_64-linux"; # support x86_64-linux or aarch64-linux
+    host = "deskmini";
     username = "fython";
     pkgs-unstable = import inputs.nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
     };
+    overlays = [];
+    mkSystem = import ./lib/mk_system.nix {
+      inherit inputs nixpkgs pkgs-unstable community-nur overlays;
+    };
   in {
     nixosConfigurations = {
-      "${host}" = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit username community-nur pkgs-unstable host;};
-
-        modules = [
-          ./hosts/${host}
-          # TODO: move to internal hosts
-          # inputs.stylix.nixosModules.stylix # stylix modules
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users."${username}" = import ./home;
-              extraSpecialArgs =
-                inputs
-                // {
-                  inherit username community-nur pkgs-unstable host;
-                };
-            };
-          }
-        ];
+      "${host}" = mkSystem "${host}" {
+        system = system;
+        username = username;
       };
     };
   };
