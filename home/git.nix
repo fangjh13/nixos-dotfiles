@@ -33,6 +33,7 @@
       diff = {colorMoved = "default";};
       init = {defaultBranch = "main";};
       pull.rebase = true;
+      log.date = "local";
     };
 
     # syntax-highlighting pager for git

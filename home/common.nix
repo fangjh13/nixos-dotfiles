@@ -5,89 +5,76 @@
   pkgs-unstable,
   ...
 }: {
-  home.packages = with pkgs; ([
-      # archives
-      zip
-      unzip
-      unrar
-      xz
-      p7zip
+  home.packages = with pkgs; [
+    # archives
+    zip
+    unzip
+    unrar
+    xz
+    p7zip
 
-      # utils
-      psmisc
-      file
-      ripgrep # recursively searches directories for a regex pattern
-      yq-go # yaml processor https://github.com/mikefarah/yq
-      moreutils # sponge chronic errno ...
-      htop
-      killall
-      tree
-      android-tools
-      dnsutils
-      tokei # count code, quickly
-      fastfetch
+    # utils
+    psmisc
+    file
+    ripgrep # recursively searches directories for a regex pattern
+    yq-go # yaml processor https://github.com/mikefarah/yq
+    moreutils # sponge chronic errno ...
+    htop
+    killall
+    tree
+    android-tools
+    dnsutils
+    tokei # count code, quickly
+    fastfetch
 
-      # misc
-      openssl
-      ffmpeg
-      ncdu # disk usage analyzer
-      duf # `df` alternative
-      tlrc # Official `tldr` client written in Rust
-      lshw
-      dmidecode
+    # misc
+    openssl
+    ffmpeg
+    ncdu # disk usage analyzer
+    duf # `df` alternative
+    tlrc # Official `tldr` client written in Rust
+    lshw
+    dmidecode
 
-      # cloud native
-      docker-compose
-      kubectl
-      devspace
+    # cloud native
+    docker-compose
+    kubectl
+    devspace
 
-      # db related
-      mycli
-      pgcli
+    # db related
+    mycli
+    pgcli
 
-      # nix related
-      #
-      # it provides the command `nom` works just like `nix`
-      # with more details log output
-      nix-output-monitor
+    # nix related
+    #
+    # it provides the command `nom` works just like `nix`
+    # with more details log output
+    nix-output-monitor
 
-      # system call monitoring
-      strace # system call monitoring
-      ltrace # library call monitoring
-      lsof # list open files
+    # system call monitoring
+    strace # system call monitoring
+    ltrace # library call monitoring
+    lsof # list open files
 
-      # system tools
-      sysstat
-      lm_sensors # for `sensors` command
-      ethtool
-      pciutils # lspci
-      usbutils # lsusb
-      # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
-      nvtopPackages.full
+    # system tools
+    sysstat
+    lm_sensors # for `sensors` command
+    ethtool
+    pciutils # lspci
+    usbutils # lsusb
+    # A (h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs
+    nvtopPackages.full
 
-      # https://devenv.sh Developer Environments using Nix
-      pkgs-unstable.devenv
+    # https://devenv.sh Developer Environments using Nix
+    pkgs-unstable.devenv
 
-      # man doc
-      man-pages
-      man-pages-posix
-    ]
-    # C/C++ Languages
-    ++ [
-      gcc
-      gdb
-      cmake
-      gnumake
-      checkmake
-      pkg-config
-    ]
-    # Rust
-    ++ [
-      rustc
-      pkgs-unstable.cargo # rust package manager
-    ]
-    # Web Development
-    ++ [nodePackages.nodejs nodePackages.yarn nodePackages.typescript]);
+    # man doc
+    man-pages
+    man-pages-posix
+
+    # command line ai coding
+    claude-code
+  ];
 
   programs = {
     # A command-line fuzzy finder
