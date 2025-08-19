@@ -8,5 +8,9 @@
     # press q to quit, CWD changed to the current directory
     # press Q to quit, CWD is not changed
     shellWrapperName = "y";
+    plugins = {mediainfo = pkgs.yaziPlugins.mediainfo;};
   };
+  home.packages = with pkgs; [
+    exiftool
+  ];
 }
