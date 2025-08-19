@@ -12,6 +12,7 @@ in {
     [
       ./common.nix
       ./git.nix
+      ./yazi.nix
       ./shell
       ./nvim
       ./tmux
