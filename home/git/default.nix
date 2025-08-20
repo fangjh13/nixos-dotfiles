@@ -62,5 +62,13 @@
         };
       };
     };
+    hooks = {
+      prepare-commit-msg = ./hooks/prepare-commit-msg.sh;
+    };
+  };
+
+  # git commit prompt
+  home.file.".config/prompt/git-commit-msg.md" = {
+    source = ./hooks/git-commit-msg.md;
   };
 }
