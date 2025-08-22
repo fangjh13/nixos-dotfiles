@@ -18,6 +18,8 @@ in {
     llmWtihPlugins
     # run python applications in isolated environments
     pipx
+    # Command Line Interface to FreeDesktop.org Trash
+    trash-cli
   ];
 
   imports = [
