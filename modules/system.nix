@@ -7,11 +7,6 @@
   ...
 } @ args: let
   inherit (import ../hosts/${host}/variables.nix) useGUI wallpaper timezone;
-  capitalize = str: let
-    first = builtins.substring 0 1 str;
-    rest = builtins.substring 1 (builtins.stringLength str - 1) str;
-  in
-    lib.toUpper first + rest;
 in {
   imports =
     [
@@ -23,6 +18,7 @@ in {
     ++ lib.optionals useGUI [
       # wayland compositor
       ./wm/hyprland.nix
+      ./common-gui.nix
       ./bluetooth.nix
       (import ./stylix.nix (args // {wallpaper = "${wallpaper}";}))
       ./fonts.nix
@@ -99,10 +95,6 @@ in {
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-  services.geoclue2.enable = true;
-  programs.dconf.enable = true;
   # Allow non-root users to specify the allow_other or allow_root mount options, see mount.fuse3(8).
   programs.fuse.userAllowOther = true;
   # Enable periodic SSD TRIM of mounted partitions in background
@@ -127,16 +119,4 @@ in {
   security.polkit.enable = true;
 
   services.udev.packages = with pkgs; [gnome-settings-daemon];
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
-
-  # Docs
-  documentation = {
-    enable = true;
-    doc.enable = true;
-    man.enable = true;
-    info.enable = true;
-    dev.enable = true;
-  };
 }
