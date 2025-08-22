@@ -11,8 +11,8 @@ in {
   imports =
     [
       ./common.nix
-      ./git.nix
       ./yazi.nix
+      ./git
       ./shell
       ./nvim
       ./tmux
