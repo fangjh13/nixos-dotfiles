@@ -5,19 +5,21 @@
     # https://wiki.nixos.org/wiki/FAQ#What_are_channels_and_how_do_they_get_updated?
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
+
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # NUR community
-    community-nur.url = "github:nix-community/NUR";
+    community-nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # System-wide colorscheming and typography
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nix language server
-    nixd.url = "github:nix-community/nixd";
   };
 
   outputs = inputs @ {
