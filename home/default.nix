@@ -11,11 +11,11 @@ in {
   imports =
     [
       ./common.nix
-      ./yazi.nix
       ./git
       ./shell
       ./nvim
       ./tmux
+      ./yazi
       ./scripts
       ./programming
     ]
