@@ -69,6 +69,8 @@
 
   # git commit prompt
   home.file.".config/prompt/git-commit-msg.md" = {
+    # from https://github.com/theorib/git-commit-message-ai-prompt
+    # https://github.com/Sitoi/ai-commit/tree/main/prompt
     source = ./hooks/git-commit-msg.md;
   };
 }
