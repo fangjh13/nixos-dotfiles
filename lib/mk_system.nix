@@ -2,6 +2,7 @@
 {
   inputs,
   nixpkgs,
+  pkgs-stable,
   pkgs-unstable,
   community-nur,
   overlays,
@@ -38,7 +39,7 @@ in
     inherit system;
 
     # expose some extra arguments so that our modules can use them
-    specialArgs = {inherit username community-nur pkgs-unstable host;};
+    specialArgs = {inherit username community-nur pkgs-stable pkgs-unstable host;};
 
     modules = [
       # Apply our overlays available globally.
