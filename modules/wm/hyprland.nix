@@ -7,7 +7,7 @@
 
   environment.systemPackages = with pkgs; [
     # Graphical console greeter for greetd.
-    greetd.tuigreet
+    tuigreet
     # thunar need for image preview (https://gitlab.xfce.org/xfce/thunar/-/issues/1285)
     xfce.xfconf
     # LXQt PolicyKit agent
@@ -25,7 +25,7 @@
           # Wayland Desktop Manager is installed only for user ${username} via home-manager
           user = "${username}";
           # Start Hyprland with a TUI login manager
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
         };
       };
     };

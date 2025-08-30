@@ -13,8 +13,8 @@
   '';
 
   # `ctrl:nocaps` Caps Lock as Ctrl
-  # xkbOptions = "ctrl:nocaps"; # For Keychron Q60Max
-  xkbOptions = "ctrl:nocaps,altwin:swap_lalt_lwin"; # For HHKB (set 1,3,4,5 ON)
+  xkbOptions = "ctrl:nocaps"; # For Keychron Q60Max
+  # xkbOptions = "ctrl:nocaps,altwin:swap_lalt_lwin"; # For HHKB (set 1,3,4,5 ON)
 
   # Choose a wallpaper file name from wallpapers folder
   wallpaper = "SpaceX_20241013_192337_1845545948283572503_photo.jpg";
