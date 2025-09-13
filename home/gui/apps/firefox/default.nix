@@ -7,8 +7,7 @@
   programs = {
     firefox = {
       enable = true;
-      # TODO: the latest unstable version 142.0 crashes use stable channel version 142
-      package = pkgs-stable.firefox;
+      package = pkgs.firefox;
       policies = {
         DisablePocket = true;
         DontCheckDefaultBrowser = true;
