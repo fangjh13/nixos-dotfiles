@@ -149,12 +149,15 @@
     # ssh client
     ssh = {
       enable = true;
-      forwardAgent = true;
-      addKeysToAgent = "yes";
       includes = ["config.d/*"];
       extraConfig = ''
         SendEnv LANG LC_*
       '';
+      enableDefaultConfig = false;
+      matchBlocks."*" = {
+        forwardAgent = true;
+        addKeysToAgent = "yes";
+      };
     };
   };
 
