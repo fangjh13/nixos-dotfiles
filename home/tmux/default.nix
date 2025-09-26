@@ -14,12 +14,13 @@
       extraConfig = builtins.readFile ./tmux.conf;
     };
 
-    # use sesh need fzf tmux enable
+    # use sesh in tmux need fzf tmux enable
     fzf.tmux.enableShellIntegration = true;
     fzf.tmux.shellIntegrationOptions = ["-d 80%"];
     sesh = {
       # Whether to enable the sesh terminal session manager
       enable = true;
+      enableTmuxIntegration = true;
       tmuxKey = "s";
       settings = {
         blacklist = ["scratch"];
@@ -35,7 +36,7 @@
             preview_command = "${lib.getExe pkgs.glow} ${path}";
           }
           {
-            name = "⚙️ config";
+            name = "🏠 config";
             path = "~/.config";
           }
         ];
