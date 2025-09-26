@@ -9,12 +9,14 @@
   cacheHome = config.xdg.cacheHome;
 in {
   imports = [
-    ./bash
-    ./zsh
-    ./prompt/starship.nix
     ./terminals/alacritty
     ./terminals/wezterm
     ./terminals/kitty
+    ./bash
+    ./zsh
+    ./prompt/starship.nix
+    ./zoxide
+    ./fzf
   ];
 
   # add environment variables

@@ -36,7 +36,7 @@
       oh-my-zsh = {
         enable = true;
         theme = ""; # disable theme use pure prompt
-        plugins = ["git" "copypath" "copybuffer" "z"];
+        plugins = ["git" "copypath" "copybuffer"];
       };
 
       dirHashes = {
@@ -46,7 +46,7 @@
 
       # manual add fpath for zsh-completions
       initContent = ''
-        fpath+=$HOME/.zsh/plugins/zsh-completions/src 
+        fpath+=$HOME/.zsh/plugins/zsh-completions/src
          ${lib.readFile ./extra.zshrc}'';
 
       sessionVariables = {
