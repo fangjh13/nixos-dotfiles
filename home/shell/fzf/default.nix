@@ -19,23 +19,10 @@
         text = builtins.readFile ./fzf-preview.sh;
         executable = true;
       };
-    in {
-      enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      # FZF_DEFAULT_COMMAND
-      defaultCommand = "git ls-tree -r --name-only HEAD --cached --others --exclude-standard || fd --type f --type l ${fdOptions}";
-      # FZF_DEFAULT_OPTS
-      defaultOptions = [
-        "--no-mouse"
-        "--select-1"
-        "--multi"
-        "--inline-info"
-        "--ansi"
+      FullOpts = [
         "--style full"
         "--border --padding 1,2"
         "--border-label ' FZF ' --input-label ' Input ' --header-label ' File Type '"
-        "--preview='${fzfPreviewScript} {}'"
         ''
           --bind 'result:transform-list-label:
             if [ -z \"\$FZF_QUERY\" ]; then
@@ -53,6 +40,22 @@
         "--color 'list-border:#669966,list-label:#99cc99'"
         "--color 'input-border:#996666,input-label:#ffcccc'"
         "--color 'header-border:#6699cc,header-label:#99ccff'"
+        "--preview='${fzfPreviewScript} {}'"
+      ];
+    in {
+      enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      # FZF_DEFAULT_COMMAND
+      defaultCommand = "git ls-tree -r --name-only HEAD --cached --others --exclude-standard || fd --type f --type l ${fdOptions}";
+      # FZF_DEFAULT_OPTS
+      defaultOptions = [
+        "--no-mouse"
+        "--select-1"
+        "--multi"
+        "--inline-info"
+        "--ansi"
+        "--layout=reverse"
         # <ctrl-w>: text preview
         # <ctrl-y>: copy file name
         "--bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-w:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | ${copyCommand})'"
@@ -63,12 +66,21 @@
       # FZF_CTRL_T_COMMAND
       fileWidgetCommand = "fd ${fdOptions}";
       # FZF_CTRL_T_OPTS
-      fileWidgetOptions = ["--layout=default" "--height=80%"];
+      fileWidgetOptions = ["--layout=default" "--height=80%"] ++ FullOpts;
       # FZF_CTRL_R_OPTS
-      historyWidgetOptions = ["--layout=default" "--height=80%" "--border-label ''" "--bind 'focus:transform-header()'" "--style minimal" "--preview 'echo {}'" "--preview-window up:3:hidden:wrap" "--bind 'ctrl-y:execute-silent(echo -n {2..} | ${copyCommand})+abort'" "--color header:italic" "--header 'Press CTRL-Y to copy command into clipboard'"];
+      historyWidgetOptions = [
+        "--layout=default"
+        "--height=80%"
+        "--style minimal"
+        "--preview 'echo {}'"
+        "--preview-window up:3:hidden:wrap"
+        "--bind 'ctrl-y:execute-silent(echo -n {2..} | ${copyCommand})+abort'"
+        "--color header:italic"
+        "--header 'Press CTRL-Y to copy command into clipboard'"
+      ];
       # FZF_ALT_C_COMMAND
       changeDirWidgetCommand = "fd --type d ${fdOptions}";
-      changeDirWidgetOptions = ["--layout=reverse" "--height=80%"];
+      changeDirWidgetOptions = ["--height=80%"] ++ FullOpts;
     };
   };
 }
