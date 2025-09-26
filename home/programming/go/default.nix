@@ -5,7 +5,9 @@
 }: {
   programs.go = {
     enable = true;
-    goPath = ".go/";
+    env = {
+      GOPATH = "$HOME/.go/";
+    };
   };
 
   # Add a directory to PATH

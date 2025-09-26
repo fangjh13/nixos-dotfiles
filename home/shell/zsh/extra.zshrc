@@ -23,22 +23,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   bindkey '<CTL-H=BS>' unix-word-rubout
 fi
 
-# cd command combine with zsh-z
-cd() {
-    # Go to home without arguments
-    [ -z "$*" ] && builtin cd && return
-    # If directory exists, change to it
-    [ -d "$*" ] && builtin cd "$*" && return
-    [ "$*" = "-" ] && builtin cd "$*" && return
-    # Catch cd . and cd ..
-    case "$*" in
-        ..) builtin cd ..; return;;
-        .) builtin cd .; return;;
-    esac
-    # Finally, call z.
-    zshz "$*" || builtin cd "$*"
-}
-
 # Go to a file's directory interactively
 cdf() {
   NAME="$(dirname "$(fd -0 -t f | fzf --read0 -i -q "$* " -1)")"
@@ -70,9 +54,10 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-# fix kitty use with ssh https://wiki.archlinux.org/title/Kitty#Terminal_issues_with_SSH
-# add change TERM=xterm-256color display color PS1
-# [ "$TERM" = "xterm-kitty" ] && alias ssh="TERM=xterm-256color kitty +kitten ssh"
+# fix kitty use with ssh
+#  - https://wiki.archlinux.org/title/Kitty#Terminal_issues_with_SSH
+#  - https://wiki.archlinux.org/title/OpenSSH#Connecting_to_a_remote_without_the_appropriate_terminfo_entry
+[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
 
 # alacritty terminal ssh reset
 [ "$TERM" = "alacritty" ] && alias ssh="TERM=xterm-256color ssh"

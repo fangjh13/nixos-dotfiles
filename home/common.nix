@@ -35,6 +35,8 @@
     tlrc # Official `tldr` client written in Rust
     lshw
     dmidecode
+    glow # markdown viewer on CLI
+    chafa # image viewer on CLI
 
     # cloud native
     docker-compose
@@ -77,52 +79,6 @@
   ];
 
   programs = {
-    # A command-line fuzzy finder
-    fzf = let
-      fdOptions = "--follow --hidden --exclude .git --color=always";
-      copyCommand = ''
-        ${
-          if pkgs.stdenvNoCC.isLinux
-          then
-            # Wayland use wl-copy or X windows use xclip
-            if pkgs.wlroots != null
-            then "wl-copy"
-            else "xclip -sel clip"
-          else "pbcopy"
-        }
-      '';
-    in {
-      enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      # FZF_DEFAULT_COMMAND
-      defaultCommand = "git ls-tree -r --name-only HEAD --cached --others --exclude-standard || fd --type f --type l ${fdOptions}";
-      # FZF_DEFAULT_OPTS
-      defaultOptions = [
-        "--no-mouse"
-        "--height 50%"
-        "--select-1"
-        "--reverse"
-        "--multi"
-        "--inline-info"
-        "--ansi"
-        "--preview='[[ -d {} ]] && eza --tree --color=always {} || ([[ \\$(file --mime {}) =~ binary ]] && echo {} is a binary file) || (bat --style=numbers --color=always --line-range=:500 {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -300'"
-        "--preview-window='right:hidden:wrap'"
-        # <ctrl-w>: text preview
-        # <ctrl-y>: copy file name
-        "--bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-w:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | ${copyCommand})'"
-        # <ctrl-g>: Re-filtering of filtered results can be repeated
-        "--bind='ctrl-g:+clear-selection+select-all+clear-query+execute-silent:touch /tmp/wait-result'"
-        "--bind='result:+transform:[ -f /tmp/wait-result ] && { rm /tmp/wait-result; echo +toggle-all+exclude-multi; }'"
-      ];
-      # FZF_CTRL_T_COMMAND
-      fileWidgetCommand = "fd ${fdOptions}";
-      # FZF_CTRL_R_OPTS
-      historyWidgetOptions = ["--layout=default"];
-      # FZF_ALT_C_COMMAND
-      changeDirWidgetCommand = "fd --type d ${fdOptions}";
-    };
-
     bat = {
       enable = true;
       config = {pager = "less -FR";};
