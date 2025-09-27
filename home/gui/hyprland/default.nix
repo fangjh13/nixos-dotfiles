@@ -277,11 +277,8 @@ in
             accel_profile = flat
         }
 
-        # https://wiki.hyprland.org/Configuring/Variables/#gestures
-        gestures {
-            workspace_swipe = true
-            workspace_swipe_fingers = 3
-        }
+        # https://wiki.hypr.land/Configuring/Gestures/
+        gesture = 3, horizontal, workspace
 
         # Example per-device config
         # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
@@ -307,6 +304,7 @@ in
         bind = $mainMod, D, exec, rofi-launcher
         bind = $mainMod, X, exec, rofi-wo
         bind = $mainMod, equal, exec, rofi-calc
+        bind = $mainMod, backslash, exec, rofimoji
         bind = $mainMod SHIFT, V, exec, rofi-clipboard
         bind = $mainMod, T, exec, rofi -show window
         bind = $mainMod, Tab, workspace, previous
