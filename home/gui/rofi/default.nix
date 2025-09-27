@@ -11,14 +11,16 @@ in {
   programs.rofi = {
     enable = true;
     configPath = "${dataHome}/rofi/config.rasi";
-    package = pkgs.rofi-wayland;
+    package = pkgs.rofi;
     plugins = with pkgs; [
       # rofi calculator [https://github.com/svenstaro/rofi-calc]
-      (rofi-calc.override {rofi-unwrapped = rofi-wayland-unwrapped;})
+      (rofi-calc.override {rofi-unwrapped = rofi-unwrapped;})
       # rofi-emoji https://github.com/Mange/rofi-emoji
-      rofi-emoji-wayland
+      # rofi-emoji
     ];
   };
+  # rofimoji https://github.com/fdw/rofimoji
+  home.packages = [pkgs.rofimoji];
 
   home.file.".config/rofi" = {
     source = ./configs;
