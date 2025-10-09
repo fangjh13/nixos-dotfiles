@@ -58,6 +58,8 @@ _fzf_compgen_dir() {
 #  - https://wiki.archlinux.org/title/Kitty#Terminal_issues_with_SSH
 #  - https://wiki.archlinux.org/title/OpenSSH#Connecting_to_a_remote_without_the_appropriate_terminfo_entry
 [ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
+# kitty in tmux use standard ssh
+[ "$TERM" = "xterm-kitty" ] && [ -n "$TMUX" ] && alias ssh="TERM=xterm-256color ssh"
 
 # alacritty terminal ssh reset
 [ "$TERM" = "alacritty" ] && alias ssh="TERM=xterm-256color ssh"

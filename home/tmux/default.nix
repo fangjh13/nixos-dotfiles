@@ -12,6 +12,22 @@
     tmux = {
       enable = true;
       extraConfig = builtins.readFile ./tmux.conf;
+      plugins = with pkgs.tmuxPlugins; [
+        # {
+        #   plugin = dracula;
+        #   extraConfig = ''
+        #     set -g @dracula-show-battery false
+        #     set -g @dracula-show-powerline false
+        #     set -g @dracula-refresh-rate 100
+        #   '';
+        # }
+        {
+          plugin = tmux-floax;
+          extraConfig = ''
+            set -g @floax-border-color 'blue'
+          '';
+        }
+      ];
     };
 
     # use sesh in tmux need fzf tmux enable
