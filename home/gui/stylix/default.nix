@@ -20,6 +20,7 @@
     targets.kitty.enable = false;
     targets.fcitx5.enable = false;
     targets.fzf.enable = false;
+    targets.swaync.enable = false;
 
     # firefox use default profile
     targets.firefox.profileNames = ["default"];
