@@ -54,6 +54,7 @@
     sesh = {
       # Whether to enable the sesh terminal session manager
       enable = true;
+      enableAlias = false;
       enableTmuxIntegration = true;
       tmuxKey = "s";
       settings = {
