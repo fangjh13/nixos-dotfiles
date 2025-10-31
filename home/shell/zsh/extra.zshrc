@@ -33,7 +33,7 @@ cdf() {
 
 # Searches file content recursively using ripgrep and edit with neovim
 rgf() {
-    local filename="$(rg "$*" | fzf -i -1 | cut -d ':' -f 1 -)"
+    local filename="$(rg --hidden --no-ignore "$*" | fzf -i -1 | cut -d ':' -f 1 -)"
     if [[ $filename ]]; then
         nvim "$filename"
     fi
