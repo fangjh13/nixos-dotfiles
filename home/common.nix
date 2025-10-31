@@ -41,6 +41,7 @@
     # cloud native
     docker-compose
     kubectl
+    kubeconform # Kubernetes manifests validator
     devspace
 
     # db related
