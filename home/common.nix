@@ -82,7 +82,7 @@
   programs = {
     bat = {
       enable = true;
-      config = {pager = "less -FR";};
+      config = {pager = "less -FRX -i";};
     };
 
     btop = {
