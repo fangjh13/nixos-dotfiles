@@ -1,15 +1,16 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: {
   programs.go = {
     enable = true;
     env = {
-      GOPATH = "$HOME/.go/";
+      GOPATH = "${config.home.homeDirectory}/.go/";
     };
   };
 
   # Add a directory to PATH
-  home.sessionPath = ["$HOME/.go/bin"];
+  home.sessionPath = ["${config.home.homeDirectory}/.go/bin"];
 }
