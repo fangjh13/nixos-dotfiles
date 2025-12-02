@@ -80,6 +80,7 @@
     ];
   };
   home.packages = with pkgs; [
+    mediainfo
     exiftool
   ];
 }
