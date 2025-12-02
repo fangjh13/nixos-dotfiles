@@ -14,7 +14,7 @@ in {
 
   config = mkIf cfg.enable {
     nixpkgs.config.packageOverrides = pkgs: {
-      vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
+      vaapiIntel = pkgs.intel-vaapi-driver.override {enableHybridCodec = true;};
     };
 
     # OpenGL
@@ -24,7 +24,7 @@ in {
         extraPackages = with pkgs; [
           intel-media-driver
           vaapiIntel
-          vaapiVdpau
+          libva-vdpau-driver
           libvdpau-va-gl
         ];
       };

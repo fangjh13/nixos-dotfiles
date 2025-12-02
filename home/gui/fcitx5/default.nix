@@ -36,6 +36,10 @@
           buildInputs = [pkgs.fcitx5 pkgs.librime];
         });
     in
-      with pkgs; [local-fcitx5-rime fcitx5-configtool fcitx5-chinese-addons];
+      with pkgs; [
+        local-fcitx5-rime
+        qt6Packages.fcitx5-configtool
+        qt6Packages.fcitx5-chinese-addons
+      ];
   };
 }
