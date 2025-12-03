@@ -8,7 +8,8 @@
 {
   home.packages = with pkgs; [
     rustc
-    cargo # rust package manager
+    cargo # Rust package manager
+    clippy # Rust linter
   ];
 
   # Add a directory to PATH
