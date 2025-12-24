@@ -45,8 +45,9 @@
     devspace
 
     # db related
-    mycli
-    pgcli
+    litecli # sqlite
+    mycli # mysql
+    pgcli # postgresql
 
     # nix related
     #
