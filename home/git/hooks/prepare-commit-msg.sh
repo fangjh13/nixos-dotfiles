@@ -45,7 +45,7 @@ spin_pid=$! # Capture the process ID of the spinning animation
 
 # Generate the commit message using `git diff` piped into `llm` command
 # The LLM command takes a system prompt from a file as input
-if ! commit_msg=$(git --no-pager diff -U999999 --cached | llm -m gemini-2.5-flash -s "$(cat ${HOME}/.config/prompt/git-commit-msg.md)" 2>&1); then
+if ! commit_msg=$(git --no-pager diff -U999999 --cached | llm -m gemini-3-flash-preview -s "$(cat ${HOME}/.config/prompt/git-commit-msg.md)" 2>&1); then
   # Stop the spinning animation by killing its process
   kill $spin_pid
   wait $spin_pid 2>/dev/null # Wait for the process to terminate and suppress error messages
