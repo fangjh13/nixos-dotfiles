@@ -48,6 +48,7 @@
     litecli # sqlite
     mycli # mysql
     pgcli # postgresql
+    iredis # redis
 
     # nix related
     #
