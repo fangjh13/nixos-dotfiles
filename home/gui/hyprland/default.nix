@@ -502,9 +502,10 @@ in
         windowrule = noborder, class:discord
 
         # wechat
-        windowrule = noborder, initialTitle:微信
-        windowrule = float, initialTitle:微信
-        windowrule = centerwindow, initialTitle:微信
+        windowrule = noborder, initialTitle:Weixin
+        windowrule = float, initialTitle:Weixin
+        # windowrule = size 60% 70%, initialTitle:Weixin
+        windowrule = centerwindow, initialTitle:Weixin
         # 发送文件
         windowrule = pin, class:^(wechat)$, title:^(Open)$
         # 点击出来的框框

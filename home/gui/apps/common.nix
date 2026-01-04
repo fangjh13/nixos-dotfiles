@@ -28,6 +28,7 @@
       # IDE
       insomnia # API debug
       code-cursor # AI Code Editor
+      antigravity-fhs # Google AI Code Editor
 
       # database GUI
       dbeaver-bin

@@ -64,7 +64,7 @@
     useLocalResolver = true;
   };
 
-  networking.enableIPv6 = false; # disable ipv6
+  networking.enableIPv6 = true; # disable ipv6
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
