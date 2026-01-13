@@ -21,6 +21,11 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # neovim nightly
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -40,7 +45,9 @@
       inherit system;
       config.allowUnfree = true;
     };
-    overlays = [];
+    overlays = [
+      inputs.neovim-nightly-overlay.overlays.default
+    ];
     mkSystem = import ./lib/mk_system.nix {
       inherit inputs nixpkgs pkgs-stable pkgs-unstable community-nur overlays;
     };

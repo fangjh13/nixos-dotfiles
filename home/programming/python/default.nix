@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  llmWtihPlugins = pkgs.llm.withPlugins {
+  llmWithPlugins = pkgs.python313Packages.llm.withPlugins {
     # LLM plugin to access Google's Gemini family of models <https://github.com/simonw/llm-gemini>
     llm-gemini = true;
   };
@@ -15,7 +15,7 @@ in {
     # view csv xls in terminal
     visidata
     # CLI tool interacting with AI
-    llmWtihPlugins
+    llmWithPlugins
     # run python applications in isolated environments
     pipx
     # Command Line Interface to FreeDesktop.org Trash
