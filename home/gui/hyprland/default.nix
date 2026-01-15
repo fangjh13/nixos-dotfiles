@@ -464,82 +464,82 @@ in
         # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
 
         # Ignore maximize requests from apps. You'll probably like this.
-        windowrule = suppressevent maximize, class:.*
+        windowrule = suppress_event maximize, match:class .*
 
         # Fix some dragging issues with XWayland
-        windowrule = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+        windowrule = no_focus on,match:class ^$,match:title ^$,match:xwayland 1,match:float 1,match:fullscreen 0,match:pin 0
 
-        windowrule = workspace 2, class:firefox
-        windowrule = float, class:^(org.gnome.FileRoller)$
-        # windowrule = float, class:^(kitty)$, title:^(kitty)$
-        # windowrule = size 60% 70%, initialClass:^(kitty)$
-        windowrule = float, class:org.pulseaudio.pavucontrol
-        windowrule = stayfocused, title:^()$,class:^(steam)$
-        windowrule = minsize 1 1, title:^()$,class:^(steam)$
-        windowrule = opacity 0.9 0.7, class:^(thunar)$
-        windowrule = float, title:^(Authentication Required)$
-        windowrule = float, title:^(Open Folder)$
+        windowrule = workspace 2, match:class firefox
+        windowrule = float on, match:class ^(org.gnome.FileRoller)$
+        # windowrule = float on, match:class ^(kitty)$, match:title ^(kitty)$
+        # windowrule = size 60% 70%, match:initial_class ^(kitty)$
+        windowrule = float on, match:class org.pulseaudio.pavucontrol
+        windowrule = stay_focused on, match:title ^()$,match:class ^(steam)$
+        windowrule = min_size 1 1, match:title ^()$,match:class ^(steam)$
+        windowrule = opacity 0.9 0.7, match:class ^(thunar)$
+        windowrule = float on, match:title ^(Authentication Required)$
+        windowrule = float on, match:title ^(Open Folder)$
 
         # float title is `FloatWindow`
-        windowrule = float, title:^(FloatWindow)$
-        windowrule = size 70% 70%, title:^(FloatWindow)$
-        windowrule = center, floating:1, title:^(FloatWindow)$
+        windowrule = float on, match:title ^(FloatWindow)$
+        windowrule = size 70% 70%, match:title ^(FloatWindow)$
+        windowrule = center on, match:float 1, match:title ^(FloatWindow)$
 
         # keepassxc auto start and move to special workspace (scratchpad)
         exec-once = [workspace special:keepassxc silent] keepassxc
-        windowrule = float, class:org.keepassxc.KeePassXC
-        windowrule = center, floating:1, class:org.keepassxc.KeePassXC
-        windowrule = workspace special:keepassxc, class:org.keepassxc.KeePassXC
+        windowrule = float on, match:class org.keepassxc.KeePassXC
+        windowrule = center on, match:float 1, match:class org.keepassxc.KeePassXC
+        windowrule = workspace special:keepassxc, match:class org.keepassxc.KeePassXC
         bind = $mainMod SHIFT, P, exec, hyprctl dispatch togglespecialworkspace keepassxc && hyprctl dispatch centerwindow
 
         # Telegram desktop
-        windowrule = float, initialClass:org.telegram.desktop
-        windowrule = center, floating:1, initialClass:org.telegram.desktop
-        windowrule = noborder, floating:1, initialClass:org.telegram.desktop
+        windowrule = float on, match:initial_class org.telegram.desktop
+        windowrule = center on, match:float 1, match:initial_class org.telegram.desktop
+        windowrule = border_size 0, match:float 1, match:initial_class org.telegram.desktop
 
         # discord
-        windowrule = float, class:discord
-        windowrule = noborder, class:discord
+        windowrule = float on, match:class discord
+        windowrule = border_size 0, match:class discord
 
         # wechat
-        windowrule = noborder, initialTitle:Weixin
-        windowrule = float, initialTitle:Weixin
-        # windowrule = size 60% 70%, initialTitle:Weixin
-        windowrule = centerwindow, initialTitle:Weixin
+        windowrule = border_size 0, match:initial_title Weixin
+        windowrule = float on, match:initial_title Weixin
+        # windowrule = size 60% 70%, match:initial_title Weixin
+        windowrule = center on, match:initial_title Weixin
         # 发送文件
-        windowrule = pin, class:^(wechat)$, title:^(Open)$
+        windowrule = pin on, match:class ^(wechat)$, match:title ^(Open)$
         # 点击出来的框框
-        windowrule = noborder, title:^(wechat)$, class:^(wechat)$
-        windowrule = noanim, title:^(wechat)$, class:^(wechat)$
-        windowrule = pin, title:^(wechat)$, class:^(wechat)$
-        windowrule = move onscreen cursor, title:^(wechat)$, class:^(wechat)$
+        windowrule = border_size 0, match:title ^(wechat)$, match:class ^(wechat)$
+        windowrule = no_anim on, match:title ^(wechat)$, match:class ^(wechat)$
+        windowrule = pin on, match:title ^(wechat)$, match:class ^(wechat)$
+        windowrule = move onscreen cursor, match:title ^(wechat)$, match:class ^(wechat)$
         # 聊天记录
-        windowrule = float, title:^(.*聊天记录.*)$, class:^(wechat)$
+        windowrule = float on, match:title ^(.*聊天记录.*)$, match:class ^(wechat)$
         # 图片预览
-        windowrule = float, title:^(预览)$, class:^(wechat)$
-        windowrule = centerwindow, title:^(预览)$, class:^(wechat)$
+        windowrule = float on, match:title ^(预览)$, match:class ^(wechat)$
+        windowrule = center on, match:title ^(预览)$, match:class ^(wechat)$
         # 公众号
-        windowrule = float, title:^(公众号)$, class:^()$
+        windowrule = float on, match:title ^(公众号)$, match:class ^()$
         # move all to special workspace
-        windowrule = workspace special:wechat, initialClass:wechat
-        windowrule = workspace special:wechat, initialTitle:微信
+        windowrule = workspace special:wechat, match:initial_class wechat
+        windowrule = workspace special:wechat, match:initial_title 微信
         bind = $mainMod SHIFT, W, togglespecialworkspace, wechat
 
         # -- Fix odd behaviors in IntelliJ IDEs --
         # https://github.com/hyprwm/Hyprland/issues/3450
         #! Fix focus issues when dialogs are opened or closed
-        #windowrule = windowdance,class:^(jetbrains-.*)$,floating:1
+        #windowrule = windowdance,match:class ^(jetbrains-.*)$,match:float 1
         #! Fix splash screen showing in weird places and prevent annoying focus takeovers
-        windowrule = center,class:^(jetbrains-.*)$,title:^(splash)$,floating:1
-        windowrule = nofocus,class:^(jetbrains-.*)$,title:^(splash)$,floating:1
-        windowrule = noborder,class:^(jetbrains-.*)$,title:^(splash)$,floating:1
+        windowrule = center on,match:class ^(jetbrains-.*)$,match:title ^(splash)$,match:float 1
+        windowrule = no_focus on,match:class ^(jetbrains-.*)$,match:title ^(splash)$,match:float 1
+        windowrule = border_size 0,match:class ^(jetbrains-.*)$,match:title ^(splash)$,match:float 1
 
         #! Center popups/find windows
-        windowrule = center,class:^(jetbrains-.*)$,title:^( )$,floating:1
-        windowrule = stayfocused,class:^(jetbrains-.*)$,title:^( )$,floating:1
-        windowrule = noborder,class:^(jetbrains-.*)$,title:^( )$,floating:1
+        windowrule = center on,match:class ^(jetbrains-.*)$,match:title ^( )$,match:float 1
+        windowrule = stay_focused on,match:class ^(jetbrains-.*)$,match:title ^( )$,match:float 1
+        windowrule = border_size 0,match:class ^(jetbrains-.*)$,match:title ^( )$,match:float 1
         #! Disable window flicker when autocomplete or tooltips appear
-        windowrule = nofocus,class:^(jetbrains-.*)$,title:^(win.*)$,floating:1
+        windowrule = no_focus on,match:class ^(jetbrains-.*)$,match:title ^(win.*)$,match:float 1
       '';
     };
   }
