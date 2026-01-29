@@ -76,9 +76,6 @@
     # man doc
     man-pages
     man-pages-posix
-
-    # command line ai coding
-    claude-code
   ];
 
   programs = {
