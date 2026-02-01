@@ -25,7 +25,7 @@
           # Wayland Desktop Manager is installed only for user ${username} via home-manager
           user = "${username}";
           # Start Hyprland with a TUI login manager
-          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd start-hyprland";
         };
       };
     };
