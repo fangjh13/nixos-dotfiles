@@ -30,7 +30,8 @@
 Clone this repo to local and enter it.
 
 ```shell
-git clone ...
+nix-shell -p git
+git clone https://github.com/fangjh13/nixos-dotfiles.git
 cd nixos-dotfiles
 ```
 
@@ -65,4 +66,7 @@ git submodule init
 git submodule update --remote
 export NIX_CONFIG="experimental-features = nix-command flakes"
 sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
+
+# Debug Mode
+# sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>' --show-trace --print-build-logs --verbose
 ```
