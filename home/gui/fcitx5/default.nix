@@ -24,6 +24,7 @@
   i18n.inputMethod = {
     type = "fcitx5";
     enable = true;
+    fcitx5.waylandFrontend = true;
     fcitx5.addons = let
       # fcitx5 rime input method
       local-fcitx5-rime =
