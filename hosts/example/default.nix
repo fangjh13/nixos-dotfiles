@@ -22,6 +22,7 @@
   # NOTE: Enable imported option modules if you need
   drivers.intel.enable = false;
   drivers.amdgpu.enable = false;
+  drivers.nvidiagpu.enable = false;
   # Enable sound with pipwire
   multimedia.pipewire.enable = true;
   # OR pulseaudio
