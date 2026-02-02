@@ -8,6 +8,7 @@
     # import options modules
     ../../modules/options/intel-drivers.nix
     ../../modules/options/amdgpu-drivers.nix
+    ../../modules/options/nvidia-drivers.nix
     ../../modules/options/pulseaudio.nix
     ../../modules/options/pipewire.nix
     ../../modules/options/zen-kernel.nix
