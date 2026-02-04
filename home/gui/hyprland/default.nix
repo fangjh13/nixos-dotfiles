@@ -7,7 +7,7 @@
   inputs,
   ...
 } @ args: let
-  inherit (import ../../../hosts/${host}/variables.nix) monitor xkbOptions;
+  inherit (import ../../../hosts/${host}/variables.nix) hyprConfig xkbOptions;
 in
   with lib; {
     imports = [
@@ -77,14 +77,8 @@ in
         env = GDK_SCALE,2
         env = XCURSOR_SIZE,22
 
-
-        ################
-        ### MONITORS ###
-        ################
-
-        # See https://wiki.hyprland.org/Configuring/Monitors/
-        # monitor=,preferred,auto,auto
-        ${monitor}
+        # host extra config
+        ${hyprConfig}
 
         ###################
         ### MY PROGRAMS ###
@@ -113,6 +107,8 @@ in
         env = GDK_BACKEND,wayland,x11                # GTK: Use wayland if available. If not: try x11, then any other GDK backend.
         env = SDL_VIDEODRIVER,wayland                # Run SDL2 applications on Wayland. Remove or set to x11 if games that provide older versions of SDL cause compatibility issues
         env = CLUTTER_BACKEND,wayland                # Clutter package already has wayland enabled, this variable will force Clutter applications to try and use the Wayland backend
+        # Enable native Wayland support for most Electron apps
+        env = ELECTRON_OZONE_PLATFORM_HINT,auto
 
 
         #################

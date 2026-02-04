@@ -3,9 +3,10 @@
   # If false, only the command-line will be available.
   useGUI = true;
 
-  # Hyprland Monitor config
-  monitor = ''
-    # default
+  # Extra Hyprland config
+  hyprConfig = ''
+    # Monitor config
+    # See https://wiki.hyprland.org/Configuring/Monitors/
     # monitor=,preferred,auto,auto
 
     # 4k monitor

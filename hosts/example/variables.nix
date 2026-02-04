@@ -3,11 +3,17 @@
   # If false, only the command-line will be available.
   useGUI = true;
 
-  # Hyprland Monitor config
-  monitor = ''
+  # Extra Hyprland config
+  hyprConfig = ''
+    # Monitor config
+    # See https://wiki.hyprland.org/Configuring/Monitors/
     monitor=,preferred,auto,auto
-    # or 4k monitor like this
+    # 4k monitor like this
     # monitor=,preferred,3840x2160@60,2
+
+    # Nvidia setup
+    # env = LIBVA_DRIVER_NAME,nvidia
+    # env = __GLX_VENDOR_LIBRARY_NAME,nvidia
   '';
 
   # `ctrl:nocaps` Caps Lock as Ctrl
