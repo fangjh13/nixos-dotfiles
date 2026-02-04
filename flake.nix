@@ -34,8 +34,8 @@
     ...
   }: let
     # FIXME: change your info
-    system = "x86_64-linux"; # support x86_64-linux or aarch64-linux
-    host = "deskmini";
+    system = "aarch64-linux"; # support x86_64-linux or aarch64-linux
+    host = "vmnixos";
     username = "fython";
     pkgs-unstable = import inputs.nixpkgs-unstable {
       inherit system;
