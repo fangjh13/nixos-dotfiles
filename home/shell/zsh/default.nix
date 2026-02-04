@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }: {
   programs = {
@@ -17,6 +18,7 @@
       enable = true;
       autocd = true;
       enableCompletion = true;
+      dotDir = "${config.xdg.configHome}/zsh";
 
       plugins = [
         (mkZshPlugin {pkg = pkgs.zsh-completions;}) # extra zsh-completions

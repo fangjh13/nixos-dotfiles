@@ -61,7 +61,7 @@
           serverSettings = {
             nil = {formatting = {command = ["nixfmt"];};};
           };
-          formatterPath = "${pkgs.nixfmt-classic}/bin/nixfmt";
+          formatterPath = "${pkgs.nixfmt}/bin/nixfmt";
         };
 
         # go
@@ -84,5 +84,5 @@
     };
   };
   # dependencies
-  home.packages = with pkgs; [nixfmt-classic nil];
+  home.packages = with pkgs; [nixfmt nil];
 }
