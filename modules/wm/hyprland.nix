@@ -9,7 +9,7 @@
     # Graphical console greeter for greetd.
     tuigreet
     # thunar need for image preview (https://gitlab.xfce.org/xfce/thunar/-/issues/1285)
-    xfce.xfconf
+    xfconf
     # LXQt PolicyKit agent
     lxqt.lxqt-policykit
     # GNOME network-manager-aplet
@@ -47,7 +47,7 @@
   # thunar file manager (part of xfce)
   programs.thunar = {
     enable = true;
-    plugins = with pkgs.xfce; [
+    plugins = with pkgs; [
       thunar-volman # automatic management of removable drives and media
       thunar-archive-plugin # providing file context menus for archives
       thunar-media-tags-plugin # providing tagging and renaming features for media files
