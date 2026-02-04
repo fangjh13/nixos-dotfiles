@@ -18,6 +18,7 @@ in {
     };
 
     hardware.nvidia = {
+      #  true: open-source modules, false: proprietary modules
       open = true;
 
       # Wayland requires kernel mode setting (KMS) to be enabled
@@ -51,5 +52,16 @@ in {
       # "modesetting" # example for Intel iGPU; use "amdgpu" here instead if your iGPU is AMD
       "nvidia"
     ];
+
+    # VA-API hardware video acceleration
+    # https://wiki.hypr.land/Nvidia/#va-api-hardware-video-acceleration
+    # https://discourse.nixos.org/t/nvidia-open-breaks-hardware-acceleration/58770/2
+    hardware.opengl.extraPackages = [
+      pkgs.nvidia-vaapi-driver
+    ];
+    environment.variables = {
+      NVD_BACKEND = "direct";
+      LIBVA_DRIVER_NAME = "nvidia";
+    };
   };
 }
