@@ -478,14 +478,12 @@ in
 
         # float title is `FloatWindow`
         windowrule = float on, match:title ^(FloatWindow)$
-        windowrule = size 70% 70%, match:title ^(FloatWindow)$
+        windowrule = size (monitor_w*0.7) (monitor_h*0.7), match:title ^(FloatWindow)$
         windowrule = center on, match:float 1, match:title ^(FloatWindow)$
 
         # keepassxc auto start and move to special workspace (scratchpad)
         exec-once = [workspace special:keepassxc silent] keepassxc
-        windowrule = float on, match:class org.keepassxc.KeePassXC
-        windowrule = center on, match:float 1, match:class org.keepassxc.KeePassXC
-        windowrule = workspace special:keepassxc, match:class org.keepassxc.KeePassXC
+        windowrule = match:class org.keepassxc.KeePassXC, workspace special:keepassxc, float on, size (monitor_w*0.6) (monitor_h*0.8), center on
         bind = $mainMod SHIFT, P, exec, hyprctl dispatch togglespecialworkspace keepassxc && hyprctl dispatch centerwindow
 
         # Telegram desktop
@@ -498,24 +496,13 @@ in
         windowrule = border_size 0, match:class discord
 
         # wechat
-        windowrule = border_size 0, match:initial_title Weixin
-        windowrule = float on, match:initial_title Weixin
-        # windowrule = size 60% 70%, match:initial_title Weixin
-        windowrule = center on, match:initial_title Weixin
-        # 发送文件
-        windowrule = pin on, match:class ^(wechat)$, match:title ^(Open)$
-        # 点击出来的框框
-        windowrule = border_size 0, match:title ^(wechat)$, match:class ^(wechat)$
-        windowrule = no_anim on, match:title ^(wechat)$, match:class ^(wechat)$
-        windowrule = pin on, match:title ^(wechat)$, match:class ^(wechat)$
-        windowrule = move onscreen cursor, match:title ^(wechat)$, match:class ^(wechat)$
+        windowrule = border_size 0, float on, center on, match:initial_title Weixin
         # 聊天记录
-        windowrule = float on, match:title ^(.*聊天记录.*)$, match:class ^(wechat)$
-        # 图片预览
-        windowrule = float on, match:title ^(预览)$, match:class ^(wechat)$
-        windowrule = center on, match:title ^(预览)$, match:class ^(wechat)$
-        # 公众号
-        windowrule = float on, match:title ^(公众号)$, match:class ^()$
+        windowrule = match:class wechat, match:title ^(Chat History for.*)$, float on
+        # 收藏/图片预览
+        windowrule = match:class wechat, match:title ^(Photos and Videos|Favorites)$, float on, size (monitor_w*0.6) (monitor_h*0.8), center on
+        # 打开弹窗
+        windowrule = match:class wechat, match:title ^(Open)$, border_size 0, move onscreen cursor, no_anim on, center on, pin on
         # move all to special workspace
         windowrule = workspace special:wechat, match:initial_class wechat
         windowrule = workspace special:wechat, match:initial_title 微信

@@ -1,11 +1,13 @@
 {
   pkgs,
   lib,
+  host,
   config,
   ...
 }: let
   clock24h = true;
   betterTransition = "all 0.3s cubic-bezier(.55,-0.68,.48,1.682)";
+  inherit (import ../../../hosts/${host}/variables.nix) timezone;
 in
   with lib; {
     # Configure & Theme Waybar
@@ -54,6 +56,7 @@ in
             on-scroll-down = "hyprctl dispatch workspace e-1";
           };
           "clock" = {
+            timezone = "${timezone}";
             format =
               if clock24h
               then " {:L%H:%M}"
@@ -96,6 +99,8 @@ in
             format = " {usage:2}%";
             format-alt = " {avg_frequency} GHz";
             tooltip = true;
+            on-scroll-up = "";
+            on-scroll-down = "";
           };
           "disk" = {
             format = " {free}";
@@ -103,6 +108,8 @@ in
           };
           "group/network" = {
             orientation = "inherit";
+            on-scroll-up = "";
+            on-scroll-down = "";
             drawer = {
               transition-duration = 500;
               transition-left-to-right = true;
@@ -120,6 +127,8 @@ in
             format-ethernet = "󰈀";
             format-disconnected = "󰖪";
             format-linked = "󰈁";
+            on-scroll-up = "";
+            on-scroll-down = "";
           };
 
           "network" = {
@@ -135,6 +144,8 @@ in
             tooltip-format-ethernet = "{ifname} {ipaddr} 󰈀";
             tooltip-format-disconnected = "󰌙 Disconnected";
             max-length = 30;
+            on-scroll-up = "";
+            on-scroll-down = "";
           };
           # "temperature" = {
           #   critical-threshold = 80;
@@ -222,6 +233,8 @@ in
           };
           "group/screentools" = {
             orientation = "inherit";
+            on-scroll-up = "";
+            on-scroll-down = "";
             drawer = {
               transition-duration = 500;
               transition-left-to-right = true;
@@ -236,16 +249,22 @@ in
             format = "󰹑";
             # on-click = "nwg-displays";
             tooltip-format = "Screen";
+            on-scroll-up = "";
+            on-scroll-down = "";
           };
           "custom/snip" = {
             format = "";
             on-click = "sleep 0.1 && screenshot";
             tooltip-format = "Screenshot";
+            on-scroll-up = "";
+            on-scroll-down = "";
           };
           "custom/picker" = {
             format = "";
             on-click = "hyprpicker -a";
             tooltip-format = "Hyprpicker";
+            on-scroll-up = "";
+            on-scroll-down = "";
           };
           "custom/playerctl" = {
             format = "{icon}";
@@ -283,7 +302,8 @@ in
 
           "group/cpuinfo" = {
             orientation = "inherit";
-            interval = 1;
+            on-scroll-up = "";
+            on-scroll-down = "";
             drawer = {
               transition-duration = 500;
               transition-left-to-right = true;
@@ -297,6 +317,8 @@ in
             interval = 8;
             tooltip-format = "Cpu Temp";
             on-click = "kitty -T FloatWindow --execute btop";
+            on-scroll-up = "";
+            on-scroll-down = "";
           };
 
           "custom/gputemp" = {
