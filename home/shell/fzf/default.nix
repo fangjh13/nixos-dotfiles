@@ -56,9 +56,14 @@
         "--inline-info"
         "--ansi"
         "--layout=reverse"
-        # <ctrl-w>: text preview
+        # <f3>: open file with bat or less
+        # <ctrl-w>: toggle preview
+        # <ctrl-d>: half page down
+        # <ctrl-u>: half page up
+        # <ctrl-a>: select all
+        # <ctrl-o>: toggle all selections
         # <ctrl-y>: copy file name
-        "--bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-w:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | ${copyCommand})'"
+        "--bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-w:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all,ctrl-o:toggle-all,ctrl-y:execute-silent(echo {+} | ${copyCommand})'"
         # <ctrl-g>: Re-filtering of filtered results can be repeated
         "--bind='ctrl-g:+clear-selection+select-all+clear-query+execute-silent:touch /tmp/wait-result'"
         "--bind='result:+transform:[ -f /tmp/wait-result ] && { rm /tmp/wait-result; echo +toggle-all+exclude-multi; }'"
