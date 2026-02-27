@@ -12,5 +12,6 @@
     gnumake
     checkmake
     pkg-config
+    clang-tools
   ];
 }
