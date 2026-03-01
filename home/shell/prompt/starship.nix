@@ -12,18 +12,24 @@
     enableZshIntegration = true;
     # https://starship.rs/config/
     settings = {
+      # Get editor completions based on the config schema
+      "$schema" = "https://starship.rs/config-schema.json";
+
       add_newline = false;
       scan_timeout = 60;
       command_timeout = 1000;
+
       character = {
         success_symbol = "[❯](bold green)";
         error_symbol = "[✗](bold red)";
         vimcmd_symbol = "[V](bold green)";
       };
+
       shlvl = {
         disabled = false;
         threshold = 3;
       };
+
       nix_shell = {
         impure_msg = "[impure shell](bold red)";
         pure_msg = "[pure shell](bold green)";
