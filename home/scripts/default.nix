@@ -11,5 +11,6 @@
     (import ./hypr-smarttf.nix {inherit pkgs;})
     (import ./cpu-temp.nix {inherit pkgs;})
     (import ./image-processor.nix {inherit pkgs;})
+    (import ./memory-top.nix {inherit pkgs;})
   ];
 }

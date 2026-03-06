@@ -62,8 +62,6 @@
         # vim show special characters
         vidos = ''vim  -c ":e ++ff=unix" -c "set list"'';
         gbr = "git branch -r --sort=-committerdate --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' --color=always | column -ts'|'";
-        memTop = ''
-          ps -e -o rss,args | awk '{print $1 " " $2 }' | awk '{tot[$2]+=$1;count[$2]++} END {for (i in tot) {print tot[i],i,count[i]}}' | sort -n'';
         # nix-history =
         #   "nix profile history --profile /nix/var/nix/profiles/system";
         # nix-clean-xdays =
