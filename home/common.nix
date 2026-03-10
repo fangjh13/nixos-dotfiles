@@ -46,7 +46,7 @@
 
     # db related
     litecli # sqlite
-    mycli # mysql
+    # mycli # mysql
     pgcli # postgresql
     iredis # redis
 
