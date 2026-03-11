@@ -6,8 +6,8 @@
 # Web Development
 {
   home.packages = with pkgs; [
-    nodePackages.nodejs
-    nodePackages.yarn
-    nodePackages.typescript
+    nodejs # Provides 'node' and 'npm' globally
+    yarn # Global yarn
+    # pnpm # npm alternative for modern projects
   ];
 }
