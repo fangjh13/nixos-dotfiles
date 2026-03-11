@@ -1,7 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{host, ...} @ args: {
+{
+  host,
+  pkgs,
+  ...
+} @ args: {
   imports = [
     ../../modules/system.nix
 
@@ -15,6 +19,7 @@
       (args // {storageDriver = "btrfs";}))
     ../../modules/options/podman.nix
     ../../modules/options/nfs.nix
+    (import ../../modules/options/qemu.nix args)
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -31,6 +36,8 @@
   # Docker or Podman
   addon.docker.enable = false;
   addon.podman.enable = true;
+  # QEMU / KVM / Virt-manager
+  addon.qemu.enable = true;
   # NFS filesystem
   filesystem.nfs.enable = true;
 
