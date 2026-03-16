@@ -4,10 +4,15 @@
     ./fcitx5
     ./xdg
     ./rofi
-    ./stylix
+    ./catppuccin
     ./qt
     ./gtk
     ./hyprland
     ./apps
   ];
+
+  home.pointerCursor = {
+    enable = true;
+    size = 18;
+  };
 }
