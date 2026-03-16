@@ -20,6 +20,17 @@
       enableCompletion = true;
       dotDir = "${config.xdg.configHome}/zsh";
 
+      history = {
+        path = "${config.programs.zsh.dotDir}/.zsh_history";
+        save = 100000;
+        size = 100000;
+        ignorePatterns = ["ls *" "ll" "cd" "pwd"];
+        # remove old duplicates command
+        ignoreAllDups = true;
+        # save timestamps
+        extended = true;
+      };
+
       plugins = [
         (mkZshPlugin {pkg = pkgs.zsh-completions;}) # extra zsh-completions
         (mkZshPlugin {pkg = pkgs.zsh-autosuggestions;})
