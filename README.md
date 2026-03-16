@@ -6,6 +6,7 @@
 | [greetd](https://git.sr.ht/~kennylevinsen/greetd)                                                                                               | Login manager             |
 | [tuigreet](https://github.com/apognu/tuigreet)                                                                                                  | Graphical console greeter |
 | [rofi-wayland](https://github.com/lbonn/rofi)                                                                                                   | Application launcher      |
+| [catppuccin/nix](https://github.com/catppuccin/nix)                                                                                             | Theme                     |
 | [waybar](https://github.com/Alexays/Waybar)                                                                                                     | Status bar                |
 | [swaynotificationcenter](https://github.com/ErikReider/SwayNotificationCenter)                                                                  | Notifications daemons     |
 | [hyprlock](https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/)                                                                                  | Screen lock               |

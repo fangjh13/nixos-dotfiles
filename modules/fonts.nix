@@ -21,6 +21,7 @@
       noto-fonts-cjk-sans # 汉字部分
       noto-fonts-cjk-serif
       noto-fonts-color-emoji # 彩色的表情符号字体
+      noto-fonts-emoji-blob-bin # 另一种彩色表情符号字体，blob 是 Google 的表情符号设计团队
       # noto-fonts-extra # 提供额外的字重和宽度变种
 
       # 思源系列字体是 Adobe 主导的。其中汉字部分被称为「思源黑体」和「思源宋体」，是由 Adobe + Google 共同开发的

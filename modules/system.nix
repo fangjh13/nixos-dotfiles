@@ -20,7 +20,7 @@ in {
       ./wm/hyprland.nix
       ./common-gui.nix
       ./bluetooth.nix
-      (import ./stylix.nix (args // {wallpaper = "${wallpaper}";}))
+      ./catppuccin.nix
       ./fonts.nix
     ];
 

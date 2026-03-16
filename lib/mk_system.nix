@@ -52,10 +52,10 @@ in
       #   else {}
       # )
 
-      # stylix modules
+      # catppuccin modules
       (
         if isLinux && useGUI
-        then inputs.stylix.nixosModules.stylix
+        then inputs.catppuccin.nixosModules.catppuccin
         else {}
       )
 
@@ -69,7 +69,17 @@ in
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
-          users.${username} = import userHMConfig;
+          users.${username} = {
+            imports =
+              [
+                (import userHMConfig)
+              ]
+              ++ (
+                if isLinux && useGUI
+                then [inputs.catppuccin.homeModules.catppuccin]
+                else []
+              );
+          };
           # expose some extra arguments in home modules
           extraSpecialArgs =
             inputs

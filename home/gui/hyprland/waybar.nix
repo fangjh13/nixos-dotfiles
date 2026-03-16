@@ -2,7 +2,6 @@
   pkgs,
   lib,
   host,
-  config,
   ...
 }: let
   clock24h = true;
@@ -348,12 +347,12 @@ in
         }
       ];
       style = ''
-        /*@define-color bg #${config.stylix.base16Scheme.base00};*/
+        /*@define-color bg #1e1e2e;*/
         @define-color bg rgba(24,24,37,1.0);
-        /*@define-color fg #${config.stylix.base16Scheme.base0B};*/
+        /*@define-color fg #a6e3a1;*/
         @define-color fg #cdd6f4;
-        @define-color bg2 #${config.stylix.base16Scheme.base01};
-        /*@define-color hover-color #${config.stylix.base16Scheme.base0D};*/
+        @define-color bg2 #181825;
+        /*@define-color hover-color #89b4fa;*/
         @define-color hover-color #0f0;
 
 

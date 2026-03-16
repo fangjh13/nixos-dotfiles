@@ -16,10 +16,9 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # System-wide colorscheming and typography
-    stylix = {
-      url = "github:danth/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
+    # Catppuccin theme
+    catppuccin = {
+      url = "github:catppuccin/nix";
     };
     # neovim nightly
     neovim-nightly-overlay = {

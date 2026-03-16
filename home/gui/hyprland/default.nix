@@ -73,10 +73,6 @@ in
           force_zero_scaling = true
         }
 
-        # toolkit-specific scale
-        env = GDK_SCALE,2
-        env = XCURSOR_SIZE,22
-
         # host extra config
         ${hyprConfig}
 
@@ -140,8 +136,9 @@ in
             border_size = 1
 
             # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
-            col.active_border = rgb(${config.stylix.base16Scheme.base09}) rgb(${config.stylix.base16Scheme.base0C}) 45deg
-            col.inactive_border = rgb(${config.stylix.base16Scheme.base01})
+            col.active_border = rgb(918bb9) rgb(8b9298) 45deg
+            col.inactive_border = rgb(40465e)
+
 
             # Set to true enable resizing windows by clicking and dragging on borders and gaps
             resize_on_border = true
