@@ -36,6 +36,9 @@ in {
     # fix man with bat color (https://github.com/sharkdp/bat/issues/652)
     MANROFFOPT = "-c";
 
+    # Or use neovim
+    # MANPAGER = "nvim +Man!";
+
     # journalctl ignore case
     SYSTEMD_LESS = "-iFRSXMK";
   };

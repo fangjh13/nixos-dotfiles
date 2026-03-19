@@ -72,6 +72,10 @@ sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 
 # Debug Mode
 # sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>' --show-trace --print-build-logs --verbose
+
+# submodule update
+# git submodule sync --recursive
+# git submodule update --init --recursive
 ```
 
 ## nix-darwin
