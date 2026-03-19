@@ -7,20 +7,20 @@
   ...
 } @ args: {
   imports = [
-    ../../modules/system.nix
+    ../../modules/nixos/system.nix
 
     # import options modules
-    ../../modules/options/intel-drivers.nix
-    ../../modules/options/amdgpu-drivers.nix
-    ../../modules/options/nvidia-drivers.nix
-    ../../modules/options/pulseaudio.nix
-    ../../modules/options/pipewire.nix
-    ../../modules/options/zen-kernel.nix
-    # (import ../../modules/options/docker.nix (args // {storageDriver = "btrfs";}))
-    (import ../../modules/options/docker.nix args)
-    ../../modules/options/podman.nix
-    ../../modules/options/nfs.nix
-    (import ../../modules/options/qemu.nix args)
+    ../../modules/nixos/options/intel-drivers.nix
+    ../../modules/nixos/options/amdgpu-drivers.nix
+    ../../modules/nixos/options/nvidia-drivers.nix
+    ../../modules/nixos/options/pulseaudio.nix
+    ../../modules/nixos/options/pipewire.nix
+    ../../modules/nixos/options/zen-kernel.nix
+    # (import ../../modules/nixos/options/docker.nix (args // {storageDriver = "btrfs";}))
+    (import ../../modules/nixos/options/docker.nix args)
+    ../../modules/nixos/options/podman.nix
+    ../../modules/nixos/options/nfs.nix
+    (import ../../modules/nixos/options/qemu.nix args)
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
