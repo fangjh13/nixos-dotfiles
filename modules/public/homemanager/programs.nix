@@ -1,5 +1,9 @@
 {pkgs, ...}: {
   programs = {
+    less = {
+      enable = true;
+    };
+
     bat = {
       enable = true;
       config = {pager = "less -FRX -i";};
