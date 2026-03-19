@@ -16,17 +16,22 @@
   hostConfig = ../hosts/${host};
   # main user configuration
   usersConfig =
-    ../modules/users-${
+    ../modules/${
       if darwin
       then "darwin"
       else "nixos"
-    }.nix;
+    }/users.nix;
   # home-manager configuration
-  userHMConfig = ../home;
+  userHMConfig =
+    ../modules/${
+      if darwin
+      then "darwin"
+      else "nixos"
+    }/homemanager;
 
   systemFunc =
     if darwin
-    then inputs.darwin.lib.darwinSystem
+    then inputs.nix-darwin.lib.darwinSystem
     else nixpkgs.lib.nixosSystem;
   home-manager =
     if darwin
@@ -39,7 +44,10 @@ in
     inherit system;
 
     # expose some extra arguments so that our modules can use them
-    specialArgs = {inherit username community-nur pkgs-stable pkgs-unstable host;};
+    specialArgs = {
+      inherit inputs pkgs-stable pkgs-unstable community-nur host username;
+      self = inputs.self;
+    };
 
     modules = [
       # Apply our overlays available globally.
@@ -65,26 +73,6 @@ in
 
       # home-manager
       home-manager.home-manager
-      {
-        home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          users.${username} = {
-            imports =
-              [
-                (import userHMConfig)
-              ]
-              ++ (
-                if isLinux && useGUI
-                then [inputs.catppuccin.homeModules.catppuccin]
-                else []
-              );
-          };
-          # expose some extra arguments in home modules
-          extraSpecialArgs =
-            inputs
-            // specialArgs;
-        };
-      }
+      userHMConfig
     ];
   }

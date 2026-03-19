@@ -1,3 +1,5 @@
+## NixOS
+
 ### Packages
 
 | Package                                                                                                                                         | Description               |
@@ -70,4 +72,11 @@ sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 
 # Debug Mode
 # sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>' --show-trace --print-build-logs --verbose
+```
+
+## nix-darwin
+
+```shell
+nix --extra-experimental-features 'nix-command flakes' build '.#darwinConfigurations.<your hostname>.system'
+sudo ./result/sw/bin/darwin-rebuild switch --flake .#<your hostname>
 ```

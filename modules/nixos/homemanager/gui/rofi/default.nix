@@ -1,0 +1,29 @@
+# https://wiki.archlinux.org/title/Rofi
+{
+  pkgs,
+  config,
+  host,
+  ...
+}: let
+  dataHome = config.xdg.dataHome;
+in {
+  programs.rofi = {
+    enable = true;
+    configPath = "${dataHome}/rofi/config.rasi";
+    package = pkgs.rofi;
+    plugins = with pkgs; [
+      # rofi calculator [https://github.com/svenstaro/rofi-calc]
+      (rofi-calc.override {rofi-unwrapped = rofi-unwrapped;})
+      # rofi-emoji https://github.com/Mange/rofi-emoji
+      # rofi-emoji
+    ];
+  };
+  # rofimoji https://github.com/fdw/rofimoji
+  home.packages = [pkgs.rofimoji];
+
+  home.file.".config/rofi" = {
+    source = ./configs;
+    # copy the scripts directory recursively
+    recursive = true;
+  };
+}

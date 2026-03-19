@@ -25,6 +25,24 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # MacOS configuration
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-homebrew = {
+      url = "github:zhaofengli/nix-homebrew";
+    };
+    # Optional: Declarative tap management
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
@@ -33,7 +51,7 @@
     ...
   }: let
     # FIXME: change your info
-    system = "x86_64-linux"; # support x86_64-linux or aarch64-linux
+    system = "x86_64-linux"; # support x86_64-linux or aarch64-linux or x86_64-darwin or aarch64-darwin
     host = "deskmini";
     username = "fython";
     pkgs-unstable = import inputs.nixpkgs-unstable {
@@ -55,6 +73,13 @@
       "${host}" = mkSystem "${host}" {
         system = system;
         username = username;
+      };
+    };
+    darwinConfigurations = {
+      "${host}" = mkSystem "${host}" {
+        system = system;
+        username = username;
+        darwin = true;
       };
     };
   };
