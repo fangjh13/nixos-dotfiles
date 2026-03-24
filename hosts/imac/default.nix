@@ -9,6 +9,7 @@
     ../../modules/public/system.nix
     ../../modules/darwin/dock.nix
     ../../modules/darwin/brew.nix
+    ../../modules/darwin/fonts.nix
   ];
 
   nix.gc = {
@@ -36,13 +37,13 @@
 
         #  Enables tap to click
         "com.apple.mouse.tapBehavior" = 1;
+        # Swap mouse middle-button scroll direction, true for natural, false for traditional, default is natural
+        "com.apple.swipescrolldirection" = true;
       };
 
       dock = {
         autohide = false;
-        show-recents = false;
-        # Animate opening applications
-        launchanim = true;
+        show-recents = true;
         orientation = "bottom";
         tilesize = 48;
       };

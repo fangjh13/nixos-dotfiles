@@ -80,7 +80,15 @@ sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 
 ## nix-darwin
 
+### Install
+
 ```shell
 nix --extra-experimental-features 'nix-command flakes' build '.#darwinConfigurations.<your hostname>.system'
 sudo ./result/sw/bin/darwin-rebuild switch --flake .#<your hostname>
+unlink ./result
+```
+
+After the first time build and switch, you installed the `darwin-rebuild` command, so you can directly use it to switch the system configuration without using nix
+```shell
+sudo darwin-rebuild switch --flake .#<your hostname>
 ```

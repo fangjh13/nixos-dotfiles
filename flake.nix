@@ -64,16 +64,6 @@
     };
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default
-      # TODO: fix Kitty Terminfo, remove this when less 692 is in nixpkgs-unstable
-      (final: prev: {
-        less = prev.less.overrideAttrs (old: rec {
-          version = "692";
-          src = final.fetchurl {
-            url = "https://www.greenwoodsoftware.com/less/less-${version}.tar.gz";
-            hash = "sha256:61300f603798ecf1d7786570789f0ff3f5a1acf075a6fb9f756837d166e37d14";
-          };
-        });
-      })
     ];
     mkSystem = import ./lib/mk_system.nix {
       inherit inputs nixpkgs pkgs-stable pkgs-unstable community-nur overlays;
