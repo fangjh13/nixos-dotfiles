@@ -43,6 +43,7 @@
       pkgs.xdg-desktop-portal
     ];
   };
+  environment.pathsToLink = ["/share/xdg-desktop-portal" "/share/applications"];
 
   # thunar file manager (part of xfce)
   programs.thunar = {
