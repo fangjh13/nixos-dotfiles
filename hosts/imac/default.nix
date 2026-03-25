@@ -61,6 +61,18 @@
         # Enable three-finger drag
         TrackpadThreeFingerDrag = true;
       };
+
+      CustomUserPreferences = {
+        "com.apple.symbolichotkeys" = {
+          AppleSymbolicHotKeys = {
+            # https://apple.stackexchange.com/questions/474904/what-does-each-part-in-com-apple-symbolichotkeys-plist-mean
+            "64" = {
+              # Disable `Command + Space` for Spotlight Search
+              enabled = false;
+            };
+          };
+        };
+      };
     };
   };
 }

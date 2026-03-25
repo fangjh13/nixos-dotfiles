@@ -5,7 +5,7 @@
 }: let
   inherit (import ../../../../../hosts/${host}/variables.nix) bookmarks;
 in {
-  # GTK+ 2/3 applications themes config (theme managed by Catppuccin)
+  # GTK+ 2/3 applications themes config
   gtk = {
     enable = true;
     gtk3.extraConfig = {gtk-application-prefer-dark-theme = 1;};
