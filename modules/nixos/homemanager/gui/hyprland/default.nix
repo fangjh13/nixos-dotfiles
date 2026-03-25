@@ -41,7 +41,7 @@ in
         # Wayland event viewer debug tool
         wev
         # Xorg tools `xprop` for debugging X11(Xwayland) applications
-        xorg.xprop
+        xprop
         # control device brightness
         brightnessctl
         # GTK settings editor
