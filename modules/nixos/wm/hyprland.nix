@@ -3,8 +3,6 @@
   username,
   ...
 }: {
-  imports = [../gpg.nix];
-
   environment.systemPackages = with pkgs; [
     # Graphical console greeter for greetd.
     tuigreet

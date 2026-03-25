@@ -40,7 +40,7 @@ in
         wl-clipboard
         # Wayland event viewer debug tool
         wev
-        # Xorg tools
+        # Xorg tools `xprop` for debugging X11(Xwayland) applications
         xorg.xprop
         # control device brightness
         brightnessctl
@@ -478,10 +478,14 @@ in
         windowrule = size (monitor_w*0.7) (monitor_h*0.7), match:title ^(FloatWindow)$
         windowrule = center on, match:float 1, match:title ^(FloatWindow)$
 
+        # keepassxc auto start
+        exec-once = keepassxc
+        windowrule = match:class org.keepassxc.KeePassXC, float on, size (monitor_w*0.6) (monitor_h*0.8), center on
+        bind = $mainMod SHIFT, P, exec, keepassxc
         # keepassxc auto start and move to special workspace (scratchpad)
-        exec-once = [workspace special:keepassxc silent] keepassxc
-        windowrule = match:class org.keepassxc.KeePassXC, workspace special:keepassxc, float on, size (monitor_w*0.6) (monitor_h*0.8), center on
-        bind = $mainMod SHIFT, P, exec, hyprctl dispatch togglespecialworkspace keepassxc && hyprctl dispatch centerwindow
+        # exec-once = [workspace special:keepassxc silent] keepassxc
+        # windowrule = match:class org.keepassxc.KeePassXC, workspace special:keepassxc, float on, size (monitor_w*0.6) (monitor_h*0.8), center on
+        # bind = $mainMod SHIFT, P, exec, hyprctl dispatch togglespecialworkspace keepassxc && hyprctl dispatch centerwindow
 
         # Telegram desktop
         windowrule = float on, match:initial_class org.telegram.desktop

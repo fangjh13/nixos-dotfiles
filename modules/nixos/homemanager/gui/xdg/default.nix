@@ -33,6 +33,7 @@
 in {
   xdg = {
     enable = true;
+    autostart.enable = true;
 
     # default is `~/.cache`
     cacheHome = config.home.homeDirectory + "/.local/cache";
@@ -44,13 +45,14 @@ in {
 
     userDirs = {
       enable = true;
+      setSessionVariables = false;
       createDirectories = true;
       music = null;
       publicShare = null;
       templates = null;
       videos = null;
       extraConfig = {
-        XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/Screenshots";
+        SCREENSHOTS = "${config.xdg.userDirs.pictures}/Screenshots";
       };
     };
   };

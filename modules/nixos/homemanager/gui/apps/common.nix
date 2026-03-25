@@ -17,7 +17,7 @@
   in
     with pkgs; [
       libnotify
-      wineWowPackages.wayland
+      wineWow64Packages.wayland
       xdg-utils
       graphviz
 
@@ -38,8 +38,6 @@
 
       # Synology Drive Client
       synology-drive-client
-      # Password manager
-      keepassxc
       # notebook
       logseq
 
