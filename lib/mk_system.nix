@@ -40,7 +40,7 @@
 
   isLinux = !darwin;
 in
-  systemFunc rec {
+  systemFunc {
     inherit system;
 
     # expose some extra arguments so that our modules can use them

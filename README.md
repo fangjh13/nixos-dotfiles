@@ -52,7 +52,7 @@ Modify the configuration to belong to your computer
 sudo nixos-generate-config --show-hardware-config > hosts/<your hostname>/hardware-configuration.nix
 ```
 
-Change the hostname and username in `flake.nix` and some other configurations in `hosts/<your hostname>/variables.nix`
+📝 Change the hostname and username in `flake.nix` and some other configurations in `hosts/<your hostname>/variables.nix`
 
 | Variable | Description                                    |
 | -------- | ---------------------------------------------- |

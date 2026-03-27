@@ -1,4 +1,9 @@
 {
+  userName = "%%USERNAME%%";
+  hostName = "%%HOSTNAME%%";
+  gitName = "%%GITNAME%%";
+  gitEmail = "%%GITEMAIL%%";
+
   # Whether to enable the desktop environment
   # If false, only the command-line will be available.
   useGUI = true;
