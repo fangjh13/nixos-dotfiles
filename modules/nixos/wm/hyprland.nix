@@ -12,6 +12,8 @@
     lxqt.lxqt-policykit
     # GNOME network-manager-aplet
     networkmanagerapplet
+    # An archive manager utility
+    kdePackages.ark
   ];
 
   services = {
@@ -29,18 +31,28 @@
     };
   };
 
-  # Extra Portal Configuration
+  # Portal Configuration
   xdg.portal = {
     enable = true;
-    # enable desktop portal for wlroots-based desktops.
-    wlr.enable = true;
-    extraPortals = [pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal];
-    configPackages = [
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
-      pkgs.xdg-desktop-portal
-    ];
+
+    # Fallback to GTK portal for applications that do not support the Hyprland portal
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
+
+    config = {
+      # If in the hyprland environment:
+      # - Prefer the hyprland portal (for handling screen sharing, etc.)
+      # - If the hyprland portal cannot handle it (like file selection dialogs), fall back
+      hyprland = {
+        default = ["hyprland" "gtk"];
+      };
+
+      # As a catch-all fallback, any environment that doesn't match the above will default to using the GTK portal
+      common = {
+        default = ["gtk"];
+      };
+    };
   };
+
   environment.pathsToLink = ["/share/xdg-desktop-portal" "/share/applications"];
 
   # thunar file manager (part of xfce)
@@ -55,10 +67,14 @@
 
   # Tumbler, A D-Bus thumbnailer service
   services.tumbler.enable = true;
+  # Mount, trash, and other functionalities
+  services.gvfs.enable = true;
   # Manage users security credentials, such as user names and passwords
   services.gnome.gnome-keyring.enable = true;
   # a GNOME application for managing encryption keys and passwords in the GNOME Keyring
   programs.seahorse.enable = true;
+  # Enable dconf to allow Home Manager to configure it
+  programs.dconf.enable = true;
 
   # Enable PAM hyprlock to perform authentication
   security.pam.services.hyprlock = {};

@@ -26,12 +26,10 @@
       libreoffice
 
       # IDE
-      insomnia # API debug
       code-cursor # AI Code Editor
       antigravity-fhs # Google AI Code Editor
 
       # database GUI
-      dbeaver-bin
       jetbrains.datagrip
 
       gpu-viewer
@@ -45,6 +43,5 @@
       scale-wechat-bwrap
       # wechat-uos
       telegram-desktop
-      discord
     ];
 }
