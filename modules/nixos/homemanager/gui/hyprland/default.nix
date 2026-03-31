@@ -20,33 +20,18 @@ in
       ./screenshot.nix
     ];
 
-    home.packages = let
-      # An archive manager utility for thunar
-      # wrap manual set dark theme
-      fileRollerWrapped = pkgs.file-roller.overrideAttrs (oldAttrs: {
-        postInstall =
-          (oldAttrs.postInstall or "")
-          + ''
-            wrapProgram $out/bin/file-roller \
-              --set GTK_THEME "WhiteSur-Dark-solid"
-          '';
-      });
-    in
-      with pkgs; [
-        fileRollerWrapped
-        # Color pickers
-        hyprpicker
-        # Wayland clipboard utilities (wl-copy and wl-paste)
-        wl-clipboard
-        # Wayland event viewer debug tool
-        wev
-        # Xorg tools `xprop` for debugging X11(Xwayland) applications
-        xprop
-        # control device brightness
-        brightnessctl
-        # GTK settings editor
-        nwg-look
-      ];
+    home.packages = with pkgs; [
+      # Color pickers
+      hyprpicker
+      # Wayland clipboard utilities (wl-copy and wl-paste)
+      wl-clipboard
+      # Wayland event viewer debug tool
+      wev
+      # Xorg tools `xprop` for debugging X11(Xwayland) applications
+      xprop
+      # control device brightness
+      brightnessctl
+    ];
 
     # Enable Ozone Wayland support chromium and Electron based applications
     # This allows these applications to run without Xwayland

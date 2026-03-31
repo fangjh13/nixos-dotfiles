@@ -13,11 +13,19 @@ in {
     gtk3 = {bookmarks = bookmarks;};
   };
 
+  home.packages = with pkgs; [
+    # GTK settings editor
+    nwg-look
+  ];
+
+  # GTK applications: auto set cursor theme and size
+  home.pointerCursor.gtk.enable = true;
+
+  # Enable GNOME dconf, which is used by some GTK applications
   dconf = {
     enable = true;
     settings = {
       "org/gnome/desktop/interface" = {
-        gtk-scheme = "WhiteSur-Dark-solid";
         color-scheme = "prefer-dark";
       };
     };

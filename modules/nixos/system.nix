@@ -18,7 +18,6 @@ in {
     ++ lib.optionals useGUI [
       # wayland compositor
       ./wm/hyprland.nix
-      ./common-gui.nix
       ./bluetooth.nix
       ./catppuccin.nix
       ./fonts.nix
@@ -44,8 +43,6 @@ in {
   programs.fuse.userAllowOther = true;
   # Enable periodic SSD TRIM of mounted partitions in background
   services.fstrim.enable = true;
-  # Mount, trash, and other functionalities
-  services.gvfs.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
