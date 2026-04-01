@@ -463,8 +463,7 @@ in
         windowrule = size (monitor_w*0.7) (monitor_h*0.7), match:title ^(FloatWindow)$
         windowrule = center on, match:float 1, match:title ^(FloatWindow)$
 
-        # keepassxc auto start
-        exec-once = keepassxc
+        # keepassxc
         windowrule = match:class org.keepassxc.KeePassXC, float on, size (monitor_w*0.6) (monitor_h*0.8), center on
         bind = $mainMod SHIFT, P, exec, keepassxc
         # keepassxc auto start and move to special workspace (scratchpad)

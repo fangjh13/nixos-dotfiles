@@ -1,0 +1,12 @@
+# IDE
+.vscode/
+.idea/
+.codex
+
+# Mac OS
+.DS_Store
+
+# direnv
+.direnv/
+
+AGENTS.md
