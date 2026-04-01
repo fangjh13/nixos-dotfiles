@@ -71,8 +71,6 @@
   services.gvfs.enable = true;
   # Manage users security credentials, such as user names and passwords
   services.gnome.gnome-keyring.enable = true;
-  # a GNOME application for managing encryption keys and passwords in the GNOME Keyring
-  programs.seahorse.enable = true;
   # Enable dconf to allow Home Manager to configure it
   programs.dconf.enable = true;
 

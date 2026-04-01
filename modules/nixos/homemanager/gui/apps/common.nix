@@ -1,11 +1,20 @@
 {
   lib,
   pkgs,
-  config,
-  pkgs-unstable,
+  host,
   ...
 }: {
   home.packages = let
+    inherit (import ../../../../../hosts/${host}/variables.nix) apps;
+    getPackageByPath = path:
+      builtins.foldl' (
+        current: part:
+          if builtins.isAttrs current && builtins.hasAttr part current
+          then builtins.getAttr part current
+          else throw "Unknown package `${path}` in hosts/${host}/variables.nix apps"
+      )
+      pkgs (lib.splitString "." path);
+    variableAppPackages = map getPackageByPath apps;
     scale-wechat-bwrap = pkgs.nur.repos.novel2430.wechat-universal-bwrap.overrideAttrs (oldAttrs: {
       postInstall =
         (oldAttrs.postInstall or "")
@@ -15,33 +24,17 @@
         '';
     });
   in
-    with pkgs; [
-      libnotify
-      wineWow64Packages.wayland
-      xdg-utils
-      graphviz
+    with pkgs;
+      [
+        libnotify
+        wineWow64Packages.wayland
+        xdg-utils
+        graphviz
 
-      # productivity
-      obsidian
-      libreoffice
-
-      # IDE
-      code-cursor # AI Code Editor
-      antigravity-fhs # Google AI Code Editor
-
-      # database GUI
-      jetbrains.datagrip
-
-      gpu-viewer
-
-      # Synology Drive Client
-      synology-drive-client
-      # notebook
-      logseq
-
-      # IM
-      scale-wechat-bwrap
-      # wechat-uos
-      telegram-desktop
-    ];
+        # IM
+        scale-wechat-bwrap
+        # wechat-uos
+      ]
+      # Packages enabled from hosts/${host}/variables.nix apps.
+      ++ variableAppPackages;
 }

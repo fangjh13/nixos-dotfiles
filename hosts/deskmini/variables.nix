@@ -3,6 +3,25 @@
   # If false, only the command-line will be available.
   useGUI = true;
 
+  # Package attribute paths to be installed in the desktop environment.
+  # Supports nested package paths such as "jetbrains.datagrip".
+  apps = [
+    # Synology Drive Client
+    "synology-drive-client"
+    # Notebook
+    "logseq"
+    "obsidian"
+    # Database GUI
+    "jetbrains.datagrip"
+    # AI Code Editors
+    "code-cursor"
+    "antigravity-fhs"
+
+    "telegram-desktop"
+    "gpu-viewer"
+    "libreoffice"
+  ];
+
   # Extra Hyprland config
   hyprConfig = ''
     # Monitor config

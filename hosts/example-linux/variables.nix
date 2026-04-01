@@ -4,9 +4,18 @@
   gitName = "%%GITNAME%%";
   gitEmail = "%%GITEMAIL%%";
 
+  timezone = "Asia/Shanghai";
+
   # Whether to enable the desktop environment
   # If false, only the command-line will be available.
   useGUI = true;
+
+  # Package attribute paths to be installed in the desktop environment.
+  # Supports nested package paths such as "jetbrains.datagrip".
+  apps = [
+    "telegram-desktop"
+    "gpu-viewer"
+  ];
 
   # Extra Hyprland config
   hyprConfig = ''
@@ -27,8 +36,6 @@
 
   # Choose a wallpaper file name from wallpapers folder
   wallpaper = "SpaceX_20241013_192337_1845545948283572503_photo.jpg";
-
-  timezone = "Asia/Shanghai";
 
   # Bookmarks in the sidebar of the GTK file browser
   bookmarks = [
