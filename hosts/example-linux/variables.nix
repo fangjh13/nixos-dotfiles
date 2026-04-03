@@ -4,7 +4,7 @@
   gitName = "%%GITNAME%%";
   gitEmail = "%%GITEMAIL%%";
 
-  timezone = "Asia/Shanghai";
+  timezone = "%%TIMEZONE%%";
 
   # Whether to enable the desktop environment
   # If false, only the command-line will be available.
