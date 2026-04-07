@@ -29,14 +29,9 @@
     enable = true;
     username = username;
     entries = [
-      {path = "/Applications/Safari.app/";}
-      {path = "/System/Applications/Messages.app/";}
-      {path = "/System/Applications/Notes.app/";}
-      {path = "${pkgs.alacritty}/Applications/Alacritty.app/";}
-      {path = "/System/Applications/Music.app/";}
-      {path = "/System/Applications/Photos.app/";}
-      {path = "/System/Applications/Photo Booth.app/";}
-      {path = "/System/Applications/System Settings.app/";}
+      {path = "/System/Library/CoreServices/Finder.app";}
+      {path = "/Applications/Google Chrome.app/";}
+      {path = "${pkgs.wezterm}/Applications/WezTerm.app/";}
       {
         path = "${config.users.users.${username}.home}/Downloads";
         section = "others";
