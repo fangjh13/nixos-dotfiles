@@ -65,10 +65,12 @@ sudo nixos-generate-config --show-hardware-config > hosts/<your hostname>/hardwa
 Rebuild NixOS
 
 ```shell
-git add .
 git submodule init
 git submodule update --remote
+
 export NIX_CONFIG="experimental-features = nix-command flakes"
+nix run .#init
+git add .
 sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 
 # Debug Mode
@@ -83,9 +85,29 @@ sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 
 ### Install
 
+Install dependencies
 ```shell
-nix --extra-experimental-features 'nix-command flakes' build '.#darwinConfigurations.<your hostname>.system'
-sudo ./result/sw/bin/darwin-rebuild switch --flake .#<your hostname>
+xcode-select --install
+```
+
+Install [Nix](https://nixos.org/download/#nix-install-macos)
+```shell
+sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
+```
+
+Now can clone this repo and build the system configuration with nix
+```shell
+git clone https://github.com/fangjh13/nixos-dotfiles.git
+cd nixos-dotfiles
+
+git submodule init
+git submodule update --remote
+
+export NIX_CONFIG="experimental-features = nix-command flakes"
+nix run .#init
+git add .
+nix build '.submodules=1#darwinConfigurations.<your hostname>.system'
+sudo ./result/sw/bin/darwin-rebuild switch --flake '.submodules=1#<your hostname>'
 unlink ./result
 ```
 

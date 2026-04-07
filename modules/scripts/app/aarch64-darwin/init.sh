@@ -57,7 +57,7 @@ detect_timezone() {
   local timezone=""
 
   if command -v systemsetup >/dev/null 2>&1; then
-    timezone=$(systemsetup -gettimezone 2>/dev/null || true)
+    timezone=$(sudo systemsetup -gettimezone 2>/dev/null || true)
     timezone=${timezone#Time Zone: }
   fi
 
