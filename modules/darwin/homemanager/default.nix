@@ -29,9 +29,10 @@
     enable = true;
     username = username;
     entries = [
-      {path = "/System/Library/CoreServices/Finder.app";}
       {path = "/Applications/Google Chrome.app/";}
       {path = "${pkgs.wezterm}/Applications/WezTerm.app/";}
+      {path = "/System/Applications/Calendar.app/";}
+      {path = "/System/Applications/Mail.app/";}
       {
         path = "${config.users.users.${username}.home}/Downloads";
         section = "others";
