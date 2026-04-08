@@ -6,4 +6,6 @@ in
   ++ [
     # Tool for managing dock items
     dockutil
+    # ip command tool for macOS
+    iproute2mac
   ]

@@ -1,5 +1,15 @@
 _: [
-  "iterm2"
+  "hammerspoon"
+  "raycast"
+  "squirrel-app"
+  "keepassxc"
+  "synology-drive"
+  "logseq"
+  "utm"
+  "markedit"
+  "obsidian"
+  "firefox"
+  "orbstack"
   "google-chrome"
-  #"raycast"
+  "iina"
 ]
