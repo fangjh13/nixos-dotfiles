@@ -3,7 +3,6 @@
   lib,
   pkgs,
   username,
-  host,
   ...
 }: {
   imports = [
@@ -14,6 +13,9 @@
     ../../public/homemanager/tmux
     ../../public/homemanager/yazi
     ../../public/homemanager/programming
+    ../../public/homemanager/terminals/kitty
+    ../../public/homemanager/terminals/wezterm
+    ../../public/homemanager/terminals/alacritty
   ];
 
   # Home Manager needs a bit of information about you and the
