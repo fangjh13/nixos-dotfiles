@@ -9,5 +9,4 @@
     echo "🔧 Running ${scriptName} script. Your architecture is ${arch}.";
     exec ${self}/modules/scripts/app/${arch}/${scriptName} "$@"
   '')}/bin/${scriptName}";
-  # };
 }

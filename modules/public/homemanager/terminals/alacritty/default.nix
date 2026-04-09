@@ -7,7 +7,7 @@
         x = 5;
         y = 5;
       };
-      scrolling.history = 10000;
+      scrolling.history = 100000;
 
       scrolling.multiplier = 5;
       selection.save_to_clipboard = true;
