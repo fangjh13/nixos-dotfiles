@@ -1,4 +1,11 @@
 {
+  userName = "fython";
+  hostName = "deskmini";
+  gitName = "Fython";
+  gitEmail = "fang.jia.hui123@gmail.com";
+
+  timezone = "Asia/Shanghai";
+
   # Whether to enable the desktop environment
   # If false, only the command-line will be available.
   useGUI = true;
@@ -34,8 +41,6 @@
 
   # xkbOptions = "ctrl:nocaps"; # For Keychron Q60Max
   xkbOptions = "ctrl:nocaps,altwin:swap_lalt_lwin"; # For HHKB (set 1,3,4,5 ON)
-
-  timezone = "Asia/Shanghai";
 
   # Bookmarks in the sidebar of the GTK file browser
   bookmarks = [
