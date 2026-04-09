@@ -9,9 +9,6 @@
   cacheHome = config.xdg.cacheHome;
 in {
   imports = [
-    ./terminals/alacritty
-    ./terminals/wezterm
-    ./terminals/kitty
     ./bash
     ./zsh
     ./prompt/starship.nix

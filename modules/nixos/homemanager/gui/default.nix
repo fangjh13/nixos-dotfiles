@@ -9,6 +9,9 @@
     ./gtk
     ./hyprland
     ./apps
+    ../../../public/homemanager/terminals/alacritty
+    ../../../public/homemanager/terminals/wezterm
+    ../../../public/homemanager/terminals/kitty
   ];
 
   home.pointerCursor = {
