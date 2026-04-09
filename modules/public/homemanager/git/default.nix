@@ -1,17 +1,19 @@
 {
   pkgs,
   lib,
+  host,
   ...
-}: {
+}: let
+  inherit (import ../../../../hosts/${host}/variables.nix) gitName gitEmail;
+in {
   home.packages = [pkgs.gh];
 
   programs.git = {
     enable = true;
 
     settings = {
-      # FIXME: replace your git username and email
-      user.name = "Fython";
-      user.email = "fang.jia.hui123@gmail.com";
+      user.name = "${gitName}";
+      user.email = "${gitEmail}";
 
       alias = {
         cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|develop\\|dev' | xargs -n 1 -r git branch -d";
