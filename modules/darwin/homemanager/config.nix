@@ -4,7 +4,9 @@
   pkgs,
   username,
   ...
-}: {
+}: let
+  files = pkgs.callPackage ./files.nix;
+in {
   imports = [
     ../../public/homemanager/programs.nix
     ../../public/homemanager/git
@@ -24,9 +26,7 @@
     enableNixpkgsReleaseCheck = false;
     packages = pkgs.callPackage ./packages.nix {};
     file = lib.mkMerge [
-      # sharedFiles
-      # additionalFiles
-      # {"emacs-launcher.command".source = myEmacsLauncher;}
+      files
     ];
 
     # This value determines the Home Manager release that your
