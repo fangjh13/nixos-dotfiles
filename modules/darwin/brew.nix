@@ -3,6 +3,7 @@
   config,
   inputs,
   username,
+  host,
   ...
 }: {
   imports = [inputs.nix-homebrew.darwinModules.nix-homebrew];
@@ -33,7 +34,7 @@
   homebrew = {
     enable = true;
     # like `brew install --cask`
-    casks = pkgs.callPackage ./casks.nix {};
+    casks = pkgs.callPackage ./casks.nix {inherit host;};
 
     onActivation = {
       cleanup = "zap";
