@@ -22,12 +22,18 @@ config.window_background_opacity = 1
 config.window_padding = {
 	left = "0.5cell",
 	right = "0.5cell",
-	top = "0.5cell",
+	top = "0.3cell",
 	bottom = "0cell",
 }
--- config.window_decorations = "RESIZE"
+-- Hide Title Bar (leaves just the window border for resizing)
+config.window_decorations = "RESIZE"
 
--- font
+-- Tab Bar
+config.use_fancy_tab_bar = false
+-- hide tab bar
+config.hide_tab_bar_if_only_one_tab = true
+
+-- Font
 config.font = wezterm.font_with_fallback({
 	-- { family = "Hack Nerd Font Mono", weight = "Bold" },
 	{ family = "Hack Nerd Font Mono" },
@@ -40,11 +46,6 @@ if wezterm.target_triple == "aarch64-apple-darwin" then
 else
 	config.font_size = 10
 end
-
--- Tab Bar
-config.use_fancy_tab_bar = false
--- hide tab bar
-config.hide_tab_bar_if_only_one_tab = true
 
 -- keymap
 local keymaps = {

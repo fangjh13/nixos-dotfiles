@@ -5,7 +5,9 @@
   username,
   ...
 }: let
-  files = pkgs.callPackage ./files.nix;
+  files = import ./files.nix {
+    inherit config pkgs username;
+  };
 in {
   imports = [
     ../../public/homemanager/programs.nix
