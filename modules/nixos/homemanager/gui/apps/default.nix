@@ -3,7 +3,8 @@
     ./common.nix
     ./media.nix
 
-    ./keepassxc
+    ../../../../public/homemanager/keepassxc
+
     ./firefox
     ./chromium
     ./vscodium

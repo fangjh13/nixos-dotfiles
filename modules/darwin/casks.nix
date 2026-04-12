@@ -9,20 +9,34 @@ in
   [
     # Automation tools
     "hammerspoon"
+
+    # Spotlight alternatives
     "raycast"
+
+    # Input method
     "squirrel-app"
-    "keepassxc"
+
     "synology-drive"
     "logseq"
+
+    # Screenshot tools
+    "shottr"
+
     # QEMU Virtual Machines
     "utm"
+
+    # Docker/k8s management
+    "orbstack"
+
     "markedit"
     "obsidian"
     "firefox"
     "orbstack"
     "google-chrome"
+
     # media player
     "iina"
+
     # file archiver
     "keka"
 

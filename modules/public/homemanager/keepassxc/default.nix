@@ -1,13 +1,19 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   programs.keepassxc = {
     enable = true;
-    autostart = true;
+    autostart = lib.mkIf pkgs.stdenv.isLinux true;
     settings = {
       Browser = {
         Enabled = true;
         UpdateBinaryPath = false;
       };
       browserIntegration.firefox = true;
+      browserIntegration.chromium = true;
+      browserIntegration.chrome = true;
 
       GUI = {
         AdvancedSettings = true;
