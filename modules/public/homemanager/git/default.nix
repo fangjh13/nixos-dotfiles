@@ -36,14 +36,19 @@ in {
         autoupdate = true;
       };
       diff = {colorMoved = "default";};
-      init = {defaultBranch = "main";};
+      init = {
+        defaultBranch = "main";
+        # use templateDir instead of core.hooksPath so that hooks are copied
+        # into each repo's .git/hooks/ on git init/clone, allowing
+        # per-project tools like `pre-commit install` to override them.
+        templateDir = "${pkgs.runCommand "git-template" {} ''
+          mkdir -p $out/hooks
+          install -m 755 ${./hooks/prepare-commit-msg.sh} $out/hooks/prepare-commit-msg
+        ''}";
+      };
       pull.rebase = true;
       push.autoSetupRemote = true;
       log.date = "local";
-    };
-
-    hooks = {
-      prepare-commit-msg = ./hooks/prepare-commit-msg.sh;
     };
   };
 
