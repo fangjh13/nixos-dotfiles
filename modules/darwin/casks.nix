@@ -16,8 +16,8 @@ in
     # Input method
     "squirrel-app"
 
+    # Cloud storage clients
     "synology-drive"
-    "logseq"
 
     # Screenshot tools
     "shottr"
@@ -28,10 +28,15 @@ in
     # Docker/k8s management
     "orbstack"
 
+    # Markdown editor
     "markedit"
     "obsidian"
+
+    # Note-taking tools
+    "logseq"
+
+    # Browsers
     "firefox"
-    "orbstack"
     "google-chrome"
 
     # media player
@@ -39,8 +44,6 @@ in
 
     # file archiver
     "keka"
-
-    "antigravity"
   ]
   # caks enabled from hosts/${host}/variables.nix variables.
   ++ casks
