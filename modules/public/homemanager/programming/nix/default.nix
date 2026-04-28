@@ -5,6 +5,7 @@
     statix
   ];
 
+  # https://direnv.net/
   programs.direnv = {
     enable = true;
     package = pkgs-unstable.direnv;
