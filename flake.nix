@@ -65,7 +65,7 @@
       config.allowUnfree = true;
     };
     overlays = [
-      inputs.neovim-nightly-overlay.overlays.default
+      # inputs.neovim-nightly-overlay.overlays.default
     ];
     mkSystem = import ./lib/mk_system.nix {
       inherit inputs nixpkgs pkgs-stable pkgs-unstable community-nur overlays;

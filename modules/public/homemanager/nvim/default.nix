@@ -15,6 +15,9 @@
     withPython3 = true;
     extraPython3Packages = pyPkgs: with pyPkgs; [setuptools];
 
+    # Instead of generating `init.lua` in `~/.config/nvim`, use the wrapper to sideload environment variables
+    sideloadInitLua = true;
+
     # These environment variables are needed to build and run binaries
     # with external package managers like mason.nvim.
     #
