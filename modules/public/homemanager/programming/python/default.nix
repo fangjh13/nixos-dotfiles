@@ -10,13 +10,11 @@
 in {
   # Python
   home.packages = with pkgs; [
+    # Python 3.14 with some commonly used packages
     (python314.withPackages (pyPkgs: with pyPkgs; [requests]))
 
     # CLI tool interacting with AI
     llmWithPlugins
-
-    # Command Line Interface to FreeDesktop.org Trash
-    trash-cli
   ];
 
   imports = [

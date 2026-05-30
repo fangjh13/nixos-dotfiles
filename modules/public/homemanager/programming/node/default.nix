@@ -9,5 +9,8 @@
     nodejs # Provides 'node' and 'npm' globally
     yarn # Global yarn
     # pnpm # npm alternative for modern projects
+
+    # Some useful global npm packages for web development
+    openspec # Spec-driven development (SDD) for AI coding assistants
   ];
 }

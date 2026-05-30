@@ -39,9 +39,6 @@ in
     "firefox"
     "google-chrome"
 
-    # media player
-    "iina"
-
     # file archiver
     "keka"
   ]

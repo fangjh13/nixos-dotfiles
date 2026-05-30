@@ -21,13 +21,11 @@
     ssh = {
       enable = true;
       includes = ["config.d/*"];
-      extraConfig = ''
-        SendEnv LANG LC_*
-      '';
       enableDefaultConfig = false;
-      matchBlocks."*" = {
-        forwardAgent = true;
-        addKeysToAgent = "yes";
+      settings."*" = {
+        ForwardAgent = true;
+        AddKeysToAgent = "yes";
+        SendEnv = ["LANG" "LC_*"];
       };
     };
   };
