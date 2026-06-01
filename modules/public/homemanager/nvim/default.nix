@@ -56,7 +56,7 @@
   };
 
   home.packages = with pkgs; [
-    python311Packages.pynvim
+    python314Packages.pynvim
     # nix language server
     pkgs.nixd
   ];
