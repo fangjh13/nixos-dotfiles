@@ -45,7 +45,8 @@ in
       };
       extraLuaFiles.config = {
         autoLoad = true;
-        content = builtins.replaceStrings
+        content =
+          builtins.replaceStrings
           ["@HYPR_CONFIG@" "@XKB_OPTIONS@"]
           [hyprConfig xkbOptions]
           (builtins.readFile ./hyprland-config.lua);
