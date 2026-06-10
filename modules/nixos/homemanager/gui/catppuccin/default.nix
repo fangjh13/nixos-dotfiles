@@ -6,7 +6,8 @@
   inherit (import ../../../../../hosts/${host}/variables.nix) useGUI;
 in {
   catppuccin = {
-    enable = lib.mkIf useGUI true;
+    enable = true;
+    autoEnable = useGUI;
 
     flavor = "mocha";
     accent = "mauve";

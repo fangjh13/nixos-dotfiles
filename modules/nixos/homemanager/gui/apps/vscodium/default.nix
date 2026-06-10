@@ -5,7 +5,7 @@
   pkgs-unstable,
   ...
 }: {
-  programs.vscode = {
+  programs.vscodium = {
     enable = true;
     # community-driven vscode, Telemetry is disabled.
     package = pkgs-unstable.vscodium;

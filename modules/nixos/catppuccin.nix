@@ -8,7 +8,8 @@
 in {
   # Catppuccin global config (NixOS level)
   catppuccin = {
-    enable = lib.mkIf useGUI true;
+    enable = true;
+    autoEnable = useGUI;
     flavor = "mocha";
     accent = "mauve";
   };
