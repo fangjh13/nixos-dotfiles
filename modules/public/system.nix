@@ -42,7 +42,7 @@ in {
     allowUnfree = true;
     # NOTE: temporarily allow insecure packages
     permittedInsecurePackages = [
-      "electron-27.3.11" # for logseq
+      "electron-39.8.10" # for logseq
     ];
     packageOverrides = pkgs: {
       # make `pkgs.nur` available
