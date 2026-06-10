@@ -29,14 +29,14 @@
     "libreoffice"
   ];
 
-  # Extra Hyprland config
+  # Extra Hyprland config (Lua format for 0.55+)
   hyprConfig = ''
-    # Monitor config
-    # See https://wiki.hyprland.org/Configuring/Monitors/
-    # monitor=,preferred,auto,auto
+    -- Monitor config
+    -- See https://wiki.hypr.land/Configuring/Monitors/
+    -- hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 
-    # 4k monitor
-    monitor=,preferred,3840x2160@60,2
+    -- 4k monitor
+    hl.monitor({ output = "", mode = "3840x2160@60", position = "auto", scale = 2 })
   '';
 
   # xkbOptions = "ctrl:nocaps"; # For Keychron Q60Max
