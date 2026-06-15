@@ -19,7 +19,7 @@
   systemd.settings.Manager = {
     DefaultTimeoutStopSec = 10;
   };
-  systemd.user.extraConfig = ''
-    DefaultTimeoutStopSec=10s
-  '';
+  systemd.user.settings.Manager = {
+    DefaultTimeoutStopSec = 10;
+  };
 }
