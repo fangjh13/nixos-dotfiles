@@ -24,6 +24,9 @@ in {
       kubeconform # Kubernetes manifests validator
       devspace
 
+      # sandboxing tool
+      bubblewrap
+
       # nix related
       #
       # it provides the command `nom` works just like `nix`
