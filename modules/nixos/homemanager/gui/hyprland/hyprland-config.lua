@@ -182,8 +182,33 @@ hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("rofi -show window"))
 hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "previous" }))
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + CONTROL + SHIFT + Q", hl.dsp.exit())
--- use smart togglefloating script
-hl.bind(mainMod .. " + SHIFT + SPACE", hl.dsp.exec_cmd("hypr-smarttf"))
+-- smart toggle floating: toggle float and resize based on window class
+hl.bind(mainMod .. " + SHIFT + SPACE", function()
+  local w = hl.get_active_window()
+  if w == nil then return end
+
+  if w.floating then
+    -- unfloat the window
+    hl.dispatch(hl.dsp.window.float({ action = "unset" }))
+  else
+    -- determine size ratio based on window class
+    local wp, hp
+    if w.initialClass == "kitty" then
+      wp, hp = 0.50, 0.55
+    else
+      wp, hp = 0.80, 0.75
+    end
+    -- calculate target pixel size from logical monitor dimensions
+    local mon = hl.get_active_monitor()
+    local scale = mon.scale or 1
+    local target_w = math.floor(mon.width / scale * wp)
+    local target_h = math.floor(mon.height / scale * hp)
+    -- float the window (keeps its tiled size)
+    hl.dispatch(hl.dsp.window.float({ action = "set" }))
+    hl.dispatch(hl.dsp.window.resize({ x = target_w, y = target_h}))
+    hl.dispatch(hl.dsp.window.center())
+  end
+end)
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd("screenshot"))
