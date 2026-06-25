@@ -22,8 +22,7 @@
     };
     # neovim nightly
     neovim-nightly-overlay = {
-      # url = "github:nix-community/neovim-nightly-overlay";
-      url = "github:nix-community/neovim-nightly-overlay/701c0a6174fde5de4b9424c0d1e5a4306b73baac";
+      url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -64,11 +63,8 @@
       inherit system;
       config.allowUnfree = true;
     };
-    overlays = [
-      # inputs.neovim-nightly-overlay.overlays.default
-    ];
     mkSystem = import ./lib/mk_system.nix {
-      inherit inputs nixpkgs pkgs-stable pkgs-unstable community-nur overlays;
+      inherit inputs nixpkgs pkgs-stable pkgs-unstable community-nur;
     };
     mkApp = import ./lib/mk_app.nix {
       inherit nixpkgs;

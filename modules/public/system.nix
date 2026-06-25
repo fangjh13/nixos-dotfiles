@@ -1,5 +1,5 @@
 {
-  pkgs,
+  inputs,
   host,
   username,
   community-nur,
@@ -37,20 +37,42 @@ in {
     builders-use-substitutes = true;
   };
 
-  nixpkgs.config = {
-    # Allow unfree packages
-    allowUnfree = true;
-    # NOTE: temporarily allow insecure packages
-    permittedInsecurePackages = [
-      "electron-39.8.10" # for logseq
-    ];
-    packageOverrides = pkgs: {
-      # make `pkgs.nur` available
-      nur = import community-nur {
-        inherit pkgs;
-        nurpkgs = pkgs;
+  nixpkgs = {
+    config = {
+      # Allow unfree packages
+      allowUnfree = true;
+      # NOTE: temporarily allow insecure packages
+      permittedInsecurePackages = [
+        "electron-39.8.10" # for logseq
+      ];
+      packageOverrides = pkgs: {
+        # make `pkgs.nur` available
+        nur = import community-nur {
+          inherit pkgs;
+          nurpkgs = pkgs;
+        };
       };
     };
+
+    # Apply our overlays available globally.
+    overlays = let
+      path = ../../overlays;
+      excludedFiles = ["neovim-nightly.nix"];
+      importOverlay = name: let
+        overlay = import (path + ("/" + name));
+      in
+        if builtins.isFunction overlay && builtins.hasAttr "inputs" (builtins.functionArgs overlay)
+        then overlay {inherit inputs;}
+        else overlay;
+    in
+      with builtins;
+        map importOverlay
+        (filter (n:
+          (match ".*\\.nix" n
+            != null
+            || pathExists (path + ("/" + n + "/default.nix")))
+          && !(elem n excludedFiles))
+        (attrNames (readDir path)));
   };
 
   # Set your time zone.
