@@ -5,7 +5,6 @@
   pkgs-stable,
   pkgs-unstable,
   community-nur,
-  overlays,
 }: host: {
   system,
   username,
@@ -50,9 +49,6 @@ in
     };
 
     modules = [
-      # Apply our overlays available globally.
-      {nixpkgs.overlays = overlays;}
-
       # Snapd on Linux
       # (
       #   if isLinux

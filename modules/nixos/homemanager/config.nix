@@ -17,6 +17,7 @@ in {
       ../../public/homemanager/tmux
       ../../public/homemanager/yazi
       ../../public/homemanager/programming
+      ../../nixos/catppuccin.nix
 
       ./common.nix
       ./packages.nix
