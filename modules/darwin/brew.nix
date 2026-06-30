@@ -33,13 +33,20 @@
 
   homebrew = {
     enable = true;
+    enableZshIntegration = true;
+
     # like `brew install --cask`
     casks = pkgs.callPackage ./casks.nix {inherit host;};
 
     onActivation = {
-      cleanup = "zap";
       autoUpdate = false;
       upgrade = false;
+      cleanup = "zap";
+      extraFlags = ["--force-cleanup"];
+    };
+
+    global = {
+      autoUpdate = false;
     };
 
     # Align homebrew taps config with nix-homebrew reduces configuration mismatches
