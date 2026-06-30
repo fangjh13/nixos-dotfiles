@@ -27,4 +27,10 @@ with pkgs; [
   # mycli # mysql
   pgcli # postgresql
   iredis # redis
+
+  # cloud native
+  kubectl
+  kubeconform # Kubernetes manifests validator
+  docker-compose
+  devspace
 ]

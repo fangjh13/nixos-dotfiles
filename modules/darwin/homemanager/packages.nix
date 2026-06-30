@@ -4,6 +4,7 @@ with pkgs; let
 in
   publicPkgs
   ++ [
+    wget
     # Tool for managing dock items
     dockutil
     # ip command tool for macOS
