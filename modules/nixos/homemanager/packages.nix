@@ -18,12 +18,6 @@ in {
       chafa # image viewer on CLI
       psmisc # killall, fuser, pstree, prtstat ...
 
-      # cloud native
-      docker-compose
-      kubectl
-      kubeconform # Kubernetes manifests validator
-      devspace
-
       # sandboxing tool
       bubblewrap
 
