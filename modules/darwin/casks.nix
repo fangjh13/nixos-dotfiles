@@ -13,9 +13,6 @@ in
     # Spotlight alternatives
     "raycast"
 
-    # Input method
-    "squirrel-app"
-
     # Cloud storage clients
     "synology-drive"
 

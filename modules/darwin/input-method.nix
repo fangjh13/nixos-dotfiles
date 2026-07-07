@@ -2,7 +2,27 @@
   lib,
   username,
   ...
-}: {
+}: let
+  rimeData = lib.cleanSourceWith {
+    src = ../nixos/homemanager/gui/fcitx5/rime-config/share/rime-data;
+    filter = path: type: let
+      name = builtins.baseNameOf path;
+    in
+      !(lib.elem name [
+        ".git"
+        ".gitignore"
+      ]);
+  };
+in {
+  home-manager.users.${username}.home.file."Library/Rime" = {
+    source = rimeData;
+    recursive = true;
+  };
+
+  homebrew.casks = [
+    "squirrel-app"
+  ];
+
   # Manage macOS input sources for a "Squirrel only" setup.
   #
   # Why this exists:
