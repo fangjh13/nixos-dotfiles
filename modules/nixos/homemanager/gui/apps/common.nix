@@ -32,7 +32,7 @@
         graphviz
 
         # IM
-        scale-wechat-bwrap
+        # scale-wechat-bwrap
         # wechat-uos
       ]
       # Packages enabled from hosts/${host}/variables.nix apps.

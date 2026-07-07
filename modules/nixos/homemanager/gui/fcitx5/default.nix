@@ -8,6 +8,8 @@
     source = ./themes;
     recursive = true;
   };
+  # rime custom patches (override settings without modifying default.yaml)
+  home.file.".local/share/fcitx5/rime/default.custom.yaml".source = ./rime-custom/default.custom.yaml;
   xdg.configFile = {
     "fcitx5/profile" = {
       source = ./profile;
@@ -20,6 +22,11 @@
     "fcitx5/conf/rime.conf".source = ./conf/rime.conf;
     "fcitx5/conf/quickphrase.conf".source = ./conf/quickphrase.conf;
     "fcitx5/conf/clipboard.conf".source = ./conf/clipboard.conf;
+    # global fcitx5 config (hotkeys, behavior, etc.)
+    "fcitx5/config" = {
+      source = ./conf/config;
+      force = true;
+    };
   };
   i18n.inputMethod = {
     type = "fcitx5";
@@ -30,7 +37,7 @@
       local-fcitx5-rime =
         (pkgs.fcitx5-rime.override {
           # 引入自定义的配置
-          # https://github.com/NixOS/nixpkgs/blob/nixos-24.11/pkgs/tools/inputmethods/fcitx5/fcitx5-rime.nix#L14
+          # https://github.com/NixOS/nixpkgs/blob/nixos-26.05/pkgs/by-name/fc/fcitx5-rime/package.nix#L14
           rimeDataPkgs = [./rime-config];
         }).overrideAttrs (final: prev: {
           # 支持 lua 脚本

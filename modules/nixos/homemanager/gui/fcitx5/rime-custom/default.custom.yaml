@@ -1,0 +1,4 @@
+# Rime custom patch for default.yaml
+# NOTE: 屏蔽 Shift_L 在 rime 内部的中英切换，nixos 上由 fcitx5 接管全局 Shift_L 处理输入法切换
+patch:
+  "ascii_composer/switch_key/Shift_L": noop
