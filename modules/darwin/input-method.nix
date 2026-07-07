@@ -35,10 +35,11 @@
     plist="$HOME/Library/Preferences/$domain.plist"
 
     mkdir -p "$HOME/Library/Preferences"
-    touch "$plist"
 
-    # macOS re-adds a built-in keyboard layout unless the HIToolbox plist is locked.
+    # Rebuilds run against the plist left locked by the previous activation.
+    # Unlock before touch/defaults writes, because even touch updates metadata.
     chflags nouchg "$plist" 2>/dev/null || true
+    touch "$plist"
 
     # This array keeps macOS helper input methods available without adding a
     # visible keyboard layout or a duplicate Squirrel menu entry.
