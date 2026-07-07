@@ -355,6 +355,36 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
+--------------------------------------
+--- INPUT METHOD AUTO-SWITCHING ---
+--------------------------------------
+
+-- Per-application input method switching for fcitx5-rime
+-- Default: English (input method deactivated)
+-- Apps listed in `chinese_apps` will activate the input method (Chinese mode)
+-- You can find the class name by running `hyprctl activewindow -j | jq .class`
+local chinese_apps = {
+  "wechat",
+}
+
+-- Build a lookup set for O(1) matching
+local chinese_set = {}
+for _, class in ipairs(chinese_apps) do
+  chinese_set[class:lower()] = true
+end
+
+hl.on("window.active", function(w)
+  if w == nil then return end
+  local cls = (w.class or ""):lower()
+  if chinese_set[cls] then
+    -- Switch to Rime → Chinese mode
+    hl.exec_cmd("fcitx5-remote -s rime")
+  else
+    -- Switch to keyboard-us → English mode (default)
+    hl.exec_cmd("fcitx5-remote -s keyboard-us")
+  end
+end)
+
 ---------------------------------
 --- WINDOWS AND WORKSPACES ---
 ---------------------------------
