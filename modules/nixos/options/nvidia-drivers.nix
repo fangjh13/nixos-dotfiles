@@ -15,6 +15,10 @@ in {
   config = mkIf cfg.enable {
     hardware.graphics = {
       enable = true;
+      enable32Bit = true;
+      extraPackages = [
+        pkgs.nvidia-vaapi-driver
+      ];
     };
 
     hardware.nvidia = {
@@ -23,6 +27,14 @@ in {
 
       # Wayland requires kernel mode setting (KMS) to be enabled
       modesetting.enable = true;
+
+      powerManagement = {
+        enable = true;
+        # NVIDIA 595 enables kernel suspend notifiers by default with open modules.
+        # Use the systemd sleep path instead so PreserveVideoMemoryAllocations has
+        # the matching nvidia-suspend/nvidia-resume hooks.
+        kernelSuspendNotifier = false;
+      };
 
       package = config.boot.kernelPackages.nvidiaPackages.stable; # Default
       # package = config.boot.kernelPackages.nvidiaPackages.beta;
@@ -56,9 +68,6 @@ in {
     # VA-API hardware video acceleration
     # https://wiki.hypr.land/Nvidia/#va-api-hardware-video-acceleration
     # https://discourse.nixos.org/t/nvidia-open-breaks-hardware-acceleration/58770/2
-    hardware.opengl.extraPackages = [
-      pkgs.nvidia-vaapi-driver
-    ];
     environment.variables = {
       NVD_BACKEND = "direct";
       LIBVA_DRIVER_NAME = "nvidia";
