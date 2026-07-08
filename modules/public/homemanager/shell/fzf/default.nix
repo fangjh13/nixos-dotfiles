@@ -68,12 +68,14 @@
         "--bind='ctrl-g:+clear-selection+select-all+clear-query+execute-silent:touch /tmp/wait-result'"
         "--bind='result:+transform:[ -f /tmp/wait-result ] && { rm /tmp/wait-result; echo +toggle-all+exclude-multi; }'"
       ];
-      # FZF_CTRL_T_COMMAND
-      fileWidgetCommand = "fd ${fdOptions}";
-      # FZF_CTRL_T_OPTS
-      fileWidgetOptions = ["--layout=default" "--height=80%"] ++ FullOpts;
+      fileWidget = {
+        # FZF_CTRL_T_COMMAND
+        command = "fd ${fdOptions}";
+        # FZF_CTRL_T_OPTS
+        options = ["--layout=default" "--height=80%"] ++ FullOpts;
+      };
       # FZF_CTRL_R_OPTS
-      historyWidgetOptions = [
+      historyWidget.options = [
         "--layout=default"
         "--height=80%"
         "--style minimal"
@@ -83,9 +85,12 @@
         "--color header:italic"
         "--header 'Press CTRL-Y to copy command into clipboard'"
       ];
-      # FZF_ALT_C_COMMAND
-      changeDirWidgetCommand = "fd --type d ${fdOptions}";
-      changeDirWidgetOptions = ["--height=80%"] ++ FullOpts;
+      changeDirWidget = {
+        # FZF_ALT_C_COMMAND
+        command = "fd --type d ${fdOptions}";
+        # FZF_ALT_C_OPTS
+        options = ["--height=80%"] ++ FullOpts;
+      };
     };
   };
 }
