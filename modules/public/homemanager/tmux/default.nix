@@ -12,7 +12,26 @@
   programs = {
     tmux = {
       enable = true;
-      extraConfig = builtins.readFile ./tmux.conf;
+      # Keep sesh on prefix+s with a custom fzf action set.
+      extraConfig =
+        builtins.readFile ./tmux.conf
+        + ''
+          bind-key "s" run-shell "sesh connect \"$(
+            sesh list --icons | fzf --tmux 80%,70% \
+              --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
+              --header '  ^a all ^t tmux ^g configs ⌥c zoxide ^x tmux kill ^f find' \
+              --bind 'tab:down,btab:up' \
+              --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+              --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list --icons -t)' \
+              --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list --icons -c)' \
+              --bind 'alt-c:change-prompt(📁  )+reload(sesh list --icons -z)' \
+              --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+              --bind 'ctrl-x:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+              --preview-window 'right:55%' \
+              --preview 'sesh preview {}' \
+              -- --ansi
+          )\""
+        '';
       plugins = with pkgs.tmuxPlugins; [
         # {
         #   plugin = dracula;
@@ -55,8 +74,8 @@
       # Whether to enable the sesh terminal session manager
       enable = true;
       enableAlias = false;
-      enableTmuxIntegration = true;
-      tmuxKey = "s";
+      # disable tmux integration, manually set the session in tmux.conf
+      enableTmuxIntegration = false;
       settings = {
         blacklist = ["scratch"];
         default_session = {
