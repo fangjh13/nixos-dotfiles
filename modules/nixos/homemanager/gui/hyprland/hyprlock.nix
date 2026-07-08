@@ -3,8 +3,6 @@
     enable = true;
     settings = {
       general = {
-        disable_loading_bar = true;
-        grace = 0;
         hide_cursor = true;
       };
       background = [

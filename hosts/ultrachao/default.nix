@@ -27,9 +27,9 @@
   ];
 
   # NOTE: Enable imported option modules if you need
-  drivers.intel.enable = false;
+  drivers.intel.enable = true;
   drivers.amdgpu.enable = false;
-  drivers.nvidiagpu.enable = false;
+  drivers.nvidiagpu.enable = true;
   # Enable sound with pipwire
   multimedia.pipewire.enable = true;
   # OR pulseaudio
@@ -50,6 +50,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   # Plymouth boot splash screen
   boot.plymouth.enable = true;
+
+  services.udev.extraRules = ''
+    KERNEL=="card*", KERNELS=="0000:00:02.0", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", SYMLINK+="dri/intel-igpu"
+    KERNEL=="card*", KERNELS=="0000:02:00.0", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", SYMLINK+="dri/nvidia-dgpu"
+  '';
 
   # NOTE: Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -85,10 +90,6 @@
 
   # Define your hostname
   networking.hostName = "${host}";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
