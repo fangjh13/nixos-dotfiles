@@ -1,90 +1,99 @@
-local function switch2IME(ime)
-	if hs.keycodes.currentSourceID() ~= ime then
-		hs.keycodes.currentSourceID(ime)
-	end
-end
+-- IME auto-switch module for Squirrel (鼠须管)
+--
+-- Sends Rime-defined hotkeys to toggle ascii_mode *within* Squirrel:
+--   Ctrl+Alt+Shift+E  →  set_option: ascii_mode   (English)
+--   Ctrl+Alt+Shift+C  →  unset_option: ascii_mode  (Chinese)
+--
+-- Uses hs.window.filter to detect app focus changes.
 
-local function Chinese()
-	-- local ime = "com.apple.inputmethod.SCIM.Shuangpin"
-	-- local ime = "com.sogou.inputmethod.sogou.pinyin"
-	-- local ime = "com.apple.inputmethod.SCIM.WBX"  -- 五笔
-	local ime = "im.rime.inputmethod.Squirrel.Hans" -- 鼠鬚管
-	switch2IME(ime)
-end
+------------------------------------------------------------
+-- Configuration: app bundle identifier → desired mode
+------------------------------------------------------------
+-- "english" = send Ctrl+Alt+Shift+E on focus
+-- "chinese" = send Ctrl+Alt+Shift+C on focus
+-- Apps not listed here will NOT be touched.
 
-local function English()
-	local ime = "com.apple.keylayout.ABC"
-	switch2IME(ime)
-end
-
--- app to expected ime config
-local app2Ime = {
-	{ "/Applications/iTerm.app", "English" },
-	{ "/Applications/Hyper.app", "English" },
-	{ "/Applications/Xcode.app", "English" },
-	{ "/Applications/WezTerm.app", "English" },
-	{ "/Applications/kitty.app", "English" },
-	{ "/Applications/Ghostty.app", "English" },
-	{ "/Applications/Visual Studio Code.app", "English" },
-	{ "/Applications/PyCharm.app", "English" },
-	{ "/Applications/Firefox.app", "English" },
-	{ "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app", "English" },
-	{ "/Applications/Safari.app", "English" },
-	{ "/Applications/Google Chrome.app", "English" },
-	{ "/System/Library/CoreServices/Finder.app", "English" },
-	{ "/Applications/DingTalk.app", "Chinese" },
-	{ "/Applications/Feishu.app", "Chinese" },
-	{ "/Applications/WeChat.app", "Chinese" },
-	{ "/Applications/System Preferences.app", "English" },
-	{ "/Applications/Preview.app", "Chinese" },
-	{ "/Applications/Raycast.app", "English" },
+local app2mode = {
+	["net.kovidgoyal.kitty"] = "english",
+	["com.github.wez.wezterm"] = "english",
+	["com.mitchellh.ghostty"] = "english",
+	["com.googlecode.iterm2"] = "english",
+	["com.google.Chrome"] = "english",
+	["org.mozilla.firefox"] = "english",
+	["com.apple.Safari"] = "english",
+	["com.raycast.macos"] = "english",
+	["com.tencent.xinWeChat"] = "chinese",
+	["com.electron.lark"] = "chinese",
 }
 
-function updateFocusAppInputMethodForApp(appObject)
+------------------------------------------------------------
+-- Send the Rime hotkey to switch ascii_mode
+------------------------------------------------------------
+local function switchToEnglish()
+	hs.eventtap.keyStroke({ "ctrl", "alt", "shift" }, "e")
+end
+
+local function switchToChinese()
+	hs.eventtap.keyStroke({ "ctrl", "alt", "shift" }, "c")
+end
+
+-- Global to prevent garbage collection
+imeAppWatcher = hs.application.watcher.new(function(appName, eventType, appObject)
+	if eventType ~= hs.application.watcher.activated then
+		return
+	end
 	if not appObject then
 		return
 	end
 
-	local ime = "English"
-	local focusAppPath = appObject:path()
+	local bundleID = appObject:bundleID()
+	if not bundleID then
+		return
+	end
 
-	for _, app in pairs(app2Ime) do
-		local appPath = app[1]
-		local expectedIme = app[2]
+	local mode = app2mode[bundleID]
+	if not mode then
+		return
+	end
 
-		if focusAppPath == appPath then
-			ime = expectedIme
-			break
+	hs.timer.doAfter(0.15, function()
+		if mode == "english" then
+			switchToEnglish()
+		elseif mode == "chinese" then
+			switchToChinese()
+		else
+			switchToEnglish()
 		end
-	end
+	end)
+end)
+imeAppWatcher:start()
 
-	if ime == "English" then
-		English()
-	else
-		Chinese()
-	end
-end
-
--- helper hotkey to figure out the app path and name of current focused window
+------------------------------------------------------------
+-- Helper: show current app info (Ctrl+Cmd+.)
+------------------------------------------------------------
 hs.hotkey.bind({ "ctrl", "cmd" }, ".", function()
+	local win = hs.window.focusedWindow()
+	if not win then
+		hs.alert.show("No focused window")
+		return
+	end
+
+	local app = win:application()
+	local bundleID = app:bundleID() or "N/A"
 	local data = "App path:        "
-		.. hs.window.focusedWindow():application():path()
+		.. (app:path() or "N/A")
 		.. "\n"
-		.. "App name:      "
-		.. hs.window.focusedWindow():application():name()
+		.. "App name:        "
+		.. (app:name() or "N/A")
 		.. "\n"
-		.. "IM source id:  "
+		.. "Bundle ID:       "
+		.. bundleID
+		.. "\n"
+		.. "IM source id:    "
 		.. hs.keycodes.currentSourceID()
 	print("\n" .. data)
+	hs.pasteboard.setContents(bundleID)
 	hs.alert.show(data)
 end)
 
--- Handle cursor focus and application's screen manage.
-function applicationWatcher(appName, eventType, appObject)
-	if eventType == hs.application.watcher.activated then
-		updateFocusAppInputMethodForApp(appObject)
-	end
-end
-
-appWatcher = hs.application.watcher.new(applicationWatcher)
-appWatcher:start()
+print("[ime] auto switch moudle started")
