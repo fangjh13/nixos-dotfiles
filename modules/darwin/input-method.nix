@@ -1,8 +1,10 @@
 {
+  config,
   lib,
   username,
   ...
 }: let
+  cfg = config.addon.input-method;
   rimeData = lib.cleanSourceWith {
     src = ../nixos/homemanager/gui/fcitx5/rime-config/share/rime-data;
     filter = path: type: let
@@ -14,16 +16,21 @@
       ]);
   };
 in {
-  home-manager.users.${username}.home.file = {
-    "Library/Rime" = {
-      source = rimeData;
-      recursive = true;
-    };
-    # Disable Rime Left Shift switching En/Ch by default; macOS uses Karabiner-Elements to switch input source instead.
-    "Library/Rime/default.custom.yaml".source = ../nixos/homemanager/gui/fcitx5/rime-custom/default.custom.yaml;
-  };
+  options.addon.input-method.enable =
+    lib.mkEnableOption "Squirrel input method";
 
-  homebrew.casks = [
-    "squirrel-app"
-  ];
+  config = lib.mkIf cfg.enable {
+    home-manager.users.${username}.home.file = {
+      "Library/Rime" = {
+        source = rimeData;
+        recursive = true;
+      };
+      # Disable Rime Left Shift switching En/Ch by default; macOS uses Karabiner-Elements to switch input source instead.
+      "Library/Rime/default.custom.yaml".source = ../nixos/homemanager/gui/fcitx5/rime-custom/default.custom.yaml;
+    };
+
+    homebrew.casks = [
+      "squirrel-app"
+    ];
+  };
 }
