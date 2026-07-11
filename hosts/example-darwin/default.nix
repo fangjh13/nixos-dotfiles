@@ -10,10 +10,10 @@
     ../../modules/darwin/dock.nix
     ../../modules/darwin/brew.nix
     ../../modules/darwin/fonts.nix
-    ../../modules/darwin/input-method.nix
   ];
 
   addon.karabiner-elements.enable = false;
+  addon.input-method.enable = false;
 
   nix.gc = {
     automatic = true;

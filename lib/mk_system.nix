@@ -48,35 +48,34 @@ in
       self = inputs.self;
     };
 
-    modules = [
-      # Snapd on Linux
-      # (
-      #   if isLinux
-      #   then inputs.nix-snapd.nixosModules.default
-      #   else {}
-      # )
+    modules =
+      [
+        # Snapd on Linux
+        # (
+        #   if isLinux
+        #   then inputs.nix-snapd.nixosModules.default
+        #   else {}
+        # )
 
-      # catppuccin modules
-      (
-        if isLinux && useGUI
-        then inputs.catppuccin.nixosModules.catppuccin
-        else {}
-      )
+        # catppuccin modules
+        (
+          if isLinux && useGUI
+          then inputs.catppuccin.nixosModules.catppuccin
+          else {}
+        )
+      ]
+      ++ nixpkgs.lib.optionals darwin [
+        # Optional Darwin modules; each host controls them with an enable option.
+        ../modules/darwin/karabiner-elements
+        ../modules/darwin/input-method.nix
+      ]
+      ++ [
+        # system modules
+        hostConfig
+        usersConfig
 
-      # Register optional Darwin modules; each host controls them with
-      # the module's enable option.
-      (
-        if darwin
-        then ../modules/darwin/karabiner-elements
-        else {}
-      )
-
-      # system modules
-      hostConfig
-      usersConfig
-
-      # home-manager
-      home-manager.home-manager
-      userHMConfig
-    ];
+        # home-manager
+        home-manager.home-manager
+        userHMConfig
+      ];
   }
