@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   username,
   ...
 }: let
@@ -20,17 +21,22 @@ in {
     lib.mkEnableOption "Squirrel input method";
 
   config = lib.mkIf cfg.enable {
-    home-manager.users.${username}.home.file = {
-      "Library/Rime" = {
-        source = rimeData;
-        recursive = true;
-      };
-      # Disable Rime Left Shift switching En/Ch by default; macOS uses Karabiner-Elements to switch input source instead.
-      "Library/Rime/default.custom.yaml".source = ../nixos/homemanager/gui/fcitx5/rime-custom/default.custom.yaml;
-    };
-
+    # install Squirrel input method
     homebrew.casks = [
       "squirrel-app"
     ];
+    home-manager.users.${username}.home = {
+      # install input source switch command line tool
+      packages = [pkgs.macism];
+
+      file = {
+        "Library/Rime" = {
+          source = rimeData;
+          recursive = true;
+        };
+        # Disable Rime Left Shift switching En/Ch by default; macOS uses Karabiner-Elements to switch input source instead.
+        "Library/Rime/default.custom.yaml".source = ../nixos/homemanager/gui/fcitx5/rime-custom/default.custom.yaml;
+      };
+    };
   };
 }
