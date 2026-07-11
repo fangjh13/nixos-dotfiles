@@ -55,6 +55,7 @@
       finder = {
         AppleShowAllFiles = true; # hidden files
         AppleShowAllExtensions = true; # file extensions
+        FXDefaultSearchScope = "SCcf"; # search current folder
         _FXShowPosixPathInTitle = true; # title bar full path
         ShowPathbar = true; # breadcrumb nav at bottom
         ShowStatusBar = true; # file count & disk space
