@@ -13,6 +13,8 @@
     ../../modules/darwin/input-method.nix
   ];
 
+  addon.karabiner-elements.enable = false;
+
   nix.gc = {
     automatic = true;
     interval = {

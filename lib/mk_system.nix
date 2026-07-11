@@ -63,6 +63,14 @@ in
         else {}
       )
 
+      # Register optional Darwin modules; each host controls them with
+      # the module's enable option.
+      (
+        if darwin
+        then ../modules/darwin/karabiner-elements
+        else {}
+      )
+
       # system modules
       hostConfig
       usersConfig
