@@ -5,6 +5,7 @@ require("switch.init")
 require("window.init")
 -- require "clipboard.init"
 require("app_launcher.init")
--- require "brightness.init"
+require("brightness.init")
+require("caffeinate.init")
 
 print("========loading-done==========")
