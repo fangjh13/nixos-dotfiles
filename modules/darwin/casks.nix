@@ -7,9 +7,6 @@
   inherit (import ../../hosts/${host}/variables.nix) casks;
 in
   [
-    # Automation tools
-    "hammerspoon"
-
     # Spotlight alternatives
     "raycast"
 

@@ -1,36 +1,31 @@
-# Hammerspoon
+# Hammerspoon module
 
-Hammerspoon Configuration for macOS automation
+Installs Hammerspoon and deploys its macOS automation configuration with nix-darwin and Home Manager.
 
 ## Directory Structure
 
 ```shell
-├── init.lua                Main configuration file
-├── Spoons                  Official dependency packages
-│   ├── ModalMgr.spoon      Modal dependency module
-│   │   ├── docs.json
-│   │   └── init.lua
-│   └── WinWin.spoon        Window management dependency
-│       ├── docs.json
-│       └── init.lua
-├── app_launcher            Application shortcuts
-│   └── init.lua
-├── clipboard               Clipboard history
-│   └── init.lua
-├── ime                     Input method auto-switch
-│   └── init.lua
-├── switch                  Multi-monitor window switching
-│   └── init.lua
-├── usb                     Record USB logs
-│   └── init.lua
-└── window                  Quick window management
-    └── init.lua
+├── default.nix             nix-darwin module
+└── config                  Hammerspoon configuration deployed to ~/.hammerspoon
+    ├── init.lua            Main configuration file
+    ├── Spoons              Official dependency packages
+    ├── app_launcher        Application shortcuts
+    ├── clipboard           Clipboard history
+    ├── ime                 Input method auto-switch
+    ├── switch              Multi-monitor window switching
+    ├── usb                 Record USB logs
+    └── window              Quick window management
 ```
 
 ## Installation
 
-1. Install Hammerspoon from the [official website](https://www.hammerspoon.org/).
-2. Copy the contents of this repository into your Hammerspoon configuration directory (`~/.hammerspoon/`).
+Enable the module in the Darwin host configuration:
+
+```nix
+addon.hammerspoon.enable = true;
+```
+
+The module installs the `hammerspoon` Homebrew cask and recursively deploys `config/` to `~/.hammerspoon/`.
 
 ## Setting Up [EmmyLua](https://www.hammerspoon.org/Spoons/EmmyLua.html)
 

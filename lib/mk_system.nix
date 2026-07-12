@@ -71,6 +71,7 @@ in
       ]
       ++ nixpkgs.lib.optionals darwin [
         # Optional Darwin modules; each host controls them with an enable option.
+        ../modules/darwin/hammerspoon
         ../modules/darwin/karabiner-elements
         ../modules/darwin/input-method.nix
       ]

@@ -1,14 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  username,
-  ...
-}: let
-  files = import ./files.nix {
-    inherit config pkgs username;
-  };
-in {
+{pkgs, ...}: {
   imports = [
     ../../public/homemanager/programs.nix
     ../../public/homemanager/git
@@ -28,9 +18,6 @@ in {
   home = {
     enableNixpkgsReleaseCheck = false;
     packages = pkgs.callPackage ./packages.nix {};
-    file = lib.mkMerge [
-      files
-    ];
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage

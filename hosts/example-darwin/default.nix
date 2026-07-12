@@ -12,6 +12,7 @@
     ../../modules/darwin/fonts.nix
   ];
 
+  addon.hammerspoon.enable = false;
   addon.karabiner-elements.enable = false;
   addon.input-method.enable = false;
   addon.ghostty.enable = true;
