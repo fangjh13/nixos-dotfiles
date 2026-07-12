@@ -21,6 +21,13 @@ in {
     lib.mkEnableOption "Squirrel input method";
 
   config = lib.mkIf cfg.enable {
+    # Do not remember and automatically restore the input source per document.
+    system.defaults.CustomUserPreferences."com.apple.HIToolbox" = {
+      AppleGlobalTextInputProperties = {
+        TextInputGlobalPropertyPerContextInput = false;
+      };
+    };
+
     # install Squirrel input method
     homebrew.casks = [
       "squirrel-app"
