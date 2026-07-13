@@ -5,23 +5,8 @@
   host,
   pkgs,
   ...
-} @ args: {
+}: {
   imports = [
-    ../../modules/nixos/system.nix
-
-    # import options modules
-    ../../modules/nixos/options/intel-drivers.nix
-    ../../modules/nixos/options/amdgpu-drivers.nix
-    ../../modules/nixos/options/pulseaudio.nix
-    ../../modules/nixos/options/pipewire.nix
-    ../../modules/nixos/options/zen-kernel.nix
-    (import ../../modules/nixos/options/docker.nix
-      (args // {storageDriver = "btrfs";}))
-    ../../modules/nixos/options/podman.nix
-    ../../modules/nixos/options/nfs.nix
-    ../../modules/nixos/options/rclone.nix
-    (import ../../modules/nixos/options/qemu.nix args)
-
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
@@ -35,7 +20,10 @@
   # whether use zen kernel
   kernel.zen.enable = true;
   # Docker or Podman
-  addon.docker.enable = false;
+  addon.docker = {
+    enable = false;
+    storageDriver = "btrfs";
+  };
   addon.podman.enable = true;
   # QEMU / KVM / Virt-manager
   addon.qemu.enable = true;

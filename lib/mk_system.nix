@@ -64,6 +64,11 @@ in
           else {}
         )
       ]
+      ++ nixpkgs.lib.optionals isLinux [
+        # Shared NixOS modules
+        ../modules/nixos/system.nix
+        ../modules/nixos/options
+      ]
       ++ nixpkgs.lib.optionals darwin [
         # Optional Darwin modules; each host controls them with an enable option.
         ../modules/darwin/karabiner-elements
