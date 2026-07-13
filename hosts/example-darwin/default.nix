@@ -14,6 +14,7 @@
 
   addon.karabiner-elements.enable = false;
   addon.input-method.enable = false;
+  addon.ghostty.enable = true;
 
   nix.gc = {
     automatic = true;

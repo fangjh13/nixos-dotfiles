@@ -71,6 +71,7 @@ in
       ]
       ++ [
         # system modules
+        ../modules/public/options/ghostty.nix
         hostConfig
         usersConfig
 
