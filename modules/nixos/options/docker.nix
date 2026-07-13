@@ -2,29 +2,34 @@
   lib,
   config,
   username,
-  storageDriver ? null,
   ...
 }:
-with lib;
-assert assertOneOf "Docker: storageDriver" storageDriver [
-  null
-  "aufs"
-  "btrfs"
-  "devicemapper"
-  "overlay"
-  "overlay2"
-  "zfs"
-]; let
+with lib; let
   cfg = config.addon.docker;
 in {
-  options.addon.docker = {enable = mkEnableOption "Enable Docker";};
+  options.addon.docker = {
+    enable = mkEnableOption "Enable Docker";
+
+    storageDriver = mkOption {
+      type = types.nullOr (types.enum [
+        "aufs"
+        "btrfs"
+        "devicemapper"
+        "overlay"
+        "overlay2"
+        "zfs"
+      ]);
+      default = null;
+      description = "Docker storage driver.";
+    };
+  };
 
   config = mkIf cfg.enable {
     virtualisation.docker = {
       enable = true;
       # start on demand by socket activation
       enableOnBoot = false;
-      storageDriver = storageDriver;
+      storageDriver = cfg.storageDriver;
     };
     users.users."${username}".extraGroups = ["docker"];
   };
