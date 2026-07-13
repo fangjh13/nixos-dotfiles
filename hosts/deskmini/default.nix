@@ -19,6 +19,7 @@
       (args // {storageDriver = "btrfs";}))
     ../../modules/nixos/options/podman.nix
     ../../modules/nixos/options/nfs.nix
+    ../../modules/nixos/options/rclone.nix
     (import ../../modules/nixos/options/qemu.nix args)
 
     # Include the results of the hardware scan.
@@ -40,6 +41,8 @@
   addon.qemu.enable = true;
   # NFS filesystem
   filesystem.nfs.enable = true;
+  # Rclone scheduled uploads
+  addon.rclone.enable = false;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

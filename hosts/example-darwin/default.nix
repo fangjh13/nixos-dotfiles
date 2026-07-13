@@ -60,6 +60,7 @@
       };
 
       trackpad = {
+        # Enable tap to click
         Clicking = true;
         # Enable three-finger drag
         TrackpadThreeFingerDrag = true;

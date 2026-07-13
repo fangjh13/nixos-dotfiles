@@ -20,6 +20,7 @@
     (import ../../modules/nixos/options/docker.nix args)
     ../../modules/nixos/options/podman.nix
     ../../modules/nixos/options/nfs.nix
+    ../../modules/nixos/options/rclone.nix
     (import ../../modules/nixos/options/qemu.nix args)
 
     # Include the results of the hardware scan.
@@ -44,6 +45,8 @@
   addon.qemu.enable = false;
   # NFS filesystem
   filesystem.nfs.enable = false;
+  # Rclone scheduled uploads
+  addon.rclone.enable = false;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
