@@ -41,10 +41,7 @@ in {
     config = {
       # Allow unfree packages
       allowUnfree = true;
-      # NOTE: temporarily allow insecure packages
-      permittedInsecurePackages = [
-        "electron-39.8.10" # for logseq
-      ];
+      permittedInsecurePackages = [];
       packageOverrides = pkgs: {
         # make `pkgs.nur` available
         nur = import community-nur {

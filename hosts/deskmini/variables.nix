@@ -2,9 +2,9 @@
   userName = "fython";
   hostName = "deskmini";
   gitName = "Fython";
-  gitEmail = "fang.jia.hui123@gmail.com";
+  gitEmail = "fython.me@gmail.com";
 
-  timezone = "Asia/Shanghai";
+  timezone = "Asia/Singapore";
 
   # Whether to enable the desktop environment
   # If false, only the command-line will be available.
