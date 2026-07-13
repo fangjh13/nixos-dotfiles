@@ -54,6 +54,8 @@
       destination = "cloud:backup/${host}/documents";
     };
   };
+  # Ghostty terminal
+  addon.ghostty.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

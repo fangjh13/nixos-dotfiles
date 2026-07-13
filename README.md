@@ -65,8 +65,7 @@ sudo nixos-generate-config --show-hardware-config > hosts/<your hostname>/hardwa
 Rebuild NixOS
 
 ```shell
-git submodule init
-git submodule update --remote
+git submodule update --init --recursive --remote
 
 export NIX_CONFIG="experimental-features = nix-command flakes"
 nix run .#init
@@ -75,10 +74,6 @@ sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 
 # Debug Mode
 # sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>' --show-trace --print-build-logs --verbose
-
-# submodule update
-# git submodule sync --recursive
-# git submodule update --init --recursive
 ```
 
 ## nix-darwin
@@ -86,22 +81,24 @@ sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 ### Install
 
 Install dependencies
+
 ```shell
 xcode-select --install
 ```
 
 Install [Nix](https://nixos.org/download/#nix-install-macos)
+
 ```shell
 sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 ```
 
 Now can clone this repo and build the system configuration with nix
+
 ```shell
 git clone https://github.com/fangjh13/nixos-dotfiles.git
 cd nixos-dotfiles
 
-git submodule init
-git submodule update --remote
+git submodule update --init --recursive --remote
 
 export NIX_CONFIG="experimental-features = nix-command flakes"
 nix run .#init
@@ -112,6 +109,7 @@ unlink ./result
 ```
 
 After the first time build and switch, you installed the `darwin-rebuild` command, so you can directly use it to switch the system configuration without using nix
+
 ```shell
 sudo darwin-rebuild switch --flake '.?submodules=1#<your hostname>'
 ```
