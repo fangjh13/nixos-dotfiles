@@ -10,25 +10,6 @@ in
     # Spotlight alternatives
     "raycast"
 
-    # Cloud storage clients
-    "synology-drive"
-
-    # Screenshot tools
-    "shottr"
-
-    # QEMU Virtual Machines
-    "utm"
-
-    # Docker/k8s management
-    "orbstack"
-
-    # Markdown editor
-    "markedit"
-    "obsidian"
-
-    # Note-taking tools
-    "logseq"
-
     # Browsers
     "firefox"
     "google-chrome"

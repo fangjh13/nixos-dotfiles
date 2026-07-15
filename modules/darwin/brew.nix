@@ -52,10 +52,8 @@
     # Align homebrew taps config with nix-homebrew reduces configuration mismatches
     taps = builtins.attrNames config.nix-homebrew.taps;
 
-    brews = [
-      # like `brew install`
-      "mas"
-    ];
+    # like `brew install`
+    brews = pkgs.callPackage ./brews.nix {inherit host;};
 
     # These app IDs are from using the mas CLI app
     # mas = mac app store
