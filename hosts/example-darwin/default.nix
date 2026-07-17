@@ -17,6 +17,11 @@
   addon.input-method.enable = false;
   addon.ghostty.enable = true;
 
+  services.sing-box = {
+    enable = false;
+    configFile = "/Library/Application Support/sing-box/config.json";
+  };
+
   nix.gc = {
     automatic = true;
     interval = {
