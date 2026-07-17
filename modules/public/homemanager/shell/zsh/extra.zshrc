@@ -41,7 +41,12 @@ rgf() {
 
 # Proxy environment set
 with_proxy() {
-   HTTPS_PROXY=http://127.0.0.1:7890 HTTP_PROXY=https://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891 "$@"
+  local proxy_address=127.0.0.1:10801
+  if [[ "${1-}" == ?*:<-> ]]; then
+    proxy_address="$1"
+    shift
+  fi
+  HTTPS_PROXY="http://$proxy_address" HTTP_PROXY="https://$proxy_address" all_proxy="socks5://$proxy_address" "$@"
 }
 
 # other fzf config

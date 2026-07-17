@@ -74,6 +74,7 @@ in
         ../modules/darwin/hammerspoon
         ../modules/darwin/karabiner-elements
         ../modules/darwin/input-method.nix
+        ../modules/darwin/services/sing-box.nix
       ]
       ++ [
         # system modules
