@@ -5,7 +5,7 @@
     # https://wiki.nixos.org/wiki/FAQ#What_are_channels_and_how_do_they_get_updated?
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11-small";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05-small";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
