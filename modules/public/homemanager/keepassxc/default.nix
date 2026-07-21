@@ -1,9 +1,11 @@
 {
   pkgs,
   lib,
+  pkgs-stable,
   ...
 }: {
   programs.keepassxc = {
+    package = pkgs-stable.keepassxc;
     enable = true;
     autostart = lib.mkIf pkgs.stdenv.isLinux true;
     settings = {
