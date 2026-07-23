@@ -19,15 +19,17 @@
 
   # Extra Hyprland config
   hyprConfig = ''
-    # Monitor config
-    # See https://wiki.hyprland.org/Configuring/Monitors/
-    monitor=,preferred,auto,auto
-    # 4k monitor like this
-    # monitor=,preferred,3840x2160@60,2
+    -- Monitor config
+    -- See https://wiki.hypr.land/Configuring/Monitors/
+    -- hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 
-    # Nvidia setup
-    # env = LIBVA_DRIVER_NAME,nvidia
-    # env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+    -- 4k monitor
+    hl.monitor({ output = "", mode = "3840x2160@60", position = "auto", scale = 2 })
+
+    -- Nvidia setup
+    -- hl.env("LIBVA_DRIVER_NAME", "nvidia")
+    -- hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+    -- hl.env("NVD_BACKEND", "direct")
   '';
 
   # `ctrl:nocaps` Caps Lock as Ctrl

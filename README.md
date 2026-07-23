@@ -31,25 +31,19 @@
 
 ---
 
-Clone this repo to local and enter it.
+#### Install NixOS
 
 ```shell
 nix-shell -p git
 git clone https://github.com/fangjh13/nixos-dotfiles.git
 cd nixos-dotfiles
-```
 
-Create your host in `hosts` copy from `example` hosts
+git submodule update --init --recursive --remote
 
-```shell
-cp -r hosts/example hosts/<your hostname>
-```
-
-Modify the configuration to belong to your computer
-
-```shell
-# override the hardware config
-sudo nixos-generate-config --show-hardware-config > hosts/<your hostname>/hardware-configuration.nix
+export NIX_CONFIG="experimental-features = nix-command flakes"
+nix run .#init
+git add .
+sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 ```
 
 📝 Change the hostname and username in `flake.nix` and some other configurations in `hosts/<your hostname>/variables.nix`
@@ -62,18 +56,25 @@ sudo nixos-generate-config --show-hardware-config > hosts/<your hostname>/hardwa
 
 > Some optional configurations (like graphic driver) can be enabled in `hosts/<your hostname>/default.nix`
 
-Rebuild NixOS
+#### Manual Install
+
+Clone this repo to local and enter it. Create your host in `hosts` copy from `example` hosts
 
 ```shell
-git submodule update --init --recursive --remote
+cp -r hosts/example hosts/<your hostname>
+```
 
-export NIX_CONFIG="experimental-features = nix-command flakes"
-nix run .#init
-git add .
-sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
+Generate system config from your system
 
-# Debug Mode
-# sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>' --show-trace --print-build-logs --verbose
+```shell
+# override the hardware config
+sudo nixos-generate-config --show-hardware-config > hosts/<your hostname>/hardware-configuration.nix
+```
+
+Modify the configuration to belong to your computer `hosts/<your hostname>` files, build and switch with verbose output
+
+```shell
+sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>' --show-trace --print-build-logs --verbose
 ```
 
 ## nix-darwin
