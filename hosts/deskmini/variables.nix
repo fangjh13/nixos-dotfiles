@@ -13,29 +13,11 @@
   # Package attribute paths to be installed in the desktop environment.
   # Supports nested package paths such as "jetbrains.datagrip".
   apps = [
-    # Synology Drive Client
-    "synology-drive-client"
-    # Notebook
-    "logseq"
-    "obsidian"
-    # Database GUI
-    "jetbrains.datagrip"
-    # AI Code Editors
-    "code-cursor"
-    "antigravity-fhs"
-
-    "telegram-desktop"
     "gpu-viewer"
-    "libreoffice"
   ];
 
-  # Extra Hyprland config (Lua format for 0.55+)
+  # Extra Hyprland config
   hyprConfig = ''
-    -- Monitor config
-    -- See https://wiki.hypr.land/Configuring/Monitors/
-    -- hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
-
-    -- 4k monitor
     hl.monitor({ output = "", mode = "3840x2160@60", position = "auto", scale = 2 })
   '';
 
@@ -47,6 +29,6 @@
     "file:///home/fython/Downloads Downloads"
     "file:///home/fython/Documents Documents"
     "file:///home/fython/Pictures Pictures"
-    "file:///home/fython/SynologyDrive Drive"
+    # "file:///home/fython/SynologyDrive Drive"
   ];
 }

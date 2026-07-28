@@ -25,8 +25,9 @@ config.window_padding = {
 	top = "0.3cell",
 	bottom = "0cell",
 }
--- Hide Title Bar (leaves just the window border for resizing)
-config.window_decorations = "RESIZE"
+-- Hide Title Bar
+config.window_decorations = "NONE"
+config.enable_tab_bar = false
 
 -- Tab Bar
 config.use_fancy_tab_bar = false
