@@ -22,6 +22,11 @@ with pkgs; [
   glow # markdown viewer on CLI
   ffmpeg
 
+  # secrets tools use with sops-nix
+  sops
+  age
+  ssh-to-age
+
   # db related
   litecli # sqlite
   # mycli # mysql

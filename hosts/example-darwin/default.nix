@@ -17,6 +17,9 @@
   addon.input-method.enable = false;
   addon.ghostty.enable = true;
 
+  # Declare host-specific sops secrets here after adding this Mac's public age
+  # recipient to .sops.yaml. See "Secrets with sops-nix" in README.md.
+
   services.sing-box = {
     enable = false;
     configFile = "/Library/Application Support/sing-box/config.json";

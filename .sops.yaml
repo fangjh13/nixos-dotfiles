@@ -1,0 +1,10 @@
+keys:
+  - &admin_fython age1var6u0pn4lpuv4gknr2f2vn8cqmd0x3qjvmejx30jdsv95r2rafsdkfzn7
+  - &vmnixos age1nk3zykr7nkmq8ckrl5ejygvw8fktpnxg0fux9ulepgqu3ay6wpmqge2vna
+
+creation_rules:
+  - path_regex: ^secrets/vmnixos/[^/]+$
+    key_groups:
+      - age:
+          - *admin_fython
+          - *vmnixos

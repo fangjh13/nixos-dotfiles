@@ -36,6 +36,10 @@
     if darwin
     then inputs.home-manager.darwinModules
     else inputs.home-manager.nixosModules;
+  sopsModule =
+    if darwin
+    then inputs.sops-nix.darwinModules.sops
+    else inputs.sops-nix.nixosModules.sops;
 
   isLinux = !darwin;
 in
@@ -50,6 +54,10 @@ in
 
     modules =
       [
+        # Cross-platform secret provisioning
+        sopsModule
+        ../modules/public/sops.nix
+
         # Snapd on Linux
         # (
         #   if isLinux

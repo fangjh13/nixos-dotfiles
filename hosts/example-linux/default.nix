@@ -4,6 +4,7 @@
 {
   host,
   pkgs,
+  config,
   username,
   ...
 }: {
@@ -33,9 +34,15 @@
   addon.qemu.enable = false;
   # NFS filesystem
   filesystem.nfs.enable = false;
-  # Rclone scheduled uploads
+  # Rclone scheduled uploads. Keep credentials in a host-specific sops secret;
+  # see "Secrets with sops-nix" in README.md.
   addon.rclone = {
     enable = false;
+    configFile = "/var/lib/rclone/rclone.conf";
+    mutableConfig = {
+      seedFile = config.sops.secrets."rclone-config".path;
+      seedVersion = config.sops.secrets."rclone-config".sopsFileHash;
+    };
     jobs.documents = {
       source = "/home/${username}/Documents";
       destination = "cloud:backup/${host}/documents";

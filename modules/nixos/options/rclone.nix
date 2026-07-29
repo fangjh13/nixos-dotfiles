@@ -21,10 +21,16 @@
 #     };
 #   };
 #
-# Before enabling a job, create the remote configuration as the normal user:
+# Supply an explicit configuration path when credentials are managed outside
+# the user's home directory. For the sops-nix pattern used by this repository,
+# configure `mutableConfig` with the decrypted secret as its seed; this gives
+# rclone a writable state file for OAuth token refreshes. See "Secrets with
+# sops-nix" in README.md. Never put credentials in Nix strings. Validate a
+# configuration as the normal user before enabling a job:
 #
-#   rclone config --config ~/.config/rclone/rclone.conf
-#   rclone copy /path/to/source cloud:backup/path --dry-run -v
+#   rclone --config /path/to/rclone.conf listremotes
+#   rclone --config /path/to/rclone.conf \
+#     copy /path/to/source cloud:backup/path --dry-run -v
 #
 # The generated units are named `rclone-copy-<job>.service` and
 # `rclone-copy-<job>.timer`. Inspect them with:
@@ -41,7 +47,14 @@
 }: let
   cfg = config.addon.rclone;
   homeDirectory = config.users.users.${username}.home;
+  primaryGroup = config.users.users.${username}.group;
   unitName = name: "rclone-copy-${name}";
+  configUnit = "rclone-config.service";
+  mutableConfig = cfg.mutableConfig;
+  mutableConfigPath =
+    if mutableConfig == null
+    then null
+    else "/var/lib/${mutableConfig.stateDirectory}/${mutableConfig.fileName}";
 
   jobType = lib.types.submodule {
     options = {
@@ -79,7 +92,10 @@
     # session. The network target provides ordering during boot; rclone still
     # handles transient cloud or connectivity failures itself.
     wants = ["network-online.target"];
-    after = ["network-online.target"];
+    requires = lib.optional (mutableConfig != null) configUnit;
+    after =
+      ["network-online.target"]
+      ++ lib.optional (mutableConfig != null) configUnit;
 
     # A system service does not inherit the user's login environment. Set the
     # home paths explicitly so rclone uses the same locations as interactive
@@ -133,6 +149,73 @@
     };
   };
 
+  mutableConfigService = {
+    description = "Prepare writable rclone configuration";
+    wantedBy = ["multi-user.target"];
+    before = map (name: "${unitName name}.service") (builtins.attrNames cfg.jobs);
+    requires = lib.optional config.sops.useSystemdActivation "sops-install-secrets.service";
+    after = lib.optional config.sops.useSystemdActivation "sops-install-secrets.service";
+
+    # Re-run the initializer when the encrypted seed changes. The marker in
+    # the state directory prevents ordinary boots or rebuilds from replacing
+    # OAuth tokens that rclone refreshed in the writable runtime file.
+    restartTriggers = [mutableConfig.seedVersion];
+
+    script = let
+      configFile = mutableConfigPath;
+      versionFile = "/var/lib/${mutableConfig.stateDirectory}/.seed-version";
+    in ''
+      seed_file=${lib.escapeShellArg mutableConfig.seedFile}
+      seed_version=${lib.escapeShellArg mutableConfig.seedVersion}
+      config_file=${lib.escapeShellArg configFile}
+      version_file=${lib.escapeShellArg versionFile}
+      installed_version=
+
+      if [[ ! -r "$seed_file" ]]; then
+        echo "rclone seed configuration is not readable: $seed_file" >&2
+        exit 1
+      fi
+
+      if [[ -r "$version_file" ]]; then
+        IFS= read -r installed_version < "$version_file" || true
+      fi
+
+      if [[ -f "$config_file" && "$installed_version" == "$seed_version" ]]; then
+        exit 0
+      fi
+
+      config_temp="$(${lib.getExe' pkgs.coreutils "mktemp"} "$config_file.tmp.XXXXXX")"
+      version_temp="$(${lib.getExe' pkgs.coreutils "mktemp"} "$version_file.tmp.XXXXXX")"
+
+      cleanup() {
+        ${lib.getExe' pkgs.coreutils "rm"} -f -- "$config_temp" "$version_temp"
+      }
+      trap cleanup EXIT
+
+      ${lib.getExe' pkgs.coreutils "install"} -m 0600 "$seed_file" "$config_temp"
+      printf '%s\n' "$seed_version" > "$version_temp"
+      ${lib.getExe' pkgs.coreutils "chmod"} 0600 "$version_temp"
+      ${lib.getExe' pkgs.coreutils "mv"} -f -- "$config_temp" "$config_file"
+      ${lib.getExe' pkgs.coreutils "mv"} -f -- "$version_temp" "$version_file"
+
+      trap - EXIT
+    '';
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      User = username;
+      Group = primaryGroup;
+      UMask = "0077";
+      StateDirectory = mutableConfig.stateDirectory;
+      StateDirectoryMode = "0700";
+      NoNewPrivileges = true;
+      PrivateTmp = true;
+      ProtectHome = true;
+      ProtectSystem = "strict";
+    };
+  };
+
   mkTimer = name: job: {
     description = "Timer for ${unitName name}";
     wantedBy = ["timers.target"];
@@ -158,6 +241,42 @@ in {
       description = "Absolute path to the rclone configuration file.";
     };
 
+    mutableConfig = lib.mkOption {
+      type = lib.types.nullOr (lib.types.submodule {
+        options = {
+          seedFile = lib.mkOption {
+            type = lib.types.str;
+            example = "/run/secrets/rclone-config";
+            description = "Read-only seed copied into the writable rclone state file.";
+          };
+
+          seedVersion = lib.mkOption {
+            type = lib.types.str;
+            example = "sha256 hash supplied by sops.secrets.<name>.sopsFileHash";
+            description = "Non-secret version identifier used to detect seed changes.";
+          };
+
+          stateDirectory = lib.mkOption {
+            type = lib.types.str;
+            default = "rclone";
+            description = "StateDirectory name below /var/lib.";
+          };
+
+          fileName = lib.mkOption {
+            type = lib.types.str;
+            default = "rclone.conf";
+            description = "Writable configuration filename in the state directory.";
+          };
+        };
+      });
+      default = null;
+      description = ''
+        Optional read-only seed for a writable rclone configuration. This is
+        required for SOPS-managed OAuth configurations because rclone writes
+        refreshed tokens back to its configuration file.
+      '';
+    };
+
     jobs = lib.mkOption {
       type = lib.types.attrsOf jobType;
       default = {};
@@ -177,6 +296,28 @@ in {
         {
           assertion = lib.hasPrefix "/" cfg.configFile;
           message = "addon.rclone.configFile must be an absolute path.";
+        }
+      ]
+      ++ lib.optionals (mutableConfig != null) [
+        {
+          assertion = cfg.configFile == mutableConfigPath;
+          message = "addon.rclone.configFile must match the mutableConfig state path '${mutableConfigPath}'.";
+        }
+        {
+          assertion = lib.hasPrefix "/" mutableConfig.seedFile;
+          message = "addon.rclone.mutableConfig.seedFile must be an absolute path.";
+        }
+        {
+          assertion = mutableConfig.seedVersion != "";
+          message = "addon.rclone.mutableConfig.seedVersion must not be empty.";
+        }
+        {
+          assertion = builtins.match "^[A-Za-z0-9_.-]+$" mutableConfig.stateDirectory != null;
+          message = "addon.rclone.mutableConfig.stateDirectory may only contain letters, numbers, dots, underscores, and hyphens.";
+        }
+        {
+          assertion = builtins.match "^[A-Za-z0-9_.-]+$" mutableConfig.fileName != null;
+          message = "addon.rclone.mutableConfig.fileName may only contain letters, numbers, dots, underscores, and hyphens.";
         }
       ]
       ++ lib.concatLists (lib.mapAttrsToList (name: job: [
@@ -204,7 +345,10 @@ in {
     # The attribute-set mapping creates an independent service and timer for
     # every job, allowing different source paths, destinations, and schedules.
     systemd.services =
-      lib.mapAttrs' (
+      lib.optionalAttrs (mutableConfig != null) {
+        rclone-config = mutableConfigService;
+      }
+      // lib.mapAttrs' (
         name: job: lib.nameValuePair (unitName name) (mkService name job)
       )
       cfg.jobs;
