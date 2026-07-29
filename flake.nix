@@ -80,13 +80,13 @@
     apps = nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux" "aarch64-darwin"] (arch: {
       init = mkApp "init.sh" arch;
     });
-    nixosConfigurations = {
+    nixosConfigurations = nixpkgs.lib.optionalAttrs (nixpkgs.lib.hasSuffix "-linux" system) {
       "${host}" = mkSystem "${host}" {
         system = system;
         username = username;
       };
     };
-    darwinConfigurations = {
+    darwinConfigurations = nixpkgs.lib.optionalAttrs (nixpkgs.lib.hasSuffix "-darwin" system) {
       "${host}" = mkSystem "${host}" {
         system = system;
         username = username;

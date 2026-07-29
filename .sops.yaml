@@ -1,6 +1,7 @@
 keys:
   - &admin_fython age1var6u0pn4lpuv4gknr2f2vn8cqmd0x3qjvmejx30jdsv95r2rafsdkfzn7
   - &vmnixos age1nk3zykr7nkmq8ckrl5ejygvw8fktpnxg0fux9ulepgqu3ay6wpmqge2vna
+  - &macbook_pro_2 age1vpd0rmztrt3ru0g4hs9vl02ytk3awchrskhlu3yxcquj6tdhd55spyzpmq
 
 creation_rules:
   - path_regex: ^secrets/vmnixos/[^/]+$
@@ -8,3 +9,9 @@ creation_rules:
       - age:
           - *admin_fython
           - *vmnixos
+
+  - path_regex: ^secrets/MacBook-Pro-2/[^/]+$
+    key_groups:
+      - age:
+          - *admin_fython
+          - *macbook_pro_2

@@ -14,3 +14,4 @@ AGENTS.md
 # Lua LSP (machine-specific)
 .luarc.json
 .hypr-stubs
+docs/superpowers

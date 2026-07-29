@@ -39,10 +39,6 @@
   addon.rclone = {
     enable = false;
     configFile = "/var/lib/rclone/rclone.conf";
-    mutableConfig = {
-      seedFile = config.sops.secrets."rclone-config".path;
-      seedVersion = config.sops.secrets."rclone-config".sopsFileHash;
-    };
     jobs.documents = {
       source = "/home/${username}/Documents";
       destination = "cloud:backup/${host}/documents";

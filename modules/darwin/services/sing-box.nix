@@ -1,26 +1,40 @@
 # This module runs sing-box as a root LaunchDaemon on macOS. Root privileges are
 # required by configurations that create a TUN interface or manage transparent
-# proxy routes. The service is disabled by default; enable it in a Darwin host:
+# proxy routes. The service is disabled by default. This repository manages the
+# JSONC configuration as a whole-file sops-nix binary secret:
+#
+#   sops.secrets."sing-box-config" = {
+#     sopsFile = ../../secrets/<host>/sing-box.jsonc;
+#     format = "binary";
+#     owner = "root";
+#     mode = "0400";
+#   };
 #
 #   services.sing-box = {
 #     enable = true;
-#     configFile = "/Library/Application Support/sing-box/config.json";
+#     configFile = config.sops.secrets."sing-box-config".path;
 #   };
 #
-# Keep configFile outside the Nix store because it may contain subscription
-# URLs, UUIDs, passwords, or private keys. Install it before activating the host:
+# Encrypt JSONC as an opaque binary document so comments and formatting survive
+# byte-for-byte. Only the encrypted output belongs in the repository:
 #
-#   sudo install -d -m 0700 -o root -g wheel \
-#     '/Library/Application Support/sing-box'
-#   sudo install -m 0600 -o root -g wheel /path/to/config.json \
-#     '/Library/Application Support/sing-box/config.json'
+#   sops encrypt \
+#     --filename-override secrets/<host>/sing-box.jsonc \
+#     --input-type binary \
+#     --output-type binary \
+#     --output secrets/<host>/sing-box.jsonc.new \
+#     /path/to/sing-box.jsonc
+#   mv secrets/<host>/sing-box.jsonc.new \
+#     secrets/<host>/sing-box.jsonc
 #
 # Activation creates the private runtime paths, checks that the configuration is
 # a root-owned regular file with mode 0400 or 0600, and runs `sing-box check`
-# before nix-darwin loads or reloads the LaunchDaemon. Only the configuration
-# path is embedded in generated Nix artifacts; the file contents stay external.
+# before nix-darwin loads or reloads the LaunchDaemon. sops-nix materializes the
+# plaintext outside the Nix store; only its runtime path is embedded in
+# generated Nix artifacts.
 #
 # Runtime paths:
+#   Config: /run/secrets/sing-box-config (root-owned, mode 0400)
 #   State: /var/lib/sing-box
 #   Logs:  /var/log/sing-box.log (root:wheel, mode 0600)
 #
@@ -32,7 +46,7 @@
 # Validate a changed configuration before asking sing-box to reload it:
 #   sudo /run/current-system/sw/bin/sing-box \
 #     -D /var/lib/sing-box --disable-color \
-#     -c '/Library/Application Support/sing-box/config.json' check
+#     -c /run/secrets/sing-box-config check
 #   sudo launchctl kill SIGHUP system/org.nixos.sing-box
 {
   config,
