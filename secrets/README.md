@@ -296,3 +296,47 @@ sops decrypt --output-type binary \
     '.?submodules=1#darwinConfigurations.MacBook-Pro-2.config.services.sing-box.package' \
     -c sing-box --disable-color -c stdin check
 ```
+
+### Mihomo transparent proxy
+
+The Darwin Mihomo module runs a root LaunchDaemon for TUN and transparent
+proxy route management. It is disabled by default. Declare the whole YAML
+configuration as a sops-nix binary secret in `hosts/<host>/default.nix`:
+
+```nix
+sops.secrets."<secret>" = {
+  sopsFile = ../../secrets/<host>/<secret>.yaml;
+  format = "binary";
+  owner = "root";
+  mode = "0400";
+};
+
+services.mihomo = {
+  enable = true;
+  configFile = config.sops.secrets."<secret>".path;
+};
+```
+
+Keep the configuration outside this repository. Create or replace
+the encrypted file:
+
+```shell
+mihomo_secret=secrets/<host>/<secret>.yaml
+mihomo_encrypted_tmp="$(mktemp "${TMPDIR:-/tmp}/mihomo-secret.XXXXXX")"
+sops encrypt \
+  --filename-override "$mihomo_secret" \
+  --input-type binary \
+  --output-type binary \
+  --output "$mihomo_encrypted_tmp" \
+  path_to_mihomo_config.yaml
+mv "$mihomo_encrypted_tmp" "$mihomo_secret"
+```
+
+Only commit the encrypted file. Validate the module, check the flake, build
+the host, and then activate it
+
+If Mihomo is already running, restart it to pick up the new configuration:
+
+```shell
+sudo launchctl kickstart -k system/org.nixos.mihomo
+```

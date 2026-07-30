@@ -83,6 +83,7 @@ in
         ../modules/darwin/karabiner-elements
         ../modules/darwin/input-method.nix
         ../modules/darwin/services/sing-box.nix
+        ../modules/darwin/services/mihomo.nix
       ]
       ++ [
         # system modules
