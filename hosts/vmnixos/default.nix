@@ -14,7 +14,7 @@
   ];
 
   sops.secrets."rclone-config" = {
-    sopsFile = ../../secrets/vmnixos/rclone.ini;
+    sopsFile = ./secrets/rclone.ini;
     format = "ini";
     key = "";
     owner = username;

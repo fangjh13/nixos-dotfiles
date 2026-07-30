@@ -4,14 +4,21 @@ keys:
   - &macbook_pro_2 age1vpd0rmztrt3ru0g4hs9vl02ytk3awchrskhlu3yxcquj6tdhd55spyzpmq
 
 creation_rules:
-  - path_regex: ^secrets/vmnixos/[^/]+$
+  - path_regex: ^hosts/vmnixos/secrets/[^/]+$
     key_groups:
       - age:
           - *admin_fython
           - *vmnixos
 
-  - path_regex: ^secrets/MacBook-Pro-2/[^/]+$
+  - path_regex: ^hosts/MacBook-Pro-2/secrets/[^/]+$
     key_groups:
       - age:
           - *admin_fython
+          - *macbook_pro_2
+
+  - path_regex: ^modules/public/secrets/proxy-clients/[^/]+\.(yaml|jsonc)$
+    key_groups:
+      - age:
+          - *admin_fython
+          - *vmnixos
           - *macbook_pro_2

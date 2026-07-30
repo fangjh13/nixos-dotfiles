@@ -1,14 +1,12 @@
 # This module runs sing-box as a root LaunchDaemon on macOS. Root privileges are
 # required by configurations that create a TUN interface or manage transparent
 # proxy routes. The service is disabled by default. This repository manages the
-# JSONC configuration as a whole-file sops-nix binary secret:
+# JSONC configuration as a whole-file sops-nix binary secret. Hosts opt in by
+# importing the shared declaration module:
 #
-#   sops.secrets."sing-box-config" = {
-#     sopsFile = ../../secrets/<host>/sing-box.jsonc;
-#     format = "binary";
-#     owner = "root";
-#     mode = "0400";
-#   };
+#   imports = [
+#     ../../modules/public/secrets/proxy-clients
+#   ];
 #
 #   services.sing-box = {
 #     enable = true;
@@ -19,13 +17,13 @@
 # byte-for-byte. Only the encrypted output belongs in the repository:
 #
 #   sops encrypt \
-#     --filename-override secrets/<host>/sing-box.jsonc \
+#     --filename-override modules/public/secrets/proxy-clients/sing-box.jsonc \
 #     --input-type binary \
 #     --output-type binary \
-#     --output secrets/<host>/sing-box.jsonc.new \
+#     --output modules/public/secrets/proxy-clients/sing-box.jsonc.new \
 #     /path/to/sing-box.jsonc
-#   mv secrets/<host>/sing-box.jsonc.new \
-#     secrets/<host>/sing-box.jsonc
+#   mv modules/public/secrets/proxy-clients/sing-box.jsonc.new \
+#     modules/public/secrets/proxy-clients/sing-box.jsonc
 #
 # Activation creates the private runtime paths, checks that the configuration is
 # a root-owned regular file with mode 0400 or 0600, and runs `sing-box check`

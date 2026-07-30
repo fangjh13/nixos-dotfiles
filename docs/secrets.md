@@ -9,7 +9,9 @@ recipient, creation rule, encrypted file, and `sops.secrets` declarations.
 The shared Home Manager package list also installs `sops`, `age`, and
 `ssh-to-age` for the primary user on both platforms.
 
-Encrypted files belong in `secrets/<hostname>/`. Administrator and host private
+Host-only encrypted files belong in `hosts/<hostname>/secrets/`. Encrypted
+files shared by an explicit set of hosts live beside an opt-in declaration
+module in `modules/public/secrets/<scope>/`. Administrator and host private
 keys, plaintext source files, and decrypted files must never be committed.
 sops-nix writes decrypted secrets to `/run/secrets/<name>` by default, outside
 the Nix store, with owner `root` and mode `0400`.
@@ -25,7 +27,10 @@ This repository uses two recipients for each host:
 
 Each host-specific rule in `.sops.yaml` includes the administrator recipient
 and only that host's recipient. Therefore one machine does not automatically
-gain access to another machine's secrets.
+gain access to another machine's secrets. A shared rule lists the administrator
+and every authorized host in one `age` key group, so each listed identity can
+decrypt independently. Split files by access scope; SOPS does not provide
+different recipient sets for individual values within one encrypted file.
 
 ### Create the administrator identity once
 
@@ -85,13 +90,13 @@ keys:
   - &macbook_air age1MACBOOK_AIR_RECIPIENT
 
 creation_rules:
-  - path_regex: ^secrets/atlas/[^/]+$
+  - path_regex: ^hosts/atlas/secrets/[^/]+$
     key_groups:
       - age:
           - *admin_fython
           - *atlas
 
-  - path_regex: ^secrets/MacBook-Air/[^/]+$
+  - path_regex: ^hosts/MacBook-Air/secrets/[^/]+$
     key_groups:
       - age:
           - *admin_fython
@@ -100,15 +105,15 @@ creation_rules:
 
 Use the real recipients and append the new entries without removing existing
 hosts. The directory in `path_regex` must exactly match the host directory
-under `secrets/`.
+under `hosts/`.
 
 ### 3. Create or import an encrypted file
 
 For a structured YAML secret on the NixOS example host:
 
 ```shell
-mkdir -p secrets/atlas
-sops secrets/atlas/secrets.yaml
+mkdir -p hosts/atlas/secrets
+sops hosts/atlas/secrets/secrets.yaml
 ```
 
 The editor may contain values such as:
@@ -126,15 +131,15 @@ For example, import a JSON configuration for the nix-darwin example host
 without first copying its plaintext into the repository:
 
 ```shell
-mkdir -p secrets/MacBook-Air
+mkdir -p hosts/MacBook-Air/secrets
 sops encrypt \
-  --filename-override secrets/MacBook-Air/app-config.json \
+  --filename-override hosts/MacBook-Air/secrets/app-config.json \
   --input-type binary \
   --output-type binary \
-  --output secrets/MacBook-Air/app-config.json.new \
+  --output hosts/MacBook-Air/secrets/app-config.json.new \
   /path/to/plaintext-app-config.json
-mv secrets/MacBook-Air/app-config.json.new \
-  secrets/MacBook-Air/app-config.json
+mv hosts/MacBook-Air/secrets/app-config.json.new \
+  hosts/MacBook-Air/secrets/app-config.json
 ```
 
 `--filename-override` makes SOPS select the creation rule for the final
@@ -152,7 +157,7 @@ must match the key inside the encrypted document. For example,
   ...
 }: {
   sops.secrets."database-password" = {
-    sopsFile = ../../secrets/atlas/secrets.yaml;
+    sopsFile = ./secrets/secrets.yaml;
     format = "yaml";
   };
 
@@ -170,7 +175,7 @@ For a whole-file secret, set `format = "binary"`. For example,
   ...
 }: {
   sops.secrets."app-config" = {
-    sopsFile = ../../secrets/MacBook-Air/app-config.json;
+    sopsFile = ./secrets/app-config.json;
     format = "binary";
     owner = "root";
     mode = "0400";
@@ -216,14 +221,34 @@ values into terminal history or build logs.
 Edit an existing encrypted document in place:
 
 ```shell
-sops secrets/<hostname>/<secret-file>
+sops hosts/<hostname>/secrets/<secret-file>
 ```
 
 After adding, removing, or rotating a recipient in `.sops.yaml`, rewrap each
 affected file's data key without exposing its plaintext:
 
 ```shell
-sops updatekeys secrets/<hostname>/<secret-file>
+sops updatekeys hosts/<hostname>/secrets/<secret-file>
+```
+
+For a structured shared secret, use its module-local path instead:
+
+```shell
+sops edit modules/public/secrets/<scope>/<secret-file>
+sops updatekeys modules/public/secrets/<scope>/<secret-file>
+```
+
+Whole-file binary secrets must specify their format explicitly, even when the
+filename ends in `.yaml` or `.jsonc`:
+
+```shell
+sops edit \
+  --input-type binary \
+  --output-type binary \
+  modules/public/secrets/<scope>/<secret-file>
+sops updatekeys \
+  --input-type binary \
+  modules/public/secrets/<scope>/<secret-file>
 ```
 
 sops-nix-managed files under `/run/secrets` should be treated as immutable. If
@@ -242,7 +267,7 @@ hostnames, recipients, secret names, and service options.
 The `vmnixos` rclone configuration is a native SOPS-encrypted INI file:
 
 ```shell
-sops secrets/vmnixos/rclone.ini
+sops hosts/vmnixos/secrets/rclone.ini
 ```
 
 sops-nix decrypts it as a read-only seed at `/run/secrets/rclone-config`.
@@ -262,28 +287,55 @@ file to a new output first, then replace the committed seed:
 
 ```shell
 sops encrypt \
-  --filename-override secrets/vmnixos/rclone.ini \
+  --filename-override hosts/vmnixos/secrets/rclone.ini \
   --input-type ini \
   --output-type ini \
-  --output secrets/vmnixos/rclone.ini.new \
+  --output hosts/vmnixos/secrets/rclone.ini.new \
   /var/lib/rclone/rclone.conf
-mv secrets/vmnixos/rclone.ini.new secrets/vmnixos/rclone.ini
+mv hosts/vmnixos/secrets/rclone.ini.new \
+  hosts/vmnixos/secrets/rclone.ini
 ```
+
+### Shared proxy configurations
+
+The whole-file Mihomo and sing-box configurations are shared ciphertext in
+`modules/public/secrets/proxy-clients/`. Its `default.nix` declares both
+sops-nix secrets. A host opts in explicitly:
+
+```nix
+{
+  config,
+  ...
+}: {
+  imports = [
+    ../../modules/public/secrets/proxy-clients
+  ];
+
+  services.mihomo = {
+    enable = true;
+    configFile = config.sops.secrets."mihomo-config".path;
+  };
+}
+```
+
+The matching `.sops.yaml` rule keeps the administrator, `vmnixos`, and
+`MacBook-Pro-2` recipients in one `age` key group. Importing the module controls
+consumption; recipient membership controls decryption access.
 
 ### nix-darwin: whole-file sing-box configuration
 
-The `MacBook-Pro-2` sing-box JSONC configuration is encrypted as one binary
-SOPS document so comments and formatting survive byte-for-byte:
+The shared sing-box JSONC configuration is encrypted as one binary SOPS
+document so comments and formatting survive byte-for-byte:
 
 ```shell
 sops encrypt \
-  --filename-override secrets/MacBook-Pro-2/sing-box.jsonc \
+  --filename-override modules/public/secrets/proxy-clients/sing-box.jsonc \
   --input-type binary \
   --output-type binary \
-  --output secrets/MacBook-Pro-2/sing-box.jsonc.new \
+  --output modules/public/secrets/proxy-clients/sing-box.jsonc.new \
   /path/to/sing-box.jsonc
-mv secrets/MacBook-Pro-2/sing-box.jsonc.new \
-  secrets/MacBook-Pro-2/sing-box.jsonc
+mv modules/public/secrets/proxy-clients/sing-box.jsonc.new \
+  modules/public/secrets/proxy-clients/sing-box.jsonc
 ```
 
 sops-nix decrypts it to `/run/secrets/sing-box-config` as a root-owned,
@@ -291,7 +343,7 @@ read-only file. Validate an update without writing plaintext to disk:
 
 ```shell
 sops decrypt --output-type binary \
-  secrets/MacBook-Pro-2/sing-box.jsonc |
+  modules/public/secrets/proxy-clients/sing-box.jsonc |
   nix shell \
     '.?submodules=1#darwinConfigurations.MacBook-Pro-2.config.services.sing-box.package' \
     -c sing-box --disable-color -c stdin check
@@ -300,20 +352,17 @@ sops decrypt --output-type binary \
 ### Mihomo transparent proxy
 
 The Darwin Mihomo module runs a root LaunchDaemon for TUN and transparent
-proxy route management. It is disabled by default. Declare the whole YAML
-configuration as a sops-nix binary secret in `hosts/<host>/default.nix`:
+proxy route management. It is disabled by default. Import the shared proxy
+secret module and enable the service in `hosts/<host>/default.nix`:
 
 ```nix
-sops.secrets."<secret>" = {
-  sopsFile = ../../secrets/<host>/<secret>.yaml;
-  format = "binary";
-  owner = "root";
-  mode = "0400";
-};
+imports = [
+  ../../modules/public/secrets/proxy-clients
+];
 
 services.mihomo = {
   enable = true;
-  configFile = config.sops.secrets."<secret>".path;
+  configFile = config.sops.secrets."mihomo-config".path;
 };
 ```
 
@@ -321,7 +370,7 @@ Keep the configuration outside this repository. Create or replace
 the encrypted file:
 
 ```shell
-mihomo_secret=secrets/<host>/<secret>.yaml
+mihomo_secret=modules/public/secrets/proxy-clients/mihomo.yaml
 mihomo_encrypted_tmp="$(mktemp "${TMPDIR:-/tmp}/mihomo-secret.XXXXXX")"
 sops encrypt \
   --filename-override "$mihomo_secret" \

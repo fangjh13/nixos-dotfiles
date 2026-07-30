@@ -24,8 +24,8 @@
 # Supply an explicit configuration path when credentials are managed outside
 # the user's home directory. For the sops-nix pattern used by this repository,
 # configure `mutableConfig` with the decrypted secret as its seed; this gives
-# rclone a writable state file for OAuth token refreshes. See "Secrets with
-# sops-nix" in README.md. Never put credentials in Nix strings. Validate a
+# rclone a writable state file for OAuth token refreshes. See docs/secrets.md.
+# Never put credentials in Nix strings. Validate a
 # configuration as the normal user before enabling a job:
 #
 #   rclone --config /path/to/rclone.conf listremotes

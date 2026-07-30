@@ -1,4 +1,5 @@
 {
+  config,
   self,
   host,
   pkgs,
@@ -7,22 +8,25 @@
 } @ args: {
   imports = [
     ../../modules/public/system.nix
+    ../../modules/public/secrets/proxy-clients
     ../../modules/darwin/dock.nix
     ../../modules/darwin/brew.nix
     ../../modules/darwin/fonts.nix
   ];
 
-  addon.hammerspoon.enable = false;
-  addon.karabiner-elements.enable = false;
-  addon.input-method.enable = false;
+  addon.hammerspoon.enable = true;
+  addon.karabiner-elements.enable = true;
+  addon.input-method.enable = true;
   addon.ghostty.enable = true;
-
-  # Declare host-specific sops secrets here after adding this Mac's public age
-  # recipient to .sops.yaml. See docs/secrets.md.
 
   services.sing-box = {
     enable = false;
-    configFile = "/Library/Application Support/sing-box/config.json";
+    configFile = config.sops.secrets."sing-box-config".path;
+  };
+
+  services.mihomo = {
+    enable = true;
+    configFile = config.sops.secrets."mihomo-config".path;
   };
 
   nix.gc = {

@@ -1,24 +1,22 @@
 # This module runs Mihomo as a root LaunchDaemon on macOS. Root privileges are
 # required for TUN interface creation and transparent proxy route management.
 # The service is disabled by default. Keep the complete Mihomo YAML document as
-# a whole-file sops-nix binary secret so its formatting survives encryption:
+# a shared whole-file sops-nix binary secret so its formatting survives
+# encryption. Hosts opt in by importing its declaration module:
 #
-#   sops.secrets."<secret>" = {
-#     sopsFile = ../../secrets/<host>/<secret>.yaml;
-#     format = "binary";
-#     owner = "root";
-#     mode = "0400";
-#   };
+#   imports = [
+#     ../../modules/public/secrets/proxy-clients
+#   ];
 #
 #   services.mihomo = {
 #     enable = true;
-#     configFile = config.sops.secrets."<secret>".path;
+#     configFile = config.sops.secrets."mihomo-config".path;
 #   };
 #
 # Keep the plaintext configuration outside this repository. To create or
 # replace the encrypted secret atomically from the maintained plaintext:
 #
-#   mihomo_secret=secrets/<host>/<secret>.yaml
+#   mihomo_secret=modules/public/secrets/proxy-clients/mihomo.yaml
 #   mihomo_encrypted_tmp="$(mktemp "${TMPDIR:-/tmp}/mihomo-secret.XXXXXX")"
 #   trap '/bin/rm -f "$mihomo_encrypted_tmp"' EXIT
 #   sops encrypt \
@@ -33,7 +31,8 @@
 # After changing age or PGP recipients in .sops.yaml, rewrap the existing data
 # key without changing the Mihomo plaintext:
 #
-#   sops updatekeys secrets/<host>/<secret>.yaml
+#   sops updatekeys --input-type binary \
+#     modules/public/secrets/proxy-clients/mihomo.yaml
 #
 # To enable or disable Mihomo, change `services.mihomo.enable` in the host
 # configuration and activate it. Activation materializes the sops-nix secret,
@@ -53,7 +52,7 @@
 # roll back a bad runtime change. Never commit a decrypted configuration.
 #
 # Runtime paths:
-#   Config: /run/secrets/<secret> (root-owned, mode 0400 by default)
+#   Config: /run/secrets/mihomo-config (root-owned, mode 0400 by default)
 #   State:  /var/lib/mihomo (root:wheel, mode 0700)
 #   Logs:   /var/log/mihomo.log (root:wheel, mode 0600)
 #

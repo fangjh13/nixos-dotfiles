@@ -35,7 +35,7 @@
   # NFS filesystem
   filesystem.nfs.enable = false;
   # Rclone scheduled uploads. Keep credentials in a host-specific sops secret;
-  # see "Secrets with sops-nix" in README.md.
+  # see docs/secrets.md.
   addon.rclone = {
     enable = false;
     configFile = "/var/lib/rclone/rclone.conf";
