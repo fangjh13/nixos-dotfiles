@@ -11,15 +11,8 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./secrets
   ];
-
-  sops.secrets."rclone-config" = {
-    sopsFile = ./secrets/rclone.ini;
-    format = "ini";
-    key = "";
-    owner = username;
-    mode = "0400";
-  };
 
   # NOTE: Enable imported option modules if you need
   drivers.intel.enable = false;
@@ -45,7 +38,7 @@
     jobs.pmind = {
       source = "/home/${username}/PM";
       destination = "gdrive:backup/PMind";
-      extraArgs = ["--exclude" "**/.venv/**" "--exclude" "**/.direnv/**"];
+      extraArgs = ["--exclude" "**/.venv/**" "--exclude" "**/__pycache__/**" "--exclude" "**/.direnv/**" "--exclude" "**/.cache/**"];
     };
   };
   # Ghostty terminal

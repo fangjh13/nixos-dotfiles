@@ -142,14 +142,14 @@ mv hosts/MacBook-Air/secrets/app-config.json.new \
   hosts/MacBook-Air/secrets/app-config.json
 ```
 
-`--filename-override` makes SOPS select the creation rule for the final
-repository path.
+> `--filename-override` makes SOPS select the creation rule for the final
+> repository path.
 
 ### 4. Declare the secret in the target host
 
-Add declarations to `hosts/<hostname>/default.nix`. A structured secret name
+Add declarations to `hosts/<hostname>/secrets/default.nix`. A structured secret name
 must match the key inside the encrypted document. For example,
-`hosts/atlas/default.nix` can declare the YAML value created above:
+`hosts/atlas/secrets/default.nix` can declare the YAML value created above:
 
 ```nix
 {
@@ -157,7 +157,7 @@ must match the key inside the encrypted document. For example,
   ...
 }: {
   sops.secrets."database-password" = {
-    sopsFile = ./secrets/secrets.yaml;
+    sopsFile = ./secrets.yaml;
     format = "yaml";
   };
 
@@ -167,7 +167,7 @@ must match the key inside the encrypted document. For example,
 ```
 
 For a whole-file secret, set `format = "binary"`. For example,
-`hosts/MacBook-Air/default.nix` can declare the imported JSON configuration:
+`hosts/MacBook-Air/secrets/default.nix` can declare the imported JSON configuration:
 
 ```nix
 {
@@ -256,18 +256,14 @@ an application must update a credential or refresh token, copy the decrypted
 seed into application-owned persistent state and explicitly synchronize
 intentional changes back into an encrypted file.
 
-## Repository examples
-
-These examples document special handling already used by particular hosts.
-New hosts should follow the generic workflow above and substitute their own
-hostnames, recipients, secret names, and service options.
+## Encrypted files
 
 ### NixOS: mutable rclone configuration
 
-The `vmnixos` rclone configuration is a native SOPS-encrypted INI file:
+The rclone configuration is a native SOPS-encrypted INI file:
 
 ```shell
-sops hosts/vmnixos/secrets/rclone.ini
+sops hosts/<hostname>/secrets/rclone.ini
 ```
 
 sops-nix decrypts it as a read-only seed at `/run/secrets/rclone-config`.
@@ -287,13 +283,13 @@ file to a new output first, then replace the committed seed:
 
 ```shell
 sops encrypt \
-  --filename-override hosts/vmnixos/secrets/rclone.ini \
+  --filename-override hosts/<hostname>/secrets/rclone.ini \
   --input-type ini \
   --output-type ini \
-  --output hosts/vmnixos/secrets/rclone.ini.new \
+  --output hosts/<hostname>/secrets/rclone.ini.new \
   /var/lib/rclone/rclone.conf
-mv hosts/vmnixos/secrets/rclone.ini.new \
-  hosts/vmnixos/secrets/rclone.ini
+mv hosts/<hostname>/secrets/rclone.ini.new \
+  hosts/<hostname>/secrets/rclone.ini
 ```
 
 ### Shared proxy configurations
@@ -318,42 +314,15 @@ sops-nix secrets. A host opts in explicitly:
 }
 ```
 
-The matching `.sops.yaml` rule keeps the administrator, `vmnixos`, and
-`MacBook-Pro-2` recipients in one `age` key group. Importing the module controls
+The matching `.sops.yaml` rule keeps the administrator, and all
+`<host-specific-recipients>` recipients in one `age` key group. Importing the module controls
 consumption; recipient membership controls decryption access.
-
-### nix-darwin: whole-file sing-box configuration
-
-The shared sing-box JSONC configuration is encrypted as one binary SOPS
-document so comments and formatting survive byte-for-byte:
-
-```shell
-sops encrypt \
-  --filename-override modules/public/secrets/proxy-clients/sing-box.jsonc \
-  --input-type binary \
-  --output-type binary \
-  --output modules/public/secrets/proxy-clients/sing-box.jsonc.new \
-  /path/to/sing-box.jsonc
-mv modules/public/secrets/proxy-clients/sing-box.jsonc.new \
-  modules/public/secrets/proxy-clients/sing-box.jsonc
-```
-
-sops-nix decrypts it to `/run/secrets/sing-box-config` as a root-owned,
-read-only file. Validate an update without writing plaintext to disk:
-
-```shell
-sops decrypt --output-type binary \
-  modules/public/secrets/proxy-clients/sing-box.jsonc |
-  nix shell \
-    '.?submodules=1#darwinConfigurations.MacBook-Pro-2.config.services.sing-box.package' \
-    -c sing-box --disable-color -c stdin check
-```
 
 ### Mihomo transparent proxy
 
 The Darwin Mihomo module runs a root LaunchDaemon for TUN and transparent
 proxy route management. It is disabled by default. Import the shared proxy
-secret module and enable the service in `hosts/<host>/default.nix`:
+secret module and enable the service in `hosts/<hostname>/default.nix`:
 
 ```nix
 imports = [
