@@ -216,6 +216,30 @@ sudo ls -l /run/secrets/app-config
 Inspect only metadata during routine verification. Do not print decrypted
 values into terminal history or build logs.
 
+### Shared proxy configurations
+
+Host-shared configurations are located in the `modules/public/secrets/<scope>/` directory.
+The `default.nix` file within defines multiple sops-nix secrets;
+hosts must explicitly opt in to enable this configuration:
+
+```nix
+{
+  config,
+  ...
+}: {
+  imports = [
+    ../../modules/public/secrets/<scope>
+  ];
+
+  # Pass this path to the service that consumes the secret:
+  # config.sops.secrets."database-password".path
+}
+```
+
+The matching `.sops.yaml` rule keeps the administrator, and all
+`<host-specific-recipients>` recipients in one `age` key group. Importing the module controls
+consumption; recipient membership controls decryption access.
+
 ## Daily operations
 
 Edit an existing encrypted document in place:
@@ -291,32 +315,6 @@ sops encrypt \
 mv hosts/<hostname>/secrets/rclone.ini.new \
   hosts/<hostname>/secrets/rclone.ini
 ```
-
-### Shared proxy configurations
-
-The whole-file Mihomo and sing-box configurations are shared ciphertext in
-`modules/public/secrets/proxy-clients/`. Its `default.nix` declares both
-sops-nix secrets. A host opts in explicitly:
-
-```nix
-{
-  config,
-  ...
-}: {
-  imports = [
-    ../../modules/public/secrets/proxy-clients
-  ];
-
-  services.mihomo = {
-    enable = true;
-    configFile = config.sops.secrets."mihomo-config".path;
-  };
-}
-```
-
-The matching `.sops.yaml` rule keeps the administrator, and all
-`<host-specific-recipients>` recipients in one `age` key group. Importing the module controls
-consumption; recipient membership controls decryption access.
 
 ### Mihomo transparent proxy
 
