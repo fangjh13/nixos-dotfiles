@@ -2,6 +2,7 @@ keys:
   - &admin_fython age1var6u0pn4lpuv4gknr2f2vn8cqmd0x3qjvmejx30jdsv95r2rafsdkfzn7
   - &vmnixos age1nk3zykr7nkmq8ckrl5ejygvw8fktpnxg0fux9ulepgqu3ay6wpmqge2vna
   - &macbook_pro_2 age1vpd0rmztrt3ru0g4hs9vl02ytk3awchrskhlu3yxcquj6tdhd55spyzpmq
+  - &fmac23 age15hexu80fwc6sscvth05uqlw69p6sfh66spunr049774zcz9005kqy9pnk8
 
 creation_rules:
   - path_regex: ^hosts/vmnixos/secrets/[^/]+$
@@ -16,9 +17,16 @@ creation_rules:
           - *admin_fython
           - *macbook_pro_2
 
+  - path_regex: ^hosts/FMac23/secrets/[^/]+$
+    key_groups:
+      - age:
+          - *admin_fython
+          - *fmac23
+
   - path_regex: ^modules/public/secrets/proxy-clients/[^/]+\.(yaml|jsonc)$
     key_groups:
       - age:
           - *admin_fython
           - *vmnixos
           - *macbook_pro_2
+          - *fmac23
