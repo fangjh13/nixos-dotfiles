@@ -10,20 +10,17 @@
     ../../modules/darwin/dock.nix
     ../../modules/darwin/brew.nix
     ../../modules/darwin/fonts.nix
+    ./secrets
   ];
 
   addon.hammerspoon.enable = false;
   addon.karabiner-elements.enable = false;
   addon.input-method.enable = false;
   addon.ghostty.enable = true;
+  addon.frpc.enable = false;
 
-  # Declare host-specific sops secrets here after adding this Mac's public age
-  # recipient to .sops.yaml. See docs/secrets.md.
-
-  services.sing-box = {
-    enable = false;
-    configFile = "/Library/Application Support/sing-box/config.json";
-  };
+  services.sing-box.enable = false;
+  services.mihomo.enable = false;
 
   nix.gc = {
     automatic = true;

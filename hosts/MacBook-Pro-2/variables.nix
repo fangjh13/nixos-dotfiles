@@ -7,12 +7,7 @@
   timezone = "Asia/Shanghai";
 
   # Extra Homebrew formula packages to be installed
-  brews = [
-    {
-      name = "frpc";
-      restart_service = "changed";
-    }
-  ];
+  brews = [];
 
   # Extra Homebrew cask packages to be installed
   casks = [

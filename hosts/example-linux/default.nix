@@ -46,6 +46,7 @@
   };
   # Ghostty terminal
   addon.ghostty.enable = true;
+  addon.frpc.enable = false;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

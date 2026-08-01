@@ -12,12 +12,18 @@
     ../../modules/darwin/dock.nix
     ../../modules/darwin/brew.nix
     ../../modules/darwin/fonts.nix
+    ./secrets
   ];
 
   addon.hammerspoon.enable = true;
   addon.karabiner-elements.enable = true;
   addon.input-method.enable = true;
   addon.ghostty.enable = true;
+
+  addon.frpc = {
+    enable = true;
+    configFile = config.sops.secrets."frpc-config".path;
+  };
 
   services.sing-box = {
     enable = false;

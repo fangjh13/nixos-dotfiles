@@ -146,10 +146,28 @@ in {
         exit 1
       fi
 
+      # Keep validation state separate from the running daemon's cache DB.
+      mihomo_validation_dir=$(/usr/bin/mktemp -d /tmp/mihomo-validation.XXXXXX)
+      cleanup_mihomo_validation_dir() {
+        case "$mihomo_validation_dir" in
+          /tmp/mihomo-validation.*)
+            /bin/rm -rf "$mihomo_validation_dir"
+            ;;
+          *)
+            echo "error: refusing to remove unexpected Mihomo validation directory: $mihomo_validation_dir" >&2
+            return 1
+            ;;
+        esac
+      }
+      trap cleanup_mihomo_validation_dir EXIT
+
       ${lib.getExe cfg.package} \
-        -d "$mihomo_state_dir" \
+        -d "$mihomo_validation_dir" \
         -f "$mihomo_config" \
         -t
+
+      cleanup_mihomo_validation_dir
+      trap - EXIT
     '';
 
     # TUN and route management require root; launchd retries only unsuccessful

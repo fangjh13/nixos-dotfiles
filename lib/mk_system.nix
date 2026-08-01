@@ -82,6 +82,7 @@ in
         ../modules/darwin/hammerspoon
         ../modules/darwin/karabiner-elements
         ../modules/darwin/input-method.nix
+        ../modules/darwin/services/frpc.nix
         ../modules/darwin/services/sing-box.nix
         ../modules/darwin/services/mihomo.nix
       ]

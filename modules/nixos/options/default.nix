@@ -8,6 +8,7 @@
     ./zen-kernel.nix
     ./docker.nix
     ./podman.nix
+    ./frpc.nix
     ./nfs.nix
     ./rclone.nix
     ./qemu.nix
