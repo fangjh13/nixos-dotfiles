@@ -120,7 +120,7 @@ in {
       mihomo_log_file=${lib.escapeShellArg logFile}
 
       /usr/bin/install -d -m 0700 -o root -g wheel "$mihomo_state_dir"
-      /usr/bin/touch "$mihomo_log_file"
+      : > "$mihomo_log_file"
       /usr/sbin/chown root:wheel "$mihomo_log_file"
       /bin/chmod 0600 "$mihomo_log_file"
 

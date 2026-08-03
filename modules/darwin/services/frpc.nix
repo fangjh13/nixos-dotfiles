@@ -38,7 +38,7 @@ in {
       frpc_config=${lib.escapeShellArg cfg.configFile}
       frpc_log_file=${lib.escapeShellArg logFile}
 
-      /usr/bin/touch "$frpc_log_file"
+      : > "$frpc_log_file"
       /usr/sbin/chown root:wheel "$frpc_log_file"
       /bin/chmod 0600 "$frpc_log_file"
 

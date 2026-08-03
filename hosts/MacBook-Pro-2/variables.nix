@@ -36,5 +36,6 @@
     "apifox"
     "codex-app"
     "iina"
+    "hiddenbar"
   ];
 }

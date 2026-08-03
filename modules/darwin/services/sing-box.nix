@@ -99,7 +99,7 @@ in {
       sing_box_log_file=${lib.escapeShellArg logFile}
 
       /usr/bin/install -d -m 0700 -o root -g wheel "$sing_box_state_dir"
-      /usr/bin/touch "$sing_box_log_file"
+      : > "$sing_box_log_file"
       /usr/sbin/chown root:wheel "$sing_box_log_file"
       /bin/chmod 0600 "$sing_box_log_file"
 
