@@ -57,6 +57,7 @@ in
         # Cross-platform secret provisioning
         sopsModule
         ../modules/public/sops.nix
+        ../modules/public/secrets/llm
 
         # Snapd on Linux
         # (

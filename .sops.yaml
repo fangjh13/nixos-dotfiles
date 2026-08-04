@@ -23,7 +23,9 @@ creation_rules:
           - *admin_fython
           - *fmac23
 
-  - path_regex: ^modules/public/secrets/proxy-clients/[^/]+\.(yaml|jsonc)$
+  # Shared modules use one scope directory and the common recipient set below.
+  # JSONC and TOML files should normally be handled as whole-file binary secrets.
+  - path_regex: ^modules/public/secrets/[^/]+/[^/]+\.(yaml|jsonc|json|ini|toml)$
     key_groups:
       - age:
           - *admin_fython

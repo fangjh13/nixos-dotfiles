@@ -16,6 +16,10 @@ keys, plaintext source files, and decrypted files must never be committed.
 sops-nix writes decrypted secrets to `/run/secrets/<name>` by default, outside
 the Nix store, with owner `root` and mode `0400`.
 
+The shared creation rule accepts `.yaml`, `.jsonc`, `.json`, `.ini`, and
+`.toml` files located directly below one `<scope>` directory. Nested files and
+files directly below `modules/public/secrets/` do not match it.
+
 ## Identities and recipients
 
 This repository uses two recipients for each host:
@@ -216,7 +220,7 @@ sudo ls -l /run/secrets/app-config
 Inspect only metadata during routine verification. Do not print decrypted
 values into terminal history or build logs.
 
-### Shared proxy configurations
+### Shared secret modules
 
 Host-shared configurations are located in the `modules/public/secrets/<scope>/` directory.
 The `default.nix` file within defines multiple sops-nix secrets;
@@ -236,9 +240,33 @@ hosts must explicitly opt in to enable this configuration:
 }
 ```
 
-The matching `.sops.yaml` rule keeps the administrator, and all
-`<host-specific-recipients>` recipients in one `age` key group. Importing the module controls
-consumption; recipient membership controls decryption access.
+One generic `.sops.yaml` rule covers these module-local files:
+
+```yaml
+- path_regex: ^modules/public/secrets/[^/]+/[^/]+\.(yaml|jsonc|json|ini|toml)$
+  key_groups:
+    - age:
+        - *admin_user
+        - *host1
+        - *host2
+        - ...
+```
+
+The first `[^/]+` is the scope directory and the second is the filename, so the
+rule deliberately does not cross directory boundaries. It gives the
+administrator and all listed hosts access to every matching shared file.
+Importing a module controls consumption; recipient membership controls whether
+the host can decrypt it.
+
+SOPS auto-detects `.yaml`, `.json`, and `.ini` as structured formats. The
+repository also allows `.jsonc` and `.toml` names, but SOPS does not infer a
+native structured format from those extensions; handle them as whole-file
+binary secrets. A YAML, JSON, or INI file may also intentionally use binary
+mode when a service needs the original bytes preserved.
+
+Creation rules use first-match semantics. If a future scope needs a different
+recipient set, add a scope-specific rule before this generic rule instead of
+placing it after the generic match.
 
 ## Daily operations
 
@@ -262,8 +290,9 @@ sops edit modules/public/secrets/<scope>/<secret-file>
 sops updatekeys modules/public/secrets/<scope>/<secret-file>
 ```
 
-Whole-file binary secrets must specify their format explicitly, even when the
-filename ends in `.yaml` or `.jsonc`:
+Whole-file binary secrets must specify their format explicitly. This includes
+`.jsonc` and `.toml` shared files, plus structured extensions such as `.yaml`
+when their original bytes must be preserved:
 
 ```shell
 sops edit \

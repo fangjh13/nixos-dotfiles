@@ -114,3 +114,15 @@ After the first time build and switch, you installed the `darwin-rebuild` comman
 ```shell
 sudo darwin-rebuild switch --flake '.?submodules=1#<your hostname>'
 ```
+
+## Secrets
+
+This repository manages encrypted files with SOPS and decrypts them during
+NixOS or nix-darwin activation through sops-nix. Keep host-only files in
+`hosts/<hostname>/secrets/`; keep shared, opt-in secret modules in
+`modules/public/secrets/<scope>/`.
+
+The shared creation rule accepts one file directly below each `<scope>` with a
+`.yaml`, `.jsonc`, `.json`, `.ini`, or `.toml` extension. See
+[`docs/secrets.md`](docs/secrets.md) for recipient setup, structured versus
+whole-file binary formats, rotation, and activation guidance.
