@@ -8,7 +8,6 @@
 } @ args: {
   imports = [
     ../../modules/public/system.nix
-    ../../modules/public/secrets/proxy-clients
     ../../modules/darwin/dock.nix
     ../../modules/darwin/brew.nix
     ../../modules/darwin/fonts.nix

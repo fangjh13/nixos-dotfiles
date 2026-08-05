@@ -2,7 +2,7 @@
 # required for TUN interface creation and transparent proxy route management.
 # The service is disabled by default. Keep the complete Mihomo YAML document as
 # a shared whole-file sops-nix binary secret so its formatting survives
-# encryption. Hosts opt in by importing its declaration module:
+# encryption.
 #
 #   imports = [
 #     ../../modules/public/secrets/proxy-clients

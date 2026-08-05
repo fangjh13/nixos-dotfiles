@@ -58,6 +58,7 @@ in
         sopsModule
         ../modules/public/sops.nix
         ../modules/public/secrets/llm
+        ../modules/public/secrets/proxy-clients
 
         # Snapd on Linux
         # (

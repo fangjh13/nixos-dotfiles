@@ -9,6 +9,7 @@
     ./docker.nix
     ./podman.nix
     ./frpc.nix
+    ./mihomo.nix
     ./nfs.nix
     ./rclone.nix
     ./qemu.nix
