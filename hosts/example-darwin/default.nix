@@ -19,8 +19,8 @@
   addon.ghostty.enable = true;
   addon.frpc.enable = false;
 
-  services.sing-box.enable = false;
-  services.mihomo.enable = false;
+  addon.sing-box.enable = false;
+  addon.mihomo.enable = false;
 
   nix.gc = {
     automatic = true;

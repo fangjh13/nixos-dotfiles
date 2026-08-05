@@ -25,12 +25,12 @@
     configFile = config.sops.secrets."frpc-config".path;
   };
 
-  services.sing-box = {
+  addon.sing-box = {
     enable = false;
     configFile = config.sops.secrets."sing-box-config".path;
   };
 
-  services.mihomo = {
+  addon.mihomo = {
     enable = true;
     configFile = config.sops.secrets."mihomo-config".path;
   };

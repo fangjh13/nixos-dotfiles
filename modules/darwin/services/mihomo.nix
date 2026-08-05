@@ -8,7 +8,7 @@
 #     ../../modules/public/secrets/proxy-clients
 #   ];
 #
-#   services.mihomo = {
+#   addon.mihomo = {
 #     enable = true;
 #     configFile = config.sops.secrets."mihomo-config".path;
 #   };
@@ -34,7 +34,7 @@
 #   sops updatekeys --input-type binary \
 #     modules/public/secrets/proxy-clients/mihomo.yaml
 #
-# To enable or disable Mihomo, change `services.mihomo.enable` in the host
+# To enable or disable Mihomo, change `addon.mihomo.enable` in the host
 # configuration and activate it. Activation materializes the sops-nix secret,
 # validates its ownership, mode, and syntax, then lets nix-darwin update the
 # LaunchDaemon:
@@ -64,7 +64,7 @@
 #   sudo tail -F /var/log/mihomo.log
 #
 # `bootout` stops the currently loaded job only. If the module remains enabled,
-# a later nix-darwin switch may load it again. Set `services.mihomo.enable =
+# a later nix-darwin switch may load it again. Set `addon.mihomo.enable =
 # false` and switch when the service must remain disabled.
 {
   config,
@@ -72,7 +72,7 @@
   pkgs,
   ...
 }: let
-  cfg = config.services.mihomo;
+  cfg = config.addon.mihomo;
   stateDir = "/var/lib/mihomo";
   logFile = "/var/log/mihomo.log";
   # Keep interpolation type-safe; assertions reject null when the service is
@@ -82,7 +82,7 @@
     then "/dev/null"
     else cfg.configFile;
 in {
-  options.services.mihomo = {
+  options.addon.mihomo = {
     enable = lib.mkEnableOption "Mihomo system service";
 
     package = lib.mkPackageOption pkgs "mihomo" {};
@@ -102,11 +102,11 @@ in {
     assertions = [
       {
         assertion = cfg.configFile != null;
-        message = "services.mihomo.configFile must be set when services.mihomo.enable is true.";
+        message = "addon.mihomo.configFile must be set when addon.mihomo.enable is true.";
       }
       {
         assertion = cfg.configFile == null || lib.hasPrefix "/" cfg.configFile;
-        message = "services.mihomo.configFile must be an absolute path.";
+        message = "addon.mihomo.configFile must be an absolute path.";
       }
     ];
 
@@ -125,24 +125,24 @@ in {
       /bin/chmod 0600 "$mihomo_log_file"
 
       if [[ ! -f "$mihomo_config" ]]; then
-        echo "error: services.mihomo.configFile is not a regular file: $mihomo_config" >&2
+        echo "error: addon.mihomo.configFile is not a regular file: $mihomo_config" >&2
         exit 1
       fi
 
       if [[ ! -r "$mihomo_config" ]]; then
-        echo "error: services.mihomo.configFile is not readable by root: $mihomo_config" >&2
+        echo "error: addon.mihomo.configFile is not readable by root: $mihomo_config" >&2
         exit 1
       fi
 
       mihomo_owner=$(/usr/bin/stat -f '%Su' "$mihomo_config")
       if [[ "$mihomo_owner" != "root" ]]; then
-        echo "error: services.mihomo.configFile must be owned by root: $mihomo_config" >&2
+        echo "error: addon.mihomo.configFile must be owned by root: $mihomo_config" >&2
         exit 1
       fi
 
       mihomo_mode=$(/usr/bin/stat -f '%Lp' "$mihomo_config")
       if [[ "$mihomo_mode" != "400" && "$mihomo_mode" != "600" ]]; then
-        echo "error: services.mihomo.configFile must have mode 0400 or 0600: $mihomo_config" >&2
+        echo "error: addon.mihomo.configFile must have mode 0400 or 0600: $mihomo_config" >&2
         exit 1
       fi
 

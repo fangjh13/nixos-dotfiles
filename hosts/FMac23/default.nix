@@ -19,7 +19,7 @@
   addon.input-method.enable = true;
   addon.ghostty.enable = true;
 
-  services.mihomo = {
+  addon.mihomo = {
     enable = true;
     configFile = config.sops.secrets."mihomo-config".path;
   };

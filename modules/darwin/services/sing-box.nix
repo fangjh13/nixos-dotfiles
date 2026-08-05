@@ -8,7 +8,7 @@
 #     ../../modules/public/secrets/proxy-clients
 #   ];
 #
-#   services.sing-box = {
+#   addon.sing-box = {
 #     enable = true;
 #     configFile = config.sops.secrets."sing-box-config".path;
 #   };
@@ -52,7 +52,7 @@
   pkgs,
   ...
 }: let
-  cfg = config.services.sing-box;
+  cfg = config.addon.sing-box;
   stateDir = "/var/lib/sing-box";
   logFile = "/var/log/sing-box.log";
   # Keep interpolation type-safe; assertions reject null when the service is
@@ -62,7 +62,7 @@
     then "/dev/null"
     else cfg.configFile;
 in {
-  options.services.sing-box = {
+  options.addon.sing-box = {
     enable = lib.mkEnableOption "sing-box system service";
 
     package = lib.mkPackageOption pkgs "sing-box" {};
@@ -82,11 +82,11 @@ in {
     assertions = [
       {
         assertion = cfg.configFile != null;
-        message = "services.sing-box.configFile must be set when services.sing-box.enable is true.";
+        message = "addon.sing-box.configFile must be set when addon.sing-box.enable is true.";
       }
       {
         assertion = cfg.configFile == null || lib.hasPrefix "/" cfg.configFile;
-        message = "services.sing-box.configFile must be an absolute path.";
+        message = "addon.sing-box.configFile must be an absolute path.";
       }
     ];
 
@@ -104,24 +104,24 @@ in {
       /bin/chmod 0600 "$sing_box_log_file"
 
       if [[ ! -f "$sing_box_config" ]]; then
-        echo "error: services.sing-box.configFile is not a regular file: $sing_box_config" >&2
+        echo "error: addon.sing-box.configFile is not a regular file: $sing_box_config" >&2
         exit 1
       fi
 
       if [[ ! -r "$sing_box_config" ]]; then
-        echo "error: services.sing-box.configFile is not readable by root: $sing_box_config" >&2
+        echo "error: addon.sing-box.configFile is not readable by root: $sing_box_config" >&2
         exit 1
       fi
 
       sing_box_owner=$(/usr/bin/stat -f '%Su' "$sing_box_config")
       if [[ "$sing_box_owner" != "root" ]]; then
-        echo "error: services.sing-box.configFile must be owned by root: $sing_box_config" >&2
+        echo "error: addon.sing-box.configFile must be owned by root: $sing_box_config" >&2
         exit 1
       fi
 
       sing_box_mode=$(/usr/bin/stat -f '%Lp' "$sing_box_config")
       if [[ "$sing_box_mode" != "400" && "$sing_box_mode" != "600" ]]; then
-        echo "error: services.sing-box.configFile must have mode 0400 or 0600: $sing_box_config" >&2
+        echo "error: addon.sing-box.configFile must have mode 0400 or 0600: $sing_box_config" >&2
         exit 1
       fi
 
