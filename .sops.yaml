@@ -3,6 +3,7 @@ keys:
   - &vmnixos age1nk3zykr7nkmq8ckrl5ejygvw8fktpnxg0fux9ulepgqu3ay6wpmqge2vna
   - &macbook_pro_2 age1vpd0rmztrt3ru0g4hs9vl02ytk3awchrskhlu3yxcquj6tdhd55spyzpmq
   - &fmac23 age15hexu80fwc6sscvth05uqlw69p6sfh66spunr049774zcz9005kqy9pnk8
+  - &deskmini age1faz80fzw8nmexrn0j0234puwnlmgp3t59dgzgh6pq2ctt9kuq5zsqzyaw5
 
 creation_rules:
   - path_regex: ^hosts/vmnixos/secrets/[^/]+$
@@ -22,6 +23,7 @@ creation_rules:
       - age:
           - *admin_fython
           - *fmac23
+          - *deskmini
 
   # Shared modules use one scope directory and the common recipient set below.
   # JSONC and TOML files should normally be handled as whole-file binary secrets.
@@ -32,3 +34,4 @@ creation_rules:
           - *vmnixos
           - *macbook_pro_2
           - *fmac23
+          - *deskmini
