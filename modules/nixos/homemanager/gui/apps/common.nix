@@ -2,10 +2,11 @@
   lib,
   pkgs,
   host,
+  hostVars,
   ...
 }: {
   home.packages = let
-    inherit (import ../../../../../hosts/${host}/variables.nix) apps;
+    inherit (hostVars) apps;
     getPackageByPath = path:
       builtins.foldl' (
         current: part:

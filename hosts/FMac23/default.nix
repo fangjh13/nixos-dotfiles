@@ -1,18 +1,10 @@
 {
-  self,
   config,
   host,
   pkgs,
   username,
   ...
-} @ args: {
-  imports = [
-    ../../modules/public/system.nix
-    ../../modules/darwin/dock.nix
-    ../../modules/darwin/brew.nix
-    ../../modules/darwin/fonts.nix
-  ];
-
+}: {
   addon.hammerspoon.enable = true;
   addon.karabiner-elements.enable = true;
   addon.input-method.enable = true;
@@ -23,68 +15,6 @@
     configFile = config.sops.secrets."mihomo-config".path;
   };
 
-  nix.gc = {
-    automatic = true;
-    interval = {
-      Weekday = 0;
-      Hour = 2;
-      Minute = 0;
-    };
-    options = "--delete-older-than 30d";
-  };
-
-  # touch ID for sudo
-  security.pam.services.sudo_local.touchIdAuth = true;
-
-  system = {
-    stateVersion = 6;
-    primaryUser = username;
-    configurationRevision = self.rev or self.dirtyRev or null;
-
-    defaults = {
-      NSGlobalDomain = {
-        InitialKeyRepeat = 15; # Values: 120, 94, 68, 35, 25, 15
-        KeyRepeat = 2; # Values: 120, 90, 60, 30, 12, 6, 2
-
-        #  Enables tap to click
-        "com.apple.mouse.tapBehavior" = 1;
-        # Swap mouse middle-button scroll direction, true for natural, false for traditional, default is natural
-        "com.apple.swipescrolldirection" = true;
-      };
-
-      dock = {
-        autohide = false;
-        show-recents = true;
-        orientation = "bottom";
-        tilesize = 48;
-      };
-
-      finder = {
-        AppleShowAllFiles = true; # hidden files
-        AppleShowAllExtensions = true; # file extensions
-        FXDefaultSearchScope = "SCcf"; # search current folder
-        _FXShowPosixPathInTitle = false; # title bar full path
-        ShowPathbar = true; # breadcrumb nav at bottom
-        ShowStatusBar = true; # file count & disk space
-      };
-
-      trackpad = {
-        Clicking = true;
-        # Enable three-finger drag
-        TrackpadThreeFingerDrag = true;
-      };
-
-      CustomUserPreferences = {
-        "com.apple.symbolichotkeys" = {
-          AppleSymbolicHotKeys = {
-            # https://apple.stackexchange.com/questions/474904/what-does-each-part-in-com-apple-symbolichotkeys-plist-mean
-            "64" = {
-              # Disable `Command + Space` for Spotlight Search
-              enabled = false;
-            };
-          };
-        };
-      };
-    };
-  };
+  # Override: disable full POSIX path in Finder title bar
+  system.defaults.finder._FXShowPosixPathInTitle = false;
 }

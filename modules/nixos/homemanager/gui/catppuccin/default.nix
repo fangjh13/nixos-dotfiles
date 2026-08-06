@@ -1,9 +1,9 @@
 {
   lib,
-  host,
+  hostVars,
   ...
 }: let
-  inherit (import ../../../../../hosts/${host}/variables.nix) useGUI;
+  inherit (hostVars) useGUI;
 in {
   catppuccin = {
     enable = true;

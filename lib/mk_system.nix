@@ -10,7 +10,7 @@
   username,
   darwin ? false,
 }: let
-  inherit (import ../hosts/${host}/variables.nix) useGUI;
+  hostVars = import ../hosts/${host}/variables.nix;
   # different configurations for each host
   hostConfig = ../hosts/${host};
   # main user configuration
@@ -48,7 +48,7 @@ in
 
     # expose some extra arguments so that our modules can use them
     specialArgs = {
-      inherit inputs pkgs-stable pkgs-unstable community-nur host username;
+      inherit inputs pkgs-stable pkgs-unstable community-nur host username hostVars;
       self = inputs.self;
     };
 
@@ -69,7 +69,7 @@ in
 
         # catppuccin modules
         (
-          if isLinux && useGUI
+          if isLinux && (hostVars.useGUI or false)
           then inputs.catppuccin.nixosModules.catppuccin
           else {}
         )
@@ -80,6 +80,8 @@ in
         ../modules/nixos/options
       ]
       ++ nixpkgs.lib.optionals darwin [
+        # Shared Darwin modules
+        ../modules/darwin/system.nix
         # Optional Darwin modules; each host controls them with an enable option.
         ../modules/darwin/hammerspoon
         ../modules/darwin/karabiner-elements

@@ -1,10 +1,10 @@
 {
   lib,
   pkgs,
-  host,
+  hostVars,
   ...
 }: let
-  inherit (import ../../hosts/${host}/variables.nix) useGUI;
+  inherit (hostVars) useGUI;
 in {
   # Catppuccin global config (NixOS level)
   catppuccin = {

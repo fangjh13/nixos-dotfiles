@@ -3,7 +3,7 @@
   config,
   inputs,
   username,
-  host,
+  hostVars,
   ...
 }: {
   imports = [inputs.nix-homebrew.darwinModules.nix-homebrew];
@@ -36,7 +36,20 @@
     enableZshIntegration = true;
 
     # like `brew install --cask`
-    casks = pkgs.callPackage ./casks.nix {inherit host;};
+    casks =
+      [
+        # Spotlight alternatives
+        "raycast"
+
+        # Browsers
+        "firefox"
+        "google-chrome"
+
+        # file archiver
+        "keka"
+      ]
+      # Extra casks from host variables
+      ++ (hostVars.casks or []);
 
     onActivation = {
       autoUpdate = false;
@@ -53,7 +66,12 @@
     taps = builtins.attrNames config.nix-homebrew.taps;
 
     # like `brew install`
-    brews = pkgs.callPackage ./brews.nix {inherit host;};
+    brews =
+      [
+        "mas"
+      ]
+      # Extra brews from host variables
+      ++ (hostVars.brews or []);
 
     # These app IDs are from using the mas CLI app
     # mas = mac app store

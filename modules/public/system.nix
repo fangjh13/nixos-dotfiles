@@ -1,11 +1,11 @@
 {
   inputs,
-  host,
   username,
+  hostVars,
   community-nur,
   ...
 }: let
-  inherit (import ../../hosts/${host}/variables.nix) timezone;
+  inherit (hostVars) timezone;
 in {
   nix.settings.trusted-users = ["${username}"];
 

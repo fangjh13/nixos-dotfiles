@@ -1,10 +1,10 @@
 {
   pkgs,
   lib,
-  host,
+  hostVars,
   ...
 } @ args: let
-  inherit (import ../../hosts/${host}/variables.nix) useGUI;
+  inherit (hostVars) useGUI;
 in {
   imports =
     [

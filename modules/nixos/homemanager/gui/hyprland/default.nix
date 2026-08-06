@@ -2,12 +2,12 @@
   pkgs,
   lib,
   username,
-  host,
   config,
   inputs,
+  hostVars,
   ...
 } @ args: let
-  inherit (import ../../../../../hosts/${host}/variables.nix) hyprConfig xkbOptions;
+  inherit (hostVars) hyprConfig xkbOptions;
 in
   with lib; {
     imports = [

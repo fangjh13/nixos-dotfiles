@@ -1,10 +1,10 @@
 {
   pkgs,
   lib,
-  host,
+  hostVars,
   ...
 }: let
-  inherit (import ../../../../hosts/${host}/variables.nix) gitName gitEmail;
+  inherit (hostVars) gitName gitEmail;
 in {
   home.packages = [pkgs.gh];
 
