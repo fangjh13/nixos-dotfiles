@@ -83,7 +83,10 @@ in {
 
     configFile = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
-      default = if cfg.useSopsSecret then config.sops.secrets."${cfg.secretName}".path else null;
+      default =
+        if cfg.useSopsSecret
+        then config.sops.secrets."${cfg.secretName}".path
+        else null;
       defaultText = lib.literalExpression ''if config.addon.mihomo.useSopsSecret then config.sops.secrets.''${config.addon.mihomo.secretName}.path else null'';
       example = "/etc/mihomo/config.yaml";
       description = "Absolute path to Mihomo config file. Overrides sops secret when set.";
@@ -216,7 +219,12 @@ in {
 
       systemd.services.mihomo.serviceConfig.ExecStartPre = [
         (pkgs.writeShellScript "mihomo-pre-start" ''
-          mihomo_config=${lib.escapeShellArg effectiveConfigFile}
+          # NixOS services.mihomo uses DynamicUser = true and LoadCredential to supply
+          # secrets safely. Prefer CREDENTIALS_DIRECTORY over root-only /run/secrets.
+          mihomo_config="''${CREDENTIALS_DIRECTORY:-}/config.yaml"
+          if [[ ! -f "$mihomo_config" ]]; then
+            mihomo_config=${lib.escapeShellArg effectiveConfigFile}
+          fi
 
           if [[ ! -f "$mihomo_config" ]]; then
             echo "error: addon.mihomo config file is not a regular file: $mihomo_config" >&2
@@ -224,23 +232,19 @@ in {
           fi
 
           if [[ ! -r "$mihomo_config" ]]; then
-            echo "error: addon.mihomo config file is not readable by root: $mihomo_config" >&2
+            echo "error: addon.mihomo config file is not readable: $mihomo_config" >&2
             exit 1
           fi
 
-          mihomo_owner=$(stat -c '%U' "$mihomo_config")
-          if [[ "$mihomo_owner" != "root" ]]; then
-            echo "error: addon.mihomo config file must be owned by root: $mihomo_config" >&2
-            exit 1
-          fi
+          # Pass a temporary working directory to prevent mihomo -t from trying to create
+          # /.config/mihomo on systemd's read-only root filesystem.
+          mihomo_validation_dir=$(mktemp -d /tmp/mihomo-validation.XXXXXX)
+          cleanup_validation_dir() {
+            rm -rf "$mihomo_validation_dir"
+          }
+          trap cleanup_validation_dir EXIT
 
-          mihomo_mode=$(stat -c '%a' "$mihomo_config")
-          if [[ "$mihomo_mode" != "400" && "$mihomo_mode" != "600" ]]; then
-            echo "error: addon.mihomo config file must have mode 0400 or 0600: $mihomo_config" >&2
-            exit 1
-          fi
-
-          ${lib.getExe cfg.package} -t -f "$mihomo_config"
+          ${lib.getExe cfg.package} -t -d "$mihomo_validation_dir" -f "$mihomo_config"
         '')
       ];
     })

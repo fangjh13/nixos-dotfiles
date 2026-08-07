@@ -41,10 +41,7 @@
       extraArgs = ["--exclude" "**/.venv/**" "--exclude" "**/__pycache__/**" "--exclude" "**/.direnv/**" "--exclude" "**/.cache/**"];
     };
   };
-  addon.mihomo = {
-    enable = false;
-    configFile = config.sops.secrets."mihomo-config".path;
-  };
+  addon.mihomo.enable = false;
   # Ghostty terminal
   addon.ghostty.enable = false;
 
