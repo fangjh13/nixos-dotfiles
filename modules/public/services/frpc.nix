@@ -4,6 +4,25 @@
 # Usage in host configuration:
 #   addon.frpc.enable = true;
 #
+# Secret provisioning (sops-nix):
+# Since the frpc configuration varies per host, you should define a sops secret bound to the 
+# `frpc-config` key in the host's `secrets/default.nix`.
+#
+# Example in `hosts/my-host/secrets/default.nix`:
+#
+#   sops.secrets."frpc-config" = {
+#     sopsFile = ./frpc.toml;
+#     format = "binary"; # Preserves the original file structure and formatting
+#   };
+#
+# To create or edit the encrypted host-specific configuration interactively:
+#
+#   sops --input-type binary --output-type binary hosts/my-host/secrets/frpc.toml
+#
+# After changing age or SSH/PGP recipients in .sops.yaml, rewrap the existing data key:
+#
+#   sops updatekeys --input-type binary hosts/my-host/secrets/frpc.toml
+#
 # Runtime paths:
 #   Config: /run/secrets/frpc-config or /var/lib/private/frp/frpc.toml
 #   Logs:   /var/log/frpc.log (macOS) / journalctl (NixOS)
