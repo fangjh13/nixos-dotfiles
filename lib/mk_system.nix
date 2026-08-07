@@ -48,7 +48,7 @@ in
 
     # expose some extra arguments so that our modules can use them
     specialArgs = {
-      inherit inputs pkgs-stable pkgs-unstable community-nur host username hostVars;
+      inherit inputs pkgs-stable pkgs-unstable community-nur host username hostVars isLinux;
       self = inputs.self;
     };
 
@@ -58,14 +58,6 @@ in
         sopsModule
         ../modules/public/sops.nix
         ../modules/public/secrets/llm
-        ../modules/public/secrets/proxy-clients
-
-        # Snapd on Linux
-        # (
-        #   if isLinux
-        #   then inputs.nix-snapd.nixosModules.default
-        #   else {}
-        # )
 
         # catppuccin modules
         (
@@ -73,6 +65,11 @@ in
           then inputs.catppuccin.nixosModules.catppuccin
           else {}
         )
+
+        # Cross-platform services
+        ../modules/public/services/frpc.nix
+        ../modules/public/services/sing-box.nix
+        ../modules/public/services/mihomo.nix
       ]
       ++ nixpkgs.lib.optionals isLinux [
         # Shared NixOS modules
@@ -86,9 +83,6 @@ in
         ../modules/darwin/hammerspoon
         ../modules/darwin/karabiner-elements
         ../modules/darwin/input-method.nix
-        ../modules/darwin/services/frpc.nix
-        ../modules/darwin/services/sing-box.nix
-        ../modules/darwin/services/mihomo.nix
       ]
       ++ [
         # system modules

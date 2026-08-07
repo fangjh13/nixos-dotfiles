@@ -1,9 +1,10 @@
 {
   lib,
   pkgs,
+  isLinux ? true,
   ...
 }: let
-  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+  isDarwin = !isLinux;
 in {
   programs.ghostty = {
     package =

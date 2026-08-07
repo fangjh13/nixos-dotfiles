@@ -16,3 +16,6 @@ AGENTS.md
 .hypr-stubs
 docs/superpowers
 docs/agents
+.agents/
+.scratch/
+CONTEXT.md

@@ -2,10 +2,11 @@
   config,
   pkgs,
   username,
+  isLinux ? true,
   ...
 }: let
   llmConfigFolder =
-    if pkgs.stdenv.isDarwin
+    if !isLinux
     then "Library/Application Support/io.datasette.llm"
     else ".config/io.datasette.llm";
   secretPath = config.sops.secrets."llm-keys".path;
