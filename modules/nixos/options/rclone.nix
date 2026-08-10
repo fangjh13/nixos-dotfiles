@@ -51,10 +51,14 @@
   unitName = name: "rclone-copy-${name}";
   configUnit = "rclone-config.service";
   mutableConfig = cfg.mutableConfig;
-  mutableConfigPath =
-    if mutableConfig == null
-    then null
-    else "/var/lib/${mutableConfig.stateDirectory}/${mutableConfig.fileName}";
+  stateDirectory = "rclone";
+  mutableConfigPath = "/var/lib/${stateDirectory}/rclone.conf";
+  effectiveConfigFile =
+    if mutableConfig != null
+    then mutableConfigPath
+    else if cfg.configFile != null
+    then cfg.configFile
+    else "${homeDirectory}/.config/rclone/rclone.conf";
 
   jobType = lib.types.submodule {
     options = {
@@ -109,7 +113,7 @@
     # missing source or silently fall back to another configuration file.
     preStart = ''
       source_path=${lib.escapeShellArg job.source}
-      config_file=${lib.escapeShellArg cfg.configFile}
+      config_file=${lib.escapeShellArg effectiveConfigFile}
 
       if [[ ! -d "$source_path" ]]; then
         echo "rclone source directory does not exist: $source_path" >&2
@@ -130,7 +134,7 @@
           (lib.getExe pkgs.rclone)
           "copy"
           "--config"
-          cfg.configFile
+          effectiveConfigFile
           "--log-level"
           "INFO"
         ]
@@ -163,7 +167,7 @@
 
     script = let
       configFile = mutableConfigPath;
-      versionFile = "/var/lib/${mutableConfig.stateDirectory}/.seed-version";
+      versionFile = "/var/lib/${stateDirectory}/.seed-version";
     in ''
       seed_file=${lib.escapeShellArg mutableConfig.seedFile}
       seed_version=${lib.escapeShellArg mutableConfig.seedVersion}
@@ -207,7 +211,7 @@
       User = username;
       Group = primaryGroup;
       UMask = "0077";
-      StateDirectory = mutableConfig.stateDirectory;
+      StateDirectory = stateDirectory;
       StateDirectoryMode = "0700";
       NoNewPrivileges = true;
       PrivateTmp = true;
@@ -236,9 +240,9 @@ in {
     enable = lib.mkEnableOption "scheduled rclone uploads";
 
     configFile = lib.mkOption {
-      type = lib.types.str;
-      default = "${homeDirectory}/.config/rclone/rclone.conf";
-      description = "Absolute path to the rclone configuration file.";
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "Optional absolute path to a static rclone configuration file.";
     };
 
     mutableConfig = lib.mkOption {
@@ -256,17 +260,6 @@ in {
             description = "Non-secret version identifier used to detect seed changes.";
           };
 
-          stateDirectory = lib.mkOption {
-            type = lib.types.str;
-            default = "rclone";
-            description = "StateDirectory name below /var/lib.";
-          };
-
-          fileName = lib.mkOption {
-            type = lib.types.str;
-            default = "rclone.conf";
-            description = "Writable configuration filename in the state directory.";
-          };
         };
       });
       default = null;
@@ -294,14 +287,14 @@ in {
           message = "addon.rclone.enable requires at least one addon.rclone.jobs entry.";
         }
         {
-          assertion = lib.hasPrefix "/" cfg.configFile;
+          assertion = cfg.configFile == null || lib.hasPrefix "/" cfg.configFile;
           message = "addon.rclone.configFile must be an absolute path.";
         }
       ]
       ++ lib.optionals (mutableConfig != null) [
         {
-          assertion = cfg.configFile == mutableConfigPath;
-          message = "addon.rclone.configFile must match the mutableConfig state path '${mutableConfigPath}'.";
+          assertion = cfg.configFile == null;
+          message = "addon.rclone.configFile and addon.rclone.mutableConfig cannot be used together.";
         }
         {
           assertion = lib.hasPrefix "/" mutableConfig.seedFile;
@@ -310,14 +303,6 @@ in {
         {
           assertion = mutableConfig.seedVersion != "";
           message = "addon.rclone.mutableConfig.seedVersion must not be empty.";
-        }
-        {
-          assertion = builtins.match "^[A-Za-z0-9_.-]+$" mutableConfig.stateDirectory != null;
-          message = "addon.rclone.mutableConfig.stateDirectory may only contain letters, numbers, dots, underscores, and hyphens.";
-        }
-        {
-          assertion = builtins.match "^[A-Za-z0-9_.-]+$" mutableConfig.fileName != null;
-          message = "addon.rclone.mutableConfig.fileName may only contain letters, numbers, dots, underscores, and hyphens.";
         }
       ]
       ++ lib.concatLists (lib.mapAttrsToList (name: job: [

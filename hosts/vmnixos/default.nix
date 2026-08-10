@@ -30,7 +30,6 @@
   # Rclone scheduled uploads
   addon.rclone = {
     enable = true;
-    configFile = "/var/lib/rclone/rclone.conf";
     mutableConfig = {
       seedFile = config.sops.secrets."rclone-config".path;
       seedVersion = config.sops.secrets."rclone-config".sopsFileHash;
