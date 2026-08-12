@@ -14,7 +14,8 @@ in {
 
     settings =
       {
-        font-size = 14;
+        font-size = 14.0;
+        # font-style = "Bold";
         font-family = "Hack Nerd Font Mono";
 
         # adjust-cell-height = "30%";
@@ -37,11 +38,13 @@ in {
         keybind = [
           "all:unconsumed:ctrl+shift+r=reload_config"
           "global:all:cmd+/=toggle_quick_terminal"
+          "cmd+enter=toggle_split_zoom"
+          "alt+enter=toggle_fullscreen"
         ];
       }
       // lib.optionalAttrs isDarwin {
         macos-option-as-alt = true;
-        macos-titlebar-style = "hidden";
+        macos-titlebar-style = "transparent";
         window-colorspace = "display-p3";
       };
   };

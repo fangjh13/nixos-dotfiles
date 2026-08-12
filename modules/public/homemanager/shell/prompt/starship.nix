@@ -17,7 +17,7 @@
 
       add_newline = false;
       scan_timeout = 60;
-      command_timeout = 1000;
+      command_timeout = 2000;
 
       character = {
         success_symbol = "[❯](bold green)";
