@@ -1,9 +1,9 @@
 {
   pkgs,
-  hostVars,
+  hostContext,
   ...
 }: let
-  inherit (hostVars) bookmarks;
+  inherit (hostContext.settings) bookmarks;
 in {
   # GTK+ 2/3 applications themes config
   gtk = {

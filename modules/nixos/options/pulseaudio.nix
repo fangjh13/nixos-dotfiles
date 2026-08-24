@@ -1,11 +1,12 @@
 # https://wiki.nixos.org/wiki/PulseAudio
 {
   lib,
-  username,
+  hostContext,
   config,
   ...
 }:
 with lib; let
+  inherit (hostContext) username;
   cfg = config.multimedia.pulseaudio;
 in {
   options.multimedia.pulseaudio = {

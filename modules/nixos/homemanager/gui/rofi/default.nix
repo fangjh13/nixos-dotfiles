@@ -2,7 +2,6 @@
 {
   pkgs,
   config,
-  host,
   ...
 }: let
   dataHome = config.xdg.dataHome;

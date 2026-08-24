@@ -1,9 +1,10 @@
 {
   config,
   lib,
-  username,
+  hostContext,
   ...
 }: let
+  inherit (hostContext) username;
   cfg = config.addon.karabiner-elements;
 in {
   options.addon.karabiner-elements.enable =

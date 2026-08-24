@@ -2,9 +2,10 @@
   config,
   lib,
   pkgs,
-  username,
+  hostContext,
   ...
 }: let
+  inherit (hostContext) username;
   cfg = config.addon.input-method;
   rimeData = lib.cleanSourceWith {
     src = ../nixos/homemanager/gui/fcitx5/rime-config/share/rime-data;

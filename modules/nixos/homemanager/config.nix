@@ -1,12 +1,9 @@
 {
-  config,
   lib,
-  pkgs,
-  username,
-  hostVars,
+  hostContext,
   ...
 }: let
-  inherit (hostVars) useGUI;
+  inherit (hostContext.settings) useGUI;
 in {
   imports =
     [
@@ -30,8 +27,8 @@ in {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    username = "${username}";
-    homeDirectory = "/home/${username}";
+    username = hostContext.username;
+    homeDirectory = "/home/${hostContext.username}";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage

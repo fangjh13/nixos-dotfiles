@@ -1,6 +1,6 @@
 {
   pkgs,
-  pkgs-unstable,
+  packageSets,
   ...
 }:
 with pkgs; let
@@ -42,7 +42,7 @@ in {
       nvtopPackages.full
 
       # https://devenv.sh Developer Environments using Nix
-      pkgs-unstable.devenv
+      packageSets.unstable.devenv
 
       # man doc
       man-pages

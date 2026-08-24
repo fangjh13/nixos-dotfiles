@@ -1,10 +1,10 @@
 {
   lib,
   pkgs,
-  isLinux ? true,
+  hostContext,
   ...
 }: let
-  isDarwin = !isLinux;
+  isDarwin = hostContext.platform == "darwin";
 in {
   programs.ghostty = {
     package =

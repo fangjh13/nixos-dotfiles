@@ -2,10 +2,11 @@
   lib,
   pkgs,
   config,
-  username,
+  hostContext,
   ...
 }:
 with lib; let
+  inherit (hostContext) username;
   cfg = config.addon.qemu;
 in {
   options.addon.qemu = {enable = mkEnableOption "Enable QEMU Virtualisation";};

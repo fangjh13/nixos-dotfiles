@@ -1,11 +1,11 @@
 {
-  inputs,
   pkgs,
-  host,
   config,
-  username,
+  hostContext,
   ...
-}: {
+}: let
+  inherit (hostContext) username;
+in {
   users.users.${username} = {
     name = "${username}";
     home = "/Users/${username}";

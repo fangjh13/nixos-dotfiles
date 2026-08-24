@@ -2,11 +2,10 @@
 {
   lib,
   pkgs,
-  inputs,
-  host,
-  username,
+  hostContext,
   ...
 }: let
+  inherit (hostContext) username;
   capitalize = str: let
     first = builtins.substring 0 1 str;
     rest = builtins.substring 1 (builtins.stringLength str - 1) str;

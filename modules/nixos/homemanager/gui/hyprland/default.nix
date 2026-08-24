@@ -1,13 +1,10 @@
 {
   pkgs,
   lib,
-  username,
-  config,
-  inputs,
-  hostVars,
+  hostContext,
   ...
-} @ args: let
-  inherit (hostVars) hyprConfig xkbOptions;
+}: let
+  inherit (hostContext.settings) hyprConfig xkbOptions;
 in
   with lib; {
     imports = [

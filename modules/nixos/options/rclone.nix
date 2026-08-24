@@ -42,9 +42,10 @@
   config,
   lib,
   pkgs,
-  username,
+  hostContext,
   ...
 }: let
+  inherit (hostContext) username;
   cfg = config.addon.rclone;
   homeDirectory = config.users.users.${username}.home;
   primaryGroup = config.users.users.${username}.group;

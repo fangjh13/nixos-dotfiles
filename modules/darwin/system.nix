@@ -2,15 +2,15 @@
 # This module provides baseline settings for all macOS (nix-darwin) hosts.
 # Individual hosts can override any value set with `lib.mkDefault`.
 {
-  self,
   lib,
   pkgs,
   config,
   inputs,
-  username,
-  hostVars,
+  hostContext,
   ...
-}: {
+}: let
+  inherit (hostContext) username;
+in {
   imports = [
     ../public/system.nix
     ./dock.nix
@@ -35,7 +35,7 @@
   system = {
     stateVersion = lib.mkDefault 6;
     primaryUser = lib.mkDefault username;
-    configurationRevision = lib.mkDefault (self.rev or self.dirtyRev or null);
+    configurationRevision = lib.mkDefault (inputs.self.rev or inputs.self.dirtyRev or null);
 
     defaults = {
       NSGlobalDomain = {

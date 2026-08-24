@@ -1,11 +1,10 @@
 {
   inputs,
-  username,
-  hostVars,
-  community-nur,
+  hostContext,
   ...
 }: let
-  inherit (hostVars) timezone;
+  inherit (hostContext) username;
+  inherit (hostContext.settings) timezone;
 in {
   nix.settings.trusted-users = ["${username}"];
 
@@ -44,7 +43,7 @@ in {
       permittedInsecurePackages = [];
       packageOverrides = pkgs: {
         # make `pkgs.nur` available
-        nur = import community-nur {
+        nur = import inputs.community-nur {
           inherit pkgs;
           nurpkgs = pkgs;
         };

@@ -40,10 +40,11 @@
   config,
   lib,
   pkgs,
-  isLinux ? true,
+  hostContext,
   ...
 }: let
   cfg = config.addon.frpc;
+  isLinux = hostContext.platform == "linux";
   isDarwin = !isLinux;
 
   logFile = "/var/log/frpc.log";

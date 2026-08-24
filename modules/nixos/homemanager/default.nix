@@ -1,11 +1,7 @@
 {
   inputs,
-  pkgs,
-  config,
-  lib,
-  username,
-  host,
-  specialArgs,
+  hostContext,
+  packageSets,
   ...
 }: {
   home-manager = {
@@ -13,15 +9,13 @@
     useGlobalPkgs = true;
     # Installed into the system-wide /etc/profiles location `/etc/profiles/per-user/<username>`, instead of the default user-specific ~/.nix-profile
     useUserPackages = true;
-    users.${username} = {
+    users.${hostContext.username} = {
       imports = [
         ./config.nix
         inputs.catppuccin.homeModules.catppuccin
       ];
     };
     # expose some extra arguments in home modules
-    extraSpecialArgs =
-      inputs
-      // specialArgs;
+    extraSpecialArgs = {inherit inputs hostContext packageSets;};
   };
 }

@@ -1,6 +1,4 @@
 {
-  userName = "fython";
-  hostName = "vmnixos";
   gitName = "fangjiahui";
   gitEmail = "fangjh@pmind-tech.com";
 

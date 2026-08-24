@@ -1,18 +1,17 @@
 {
   lib,
   pkgs,
-  host,
-  hostVars,
+  hostContext,
   ...
 }: {
   home.packages = let
-    inherit (hostVars) apps;
+    inherit (hostContext.settings) apps;
     getPackageByPath = path:
       builtins.foldl' (
         current: part:
           if builtins.isAttrs current && builtins.hasAttr part current
           then builtins.getAttr part current
-          else throw "Unknown package `${path}` in hosts/${host}/variables.nix apps"
+          else throw "Unknown package `${path}` in hosts/${hostContext.name}/variables.nix apps"
       )
       pkgs (lib.splitString "." path);
     variableAppPackages = map getPackageByPath apps;
@@ -36,6 +35,6 @@
         # scale-wechat-bwrap
         # wechat-uos
       ]
-      # Packages enabled from hosts/${host}/variables.nix apps.
+      # Packages enabled from the host settings apps list.
       ++ variableAppPackages;
 }

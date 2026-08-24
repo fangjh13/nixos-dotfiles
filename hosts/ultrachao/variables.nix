@@ -1,6 +1,4 @@
 {
-  userName = "fython";
-  hostName = "ultrachao";
   gitName = "Fython";
   gitEmail = "fython.me@gmail.com";
 

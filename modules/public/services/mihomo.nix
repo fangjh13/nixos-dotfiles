@@ -45,11 +45,12 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable ? pkgs,
-  isLinux ? true,
+  hostContext,
+  packageSets,
   ...
 }: let
   cfg = config.addon.mihomo;
+  isLinux = hostContext.platform == "linux";
   isDarwin = !isLinux;
 
   stateDir = "/var/lib/mihomo";
@@ -65,7 +66,7 @@ in {
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs-unstable.mihomo;
+      default = packageSets.unstable.mihomo;
       description = "The Mihomo package to use.";
     };
 

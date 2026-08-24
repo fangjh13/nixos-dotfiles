@@ -2,9 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
-  host,
-  pkgs,
-  username,
+  hostContext,
   ...
 }: {
   imports = [
@@ -80,7 +78,7 @@
   networking.firewall.enable = false;
 
   # Define your hostname
-  networking.hostName = "${host}";
+  networking.hostName = hostContext.name;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";

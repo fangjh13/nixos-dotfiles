@@ -1,9 +1,10 @@
 {
   config,
   lib,
-  username,
+  hostContext,
   ...
 }: let
+  inherit (hostContext) username;
   cfg = config.addon.ghostty;
 in {
   options.addon.ghostty.enable = lib.mkEnableOption "Ghostty terminal";

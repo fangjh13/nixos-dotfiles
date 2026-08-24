@@ -42,11 +42,29 @@ git submodule update --init --recursive --remote
 
 export NIX_CONFIG="experimental-features = nix-command flakes"
 nix run .#init
-git add .
 sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 ```
 
-📝 Change the hostname and username in `flake.nix` and some other configurations in `hosts/<your hostname>/variables.nix`
+`nix run .#init` performs Inventory onboarding for the current machine only. It
+detects and confirms the local Nix system, then prompts for the Host name,
+username, timezone, and Git identity. The candidate is generated and evaluated
+in OS temporary storage before its directory is atomically registered in
+`hosts/`. On success, only `hosts/<your hostname>` is staged with `git add`; no
+commit is created. On failure, the Host inventory is unchanged and the command
+prints the preserved staging path for inspection.
+
+Each real Host directory is self-registering through `host.nix`:
+
+```nix
+{
+  system = "x86_64-linux";
+  username = "fython";
+}
+```
+
+The directory name is the Host name. Reusable Host templates live separately
+under `hosts/templates/` and never become inventory members. Host-specific
+settings remain in `hosts/<your hostname>/variables.nix`.
 
 | Variable | Description                                    |
 | -------- | ---------------------------------------------- |
@@ -58,10 +76,11 @@ sudo nixos-rebuild switch --flake '.?submodules=1#<your hostname>'
 
 #### Manual Install
 
-Clone this repo to local and enter it. Create your host in `hosts` copy from `example` hosts
+Clone this repo and enter it. Copy the Linux Host template, then add a matching
+`host.nix` declaration:
 
 ```shell
-cp -r hosts/example hosts/<your hostname>
+cp -r hosts/templates/linux hosts/<your hostname>
 ```
 
 Generate system config from your system
@@ -103,7 +122,6 @@ git submodule update --init --recursive --remote
 
 export NIX_CONFIG="experimental-features = nix-command flakes"
 nix run .#init
-git add .
 nix build '.?submodules=1#darwinConfigurations.<your hostname>.system'
 sudo ./result/sw/bin/darwin-rebuild switch --flake '.?submodules=1#<your hostname>'
 unlink ./result
@@ -113,6 +131,33 @@ After the first time build and switch, you installed the `darwin-rebuild` comman
 
 ```shell
 sudo darwin-rebuild switch --flake '.?submodules=1#<your hostname>'
+```
+
+Darwin uses the same Inventory onboarding transaction and prompts. It detects
+the current Apple Silicon Mac as `aarch64-darwin` and does not run the
+Linux-only hardware generator.
+
+## Host inventory checks
+
+All real Host declarations are discovered from their directories and exported
+at the same time. Evaluate the complete
+inventory contract on the current platform with:
+
+```shell
+nix flake check '.?submodules=1' --no-build
+```
+
+This standard check validates every inventory member's declaration, settings,
+output membership, target platform, module state, and full top-level derivation
+without requiring `--all-systems`. It evaluates other CPU/OS platforms but does
+not build or activate their system closures; cross-platform builds still
+require suitable remote builders or the native platform.
+
+Build or temporarily activate one Host explicitly:
+
+```shell
+sudo nixos-rebuild test --flake '.?submodules=1#<linux-host>'
+nix build '.?submodules=1#darwinConfigurations.<darwin-host>.system'
 ```
 
 ## Secrets

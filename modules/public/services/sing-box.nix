@@ -38,10 +38,11 @@
   config,
   lib,
   pkgs,
-  isLinux ? true,
+  hostContext,
   ...
 }: let
   cfg = config.addon.sing-box;
+  isLinux = hostContext.platform == "linux";
   isDarwin = !isLinux;
 
   stateDir = "/var/lib/sing-box";

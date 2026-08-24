@@ -51,47 +51,38 @@
     };
   };
 
-  outputs = inputs @ {
-    nixpkgs,
-    community-nur,
-    ...
-  }: let
-    # NOTE: This is your machine info, modified when you run `nix run .#init`
-    system = "x86_64-linux"; # support x86_64-linux or aarch64-linux or aarch64-darwin
-    host = "ultrachao";
-    username = "fython";
-
-    pkgs-unstable = import inputs.nixpkgs-unstable {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    pkgs-stable = import inputs.nixpkgs-stable {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    mkSystem = import ./lib/mk_system.nix {
-      inherit inputs nixpkgs pkgs-stable pkgs-unstable community-nur;
-    };
-    mkApp = import ./lib/mk_app.nix {
-      inherit nixpkgs;
-      self = inputs.self;
-    };
+  outputs = inputs @ {nixpkgs, ...}: let
+    constructInventory = import ./lib/system-construction.nix {inherit inputs;};
+    inventoryOutputs = constructInventory ./hosts;
+    inventoryOnboarding = import ./lib/inventory-onboarding.nix {inherit inputs;};
+    supportedSystems = import ./lib/supported-systems.nix;
   in {
-    apps = nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux" "aarch64-darwin"] (arch: {
-      init = mkApp "init.sh" arch;
+    apps = nixpkgs.lib.genAttrs supportedSystems (system: {
+      init = inventoryOnboarding system;
     });
-    nixosConfigurations = nixpkgs.lib.optionalAttrs (nixpkgs.lib.hasSuffix "-linux" system) {
-      "${host}" = mkSystem "${host}" {
-        system = system;
-        username = username;
-      };
-    };
-    darwinConfigurations = nixpkgs.lib.optionalAttrs (nixpkgs.lib.hasSuffix "-darwin" system) {
-      "${host}" = mkSystem "${host}" {
-        system = system;
-        username = username;
-        darwin = true;
-      };
-    };
+    inherit (inventoryOutputs) nixosConfigurations darwinConfigurations;
+    checks = nixpkgs.lib.genAttrs supportedSystems (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+      onboardingApp = inventoryOnboarding system;
+      systemConstructionContracts = import ./tests/system-construction-contracts.nix {inherit inputs;};
+    in
+      inventoryOutputs.checks.${system}
+      // {
+        inventory-onboarding-app = pkgs.runCommand "inventory-onboarding-app" {} ''
+          ${onboardingApp.program} --help > "$out"
+        '';
+        inventory-onboarding-cli =
+          pkgs.runCommand "inventory-onboarding-cli" {
+            nativeBuildInputs = [pkgs.bash pkgs.coreutils pkgs.findutils pkgs.git pkgs.gnugrep pkgs.gnused pkgs.hostname];
+          } ''
+            export INVENTORY_ONBOARDING_TEST_ROOT=1
+            export INVENTORY_ONBOARDING_SKIP_REAL_NIX_TEST=1
+            bash ${inputs.self}/tests/inventory-onboarding.sh
+            touch "$out"
+          '';
+        system-construction-contracts = builtins.deepSeq systemConstructionContracts (pkgs.runCommand "system-construction-contracts" {} ''
+          touch "$out"
+        '');
+      });
   };
 }

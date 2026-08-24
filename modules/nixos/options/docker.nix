@@ -1,10 +1,11 @@
 {
   lib,
   config,
-  username,
+  hostContext,
   ...
 }:
 with lib; let
+  inherit (hostContext) username;
   cfg = config.addon.docker;
 in {
   options.addon.docker = {

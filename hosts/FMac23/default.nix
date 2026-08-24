@@ -1,8 +1,5 @@
 {
   config,
-  host,
-  pkgs,
-  username,
   ...
 }: {
   addon.hammerspoon.enable = true;

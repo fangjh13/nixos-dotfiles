@@ -2,8 +2,8 @@
 
 [SOPS](https://github.com/getsops/sops) encrypts secret values before they are
 committed, and [sops-nix](https://github.com/Mic92/sops-nix) decrypts them when
-the system is activated. Every NixOS and nix-darwin host created through
-`lib/mk_system.nix` already imports the appropriate system module and the
+the system is activated. Every NixOS and nix-darwin Host discovered by
+`lib/system-construction.nix` already imports the appropriate system module and the
 shared `modules/public/sops.nix` configuration. A new host only needs its own
 recipient, creation rule, encrypted file, and `sops.secrets` declarations.
 The shared Home Manager package list also installs `sops`, `age`, and
@@ -113,7 +113,7 @@ under `hosts/`.
 
 ### 3. Create or import an encrypted file
 
-For a structured YAML secret on the NixOS example host:
+For a structured YAML secret on the NixOS Host `atlas`:
 
 ```shell
 mkdir -p hosts/atlas/secrets
@@ -131,7 +131,7 @@ structured formats: their keys remain visible so sops-nix can extract a named
 value.
 
 Use binary mode when a service needs the entire decrypted file byte-for-byte.
-For example, import a JSON configuration for the nix-darwin example host
+For the nix-darwin Host `MacBook-Air`, import a JSON configuration
 without first copying its plaintext into the repository:
 
 ```shell

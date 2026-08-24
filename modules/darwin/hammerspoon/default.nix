@@ -1,9 +1,10 @@
 {
   config,
   lib,
-  username,
+  hostContext,
   ...
 }: let
+  inherit (hostContext) username;
   cfg = config.addon.hammerspoon;
 in {
   options.addon.hammerspoon.enable =

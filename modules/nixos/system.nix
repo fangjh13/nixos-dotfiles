@@ -1,10 +1,10 @@
 {
   pkgs,
   lib,
-  hostVars,
+  hostContext,
   ...
 } @ args: let
-  inherit (hostVars) useGUI;
+  inherit (hostContext.settings) useGUI;
 in {
   imports =
     [

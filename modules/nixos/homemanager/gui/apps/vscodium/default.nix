@@ -2,18 +2,18 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
+  packageSets,
   ...
 }: {
   programs.vscodium = {
     enable = true;
     # community-driven vscode, Telemetry is disabled.
-    package = pkgs-unstable.vscodium;
+    package = packageSets.unstable.vscodium;
     # if you need Remote SSH extension use official vscode
-    # package = pkgs-unstable.vscode;
+    # package = packageSets.unstable.vscode;
     profiles.default = {
       enableUpdateCheck = false;
-      extensions = with pkgs-unstable.vscode-extensions; [
+      extensions = with packageSets.unstable.vscode-extensions; [
         # vim keybinding
         vscodevim.vim
         # direnv support

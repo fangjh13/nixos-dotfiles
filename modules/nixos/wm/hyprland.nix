@@ -1,8 +1,10 @@
 {
   pkgs,
-  username,
+  hostContext,
   ...
-}: {
+}: let
+  inherit (hostContext) username;
+in {
   environment.systemPackages = with pkgs; [
     # Graphical console greeter for greetd.
     tuigreet

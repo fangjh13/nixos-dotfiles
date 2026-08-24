@@ -1,6 +1,4 @@
 {
-  userName = "fython";
-  hostName = "MacBook-Pro-2";
   gitName = "fangjh";
   gitEmail = "fangjh@pmind-tech.com";
 

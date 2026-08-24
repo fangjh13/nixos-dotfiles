@@ -1,10 +1,11 @@
 {
   config,
   pkgs,
-  username,
-  isLinux ? true,
+  hostContext,
   ...
 }: let
+  inherit (hostContext) username;
+  isLinux = hostContext.platform == "linux";
   llmConfigFolder =
     if !isLinux
     then "Library/Application Support/io.datasette.llm"

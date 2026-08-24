@@ -1,8 +1,6 @@
 {
-  userName = "fython";
-  hostName = "FMac23";
   gitName = "Fython";
-  gitEmail = " fython.me@gmail.com";
+  gitEmail = "fython.me@gmail.com";
 
   timezone = "Asia/Shanghai";
 

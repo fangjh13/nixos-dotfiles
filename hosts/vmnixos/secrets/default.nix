@@ -1,15 +1,12 @@
 {
-  config,
-  pkgs,
-  host,
-  username,
+  hostContext,
   ...
 }: {
   sops.secrets."rclone-config" = {
     sopsFile = ./rclone.ini;
     format = "ini";
     key = "";
-    owner = username;
+    owner = hostContext.username;
     mode = "0400";
   };
 }

@@ -2,10 +2,12 @@
   pkgs,
   config,
   inputs,
-  username,
-  hostVars,
+  hostContext,
   ...
-}: {
+}: let
+  inherit (hostContext) username;
+  hostSettings = hostContext.settings;
+in {
   imports = [inputs.nix-homebrew.darwinModules.nix-homebrew];
 
   nix-homebrew = {
@@ -49,7 +51,7 @@
         "keka"
       ]
       # Extra casks from host variables
-      ++ (hostVars.casks or []);
+      ++ hostSettings.casks;
 
     onActivation = {
       autoUpdate = false;
@@ -71,7 +73,7 @@
         "mas"
       ]
       # Extra brews from host variables
-      ++ (hostVars.brews or []);
+      ++ hostSettings.brews;
 
     # These app IDs are from using the mas CLI app
     # mas = mac app store

@@ -1,10 +1,10 @@
 {
   pkgs,
   lib,
-  hostVars,
+  hostContext,
   ...
 }: let
-  inherit (hostVars) gitName gitEmail;
+  inherit (hostContext.settings) gitName gitEmail;
 in {
   home.packages = [pkgs.gh];
 

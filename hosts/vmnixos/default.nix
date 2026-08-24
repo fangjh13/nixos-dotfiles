@@ -3,9 +3,7 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
   config,
-  pkgs,
-  host,
-  username,
+  hostContext,
   ...
 }: {
   imports = [
@@ -35,7 +33,7 @@
       seedVersion = config.sops.secrets."rclone-config".sopsFileHash;
     };
     jobs.pmind = {
-      source = "/home/${username}/PM";
+      source = "/home/${hostContext.username}/PM";
       destination = "gdrive:backup/PMind";
       extraArgs = ["--exclude" "**/.venv/**" "--exclude" "**/__pycache__/**" "--exclude" "**/.direnv/**" "--exclude" "**/.cache/**"];
     };
@@ -54,7 +52,7 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable =
     true; # Easiest to use and most distros use this by default.
-  networking.hostName = "${host}";
+  networking.hostName = hostContext.name;
 
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.s = [ ... ];

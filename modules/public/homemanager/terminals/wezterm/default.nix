@@ -1,4 +1,4 @@
-{pkgs-unstable, ...}: {
+{...}: {
   programs.wezterm = {
     enable = true;
     # FIXME: temporarily disable because of neovim in tmux open terminal print chao message

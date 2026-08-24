@@ -1,12 +1,12 @@
 {
   pkgs,
   lib,
-  hostVars,
+  hostContext,
   ...
 }: let
   clock24h = true;
   betterTransition = "all 0.3s cubic-bezier(.55,-0.68,.48,1.682)";
-  inherit (hostVars) timezone;
+  inherit (hostContext.settings) timezone;
 in
   with lib; {
     # Configure & Theme Waybar

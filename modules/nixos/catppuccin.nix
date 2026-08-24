@@ -1,10 +1,11 @@
 {
   lib,
-  pkgs,
-  hostVars,
+  inputs,
+  hostContext,
   ...
 }: let
-  inherit (hostVars) useGUI;
+  inherit (hostContext.settings) useGUI;
+  sourceFor = import ../../lib/catppuccin-source.nix {inherit inputs;};
 in {
   # Catppuccin global config (NixOS level)
   catppuccin = {
@@ -12,5 +13,6 @@ in {
     autoEnable = useGUI;
     flavor = "mocha";
     accent = "mauve";
+    sources.palette = sourceFor "palette";
   };
 }
