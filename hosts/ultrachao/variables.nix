@@ -20,7 +20,7 @@
     "jetbrains.datagrip"
     # AI Code Editors
     "code-cursor"
-    "antigravity-fhs"
+    "antigravity-ide-fhs"
 
     "telegram-desktop"
     "gpu-viewer"

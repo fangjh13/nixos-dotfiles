@@ -13,7 +13,7 @@
       pkg-config
       clang-tools
     ]
-    ++ lib.optionals stdenv.isLinux [
+    ++ lib.optionals stdenv.hostPlatform.isLinux [
       gcc
       gdb
     ];

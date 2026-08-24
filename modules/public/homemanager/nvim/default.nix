@@ -59,7 +59,7 @@
     pkgs.nixd
   ];
 
-  xdg.desktopEntries.neovim = pkgs.lib.mkIf pkgs.stdenv.isLinux {
+  xdg.desktopEntries.neovim = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     name = "NeoVim";
     comment = "Edit file in NeoVim";
     exec = "kitty nvim %F";

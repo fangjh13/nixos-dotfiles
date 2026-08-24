@@ -7,7 +7,7 @@
   programs.keepassxc = {
     package = packageSets.stable.keepassxc;
     enable = true;
-    autostart = lib.mkIf pkgs.stdenv.isLinux true;
+    autostart = lib.mkIf pkgs.stdenv.hostPlatform.isLinux true;
     settings = {
       Browser = {
         Enabled = true;

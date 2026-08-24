@@ -5,7 +5,7 @@
       fdOptions = "--follow --hidden --exclude .git --color=always";
       copyCommand = ''
         ${
-          if pkgs.stdenvNoCC.isLinux
+          if pkgs.stdenvNoCC.hostPlatform.isLinux
           then
             # Wayland use wl-copy or X windows use xclip
             if pkgs.wlroots != null
