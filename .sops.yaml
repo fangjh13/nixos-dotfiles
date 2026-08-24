@@ -4,6 +4,7 @@ keys:
   - &macbook_pro_2 age1vpd0rmztrt3ru0g4hs9vl02ytk3awchrskhlu3yxcquj6tdhd55spyzpmq
   - &fmac23 age15hexu80fwc6sscvth05uqlw69p6sfh66spunr049774zcz9005kqy9pnk8
   - &deskmini age1faz80fzw8nmexrn0j0234puwnlmgp3t59dgzgh6pq2ctt9kuq5zsqzyaw5
+  - &ultrachao age1w948dqjlpxp8qdtvjey60wtns6eec4x70qwnkn8mwvgd8v6t4y2s223ngy
 
 creation_rules:
   - path_regex: ^hosts/vmnixos/secrets/[^/]+$
@@ -35,3 +36,4 @@ creation_rules:
           - *macbook_pro_2
           - *fmac23
           - *deskmini
+          - *ultrachao
