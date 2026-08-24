@@ -136,6 +136,7 @@
   darwinInventory = lib.filterAttrs (_: host: host.platform == "darwin") inventory;
 
   mkPackageSets = system: {
+    poetry = inputs.nixpkgs-poetry.legacyPackages.${system};
     stable = import inputs.nixpkgs-stable {
       inherit system;
       config.allowUnfree = true;
