@@ -28,6 +28,7 @@ with pkgs; [
   ssh-to-age
 
   # db related
+  sqlite
   litecli # sqlite
   # mycli # mysql
   pgcli # postgresql
