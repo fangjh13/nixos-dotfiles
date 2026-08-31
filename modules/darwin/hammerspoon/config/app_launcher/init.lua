@@ -1,3 +1,4 @@
+--[[
 launcherHotkey = { "option" }
 
 applist = {
@@ -27,6 +28,7 @@ hs.fnutils.each(applist, function(entry)
 		hs.alert.closeAll()
 	end)
 end)
+--]]
 
 -- use `command+shift+p` open/hide keepassxc
 hs.hotkey.bind({ "cmd", "shift" }, "p", function()

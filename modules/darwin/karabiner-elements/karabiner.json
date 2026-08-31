@@ -4,6 +4,68 @@
       "complex_modifications": {
         "rules": [
           {
+            "description": "Open applications with `<Option>+<Number>`",
+            "manipulators": [
+              {
+                "from": {
+                  "key_code": "1",
+                  "modifiers": {
+                    "mandatory": ["option"],
+                    "optional": ["caps_lock"]
+                  }
+                },
+                "to": [
+                  {
+                    "software_function": {
+                      "open_application": {
+                        "bundle_identifier": "com.apple.finder"
+                      }
+                    }
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "2",
+                  "modifiers": {
+                    "mandatory": ["option"],
+                    "optional": ["caps_lock"]
+                  }
+                },
+                "to": [
+                  {
+                    "software_function": {
+                      "open_application": {
+                        "bundle_identifier": "com.google.Chrome"
+                      }
+                    }
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "3",
+                  "modifiers": {
+                    "mandatory": ["option"],
+                    "optional": ["caps_lock"]
+                  }
+                },
+                "to": [
+                  {
+                    "software_function": {
+                      "open_application": {
+                        "bundle_identifier": "com.mitchellh.ghostty"
+                      }
+                    }
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
             "description": "Tap left Shift to switch input source (Control-Space)",
             "manipulators": [
               {
