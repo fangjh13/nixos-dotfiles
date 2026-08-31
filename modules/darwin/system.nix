@@ -13,7 +13,6 @@
 in {
   imports = [
     ../public/system.nix
-    ./dock.nix
     ./brew.nix
     ./fonts.nix
   ];
@@ -46,13 +45,6 @@ in {
         "com.apple.mouse.tapBehavior" = lib.mkDefault 1;
         # Swap mouse middle-button scroll direction, true for natural, false for traditional
         "com.apple.swipescrolldirection" = lib.mkDefault true;
-      };
-
-      dock = {
-        autohide = lib.mkDefault false;
-        show-recents = lib.mkDefault true;
-        orientation = lib.mkDefault "bottom";
-        tilesize = lib.mkDefault 48;
       };
 
       finder = {

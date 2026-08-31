@@ -1,5 +1,10 @@
-{pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
+    ./dock.nix
     ../../public/homemanager/programs.nix
     ../../public/homemanager/git
     ../../public/homemanager/shell
@@ -28,6 +33,25 @@
     # the Home Manager release notes for a list of state version
     # changes in each release.
     stateVersion = "26.05";
+  };
+
+  # Re-arrange the Dock via dockutil (dock.nix) https://github.com/kcrawford/dockutil
+  local.dock = {
+    # if not success use `defaults delete com.apple.dock; killall Dock` or `defaults delete com.apple.dock.plist; killall Dock` to reset to default first. https://www.reddit.com/r/macsysadmin/comments/16vcq0m/command_to_reset_the_dock_back_to_default/
+    enable = true;
+    entries = [
+      {path = "/Applications/Google Chrome.app";}
+      {path = "${config.home.homeDirectory}/Applications/Home Manager Apps/Ghostty.app";}
+      {path = "/System/Applications/Calendar.app";}
+      {path = "/System/Applications/Mail.app";}
+      {
+        path = "${config.home.homeDirectory}/Downloads";
+        type = "folder";
+        view = "grid";
+        display = "stack";
+        sort = "datemodified";
+      }
+    ];
   };
 
   # Let Home Manager install and manage itself.

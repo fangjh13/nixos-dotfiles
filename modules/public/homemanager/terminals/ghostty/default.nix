@@ -14,11 +14,12 @@ in {
 
     settings =
       {
-        font-size = 14.0;
-        # font-style = "Bold";
-        font-family = "Hack Nerd Font Mono";
+        font-size = 13.0;
+        font-style = "Regular";
+        font-family = "JetBrainsMono Nerd Font Mono";
+        font-thicken = true;
+        adjust-cell-height = "20%";
 
-        # adjust-cell-height = "30%";
         # window-padding-x = 10;
         # window-padding-y = 10;
         # window-padding-balance = true;

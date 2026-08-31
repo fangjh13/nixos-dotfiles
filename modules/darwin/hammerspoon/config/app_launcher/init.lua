@@ -3,7 +3,7 @@ launcherHotkey = { "option" }
 applist = {
 	{ shortcut = "1", appname = "Finder" },
 	{ shortcut = "2", appname = "Google Chrome" },
-	{ shortcut = "3", appname = "kitty" },
+	{ shortcut = "3", appname = "Ghostty" },
 }
 
 hs.fnutils.each(applist, function(entry)

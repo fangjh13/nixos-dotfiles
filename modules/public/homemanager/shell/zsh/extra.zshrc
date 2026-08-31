@@ -75,6 +75,12 @@ if [ "$TERM" = "xterm-kitty" ]; then
   fi
 fi
 
+if [ "$TERM" = "xterm-ghostty" ]; then
+  if [ -n "$TMUX" ]; then
+    alias ssh="TERM=xterm-256color ssh"
+  fi
+fi
+
 # alacritty terminal ssh reset
 [ "$TERM" = "alacritty" ] && alias ssh="TERM=xterm-256color ssh"
 
