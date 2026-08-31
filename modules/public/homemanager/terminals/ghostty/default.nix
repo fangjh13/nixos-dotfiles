@@ -35,6 +35,8 @@ in {
         mouse-hide-while-typing = true;
         shell-integration-features = "ssh-terminfo,ssh-env";
         copy-on-select = "clipboard";
+        clipboard-read = "allow";
+        clipboard-write = "allow";
 
         keybind = [
           "all:unconsumed:ctrl+shift+r=reload_config"
