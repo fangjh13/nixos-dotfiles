@@ -54,8 +54,8 @@ in {
       ++ hostSettings.casks;
 
     onActivation = {
-      autoUpdate = false;
-      upgrade = false;
+      autoUpdate = false; # not update Homebrew metadata, via `nix flake update` instead
+      upgrade = true; # upgrade all installed brews and casks
       cleanup = "zap";
       extraFlags = ["--force-cleanup"];
     };
