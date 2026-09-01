@@ -21,6 +21,7 @@ with pkgs; [
   duf # `df` alternative
   glow # markdown viewer on CLI
   ffmpeg
+  (import ./scripts/image-processor.nix {inherit pkgs;})
 
   # secrets tools use with sops-nix
   sops

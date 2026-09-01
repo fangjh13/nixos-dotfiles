@@ -1,4 +1,17 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: let
+  screenlockBin = pkgs.writeShellScriptBin "screenlock" ''
+    # capture screen
+    ${pkgs.grim}/bin/grim -c -o "$(hyprctl activeworkspace -j | jq -r '.monitor')" ~/Pictures/Screenshots/current_wall.png
+    # lock screen
+    pidof hyprlock || hyprlock
+  '';
+in {
+  home.packages = [screenlockBin];
+
   programs.hyprlock = {
     enable = true;
     settings = {

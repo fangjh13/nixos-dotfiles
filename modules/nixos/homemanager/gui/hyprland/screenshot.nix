@@ -2,8 +2,13 @@
   pkgs,
   hostContext,
   ...
-}: {
+}: let
+  screenshotBin = pkgs.writeShellScriptBin "screenshot" ''
+    ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -
+  '';
+in {
   home.packages = with pkgs; [
+    screenshotBin
     # Screenshoot tools
     grim
     # snapshot editing tool

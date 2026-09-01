@@ -5,6 +5,35 @@
   ...
 }: let
   dataHome = config.xdg.dataHome;
+
+  rofiLauncherBin = pkgs.writeShellScriptBin "rofi-launcher" ''
+    if pgrep -x "rofi" > /dev/null; then
+      # Rofi is running, kill it
+      pkill -x rofi
+      exit 0
+    fi
+    rofi -show drun
+  '';
+
+  rofiCalcBin = pkgs.writeShellScriptBin "rofi-calc" ''
+    rofi -show calc \
+         -modi calc \
+         -no-show-match \
+         -no-sort \
+         -theme ~/.config/rofi/one-col.rasi \
+         -calc-command "echo -n '{result}' | wl-copy"
+  '';
+
+  rofiWoBin = pkgs.writeShellScriptBin "rofi-wo" ''
+    rofi -modi wo -show wo -modi wo:~/.config/rofi/scripts/web-open.sh -show-icons
+  '';
+
+  rofiClipboardBin = pkgs.writeShellScriptBin "rofi-clipboard" ''
+    rofi -modi clipboard:~/.config/rofi/scripts/cliphist-rofi-img.sh \
+         -show clipboard \
+         -show-icons \
+         -theme ~/.config/rofi/one-col.rasi
+  '';
 in {
   programs.rofi = {
     enable = true;
@@ -17,8 +46,14 @@ in {
       # rofi-emoji
     ];
   };
-  # rofimoji https://github.com/fdw/rofimoji
-  home.packages = [pkgs.rofimoji];
+
+  home.packages = [
+    pkgs.rofimoji
+    rofiLauncherBin
+    rofiCalcBin
+    rofiWoBin
+    rofiClipboardBin
+  ];
 
   home.file.".config/rofi" = {
     source = ./configs;
