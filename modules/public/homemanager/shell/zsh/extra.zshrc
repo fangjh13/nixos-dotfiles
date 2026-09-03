@@ -77,7 +77,7 @@ fi
 
 if [ "$TERM" = "xterm-ghostty" ]; then
   if [ -n "$TMUX" ]; then
-    alias ssh="TERM=xterm-256color ssh"
+    alias ssh="TERM=xterm-256color command ssh"
   fi
 fi
 
