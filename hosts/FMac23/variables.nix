@@ -25,6 +25,6 @@
 
     "antigravity"
     "antigravity-ide"
-    "codex-app"
+    "chatgpt"
   ];
 }

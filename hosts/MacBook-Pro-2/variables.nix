@@ -32,7 +32,7 @@
     "telegram"
     "feishu"
     "apifox"
-    "codex-app"
+    "chatgpt"
     "iina"
     "hiddenbar"
   ];
