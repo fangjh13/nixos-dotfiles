@@ -35,7 +35,7 @@
     jobs.pmind = {
       source = "/home/${hostContext.username}/PM";
       destination = "gdrive:backup/PMind";
-      extraArgs = ["--exclude" "**/.venv/**" "--exclude" "**/__pycache__/**" "--exclude" "**/.direnv/**" "--exclude" "**/.cache/**"];
+      extraArgs = ["--exclude" "**/.venv/**" "--exclude" "**/__pycache__/**" "--exclude" "**/.direnv/**" "--exclude" "**/.cache/**" "--exclude" "**/.devspace/**"];
     };
   };
   addon.mihomo.enable = false;
