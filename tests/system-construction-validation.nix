@@ -11,12 +11,6 @@
     "declaration-empty-username"
     "declaration-wrong-system-type"
     "declaration-unsupported-system"
-    "settings-not-attributes"
-    "settings-missing-common"
-    "settings-git-whitespace"
-    "settings-linux-use-gui-type"
-    "settings-linux-apps-type"
-    "settings-darwin-brews-type"
   ];
   caseFails = caseName: let
     outputs = constructInventory (fixtureRoot + "/${caseName}");

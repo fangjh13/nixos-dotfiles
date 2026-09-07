@@ -15,7 +15,7 @@
 | File manager              | [thunar](https://gitlab.xfce.org/xfce/thunar)                                                                                                   |
 | GUI PolicyKit agent       | [lxqt-policykit](https://github.com/lxqt/lxqt-policykit)                                                                                        |
 | Clipboard manager         | [cliphist](https://github.com/sentriz/cliphist)                                                                                                 |
-| Terminal                  | [kitty](https://github.com/kovidgoyal/kitty)                                                                                                    |
+| Default terminal          | Host-selected; existing Linux desktops use [kitty](https://github.com/kovidgoyal/kitty)                                                        |
 | Shell                     | [zsh](https://www.zsh.org/)                                                                                                                     |
 | Editor                    | [neovim](https://neovim.io/)                                                                                                                    |
 | Input method              | [fcitx5](https://github.com/fcitx/fcitx5) + [fcitx5-rime](https://github.com/fcitx/fcitx5-rime)                                                 |
@@ -63,16 +63,42 @@ Each real Host directory is self-registering through `host.nix`:
 ```
 
 The directory name is the Host name. Reusable Host templates live separately
-under `hosts/templates/` and never become inventory members. Host-specific
-settings remain in `hosts/<your hostname>/variables.nix`.
+under `hosts/templates/` and never become inventory members. Each Host keeps
+system and hardware decisions in `default.nix` and explicitly imports its
+primary user's Host-specific Home Manager configuration from `home.nix`.
 
-| Variable | Description                                    |
-| -------- | ---------------------------------------------- |
-| useGUI   | Enable graphical user interface. i.e. hyprland |
-| monitor  | Monitor config for hyprland                    |
-| timezone | Timezone for the system                        |
+Linux Hosts inherit the hostname, systemd-boot, EFI variable access, Plymouth,
+and NetworkManager policy from the Linux baseline. The boot and networking
+choices use overridable defaults. Firewall policy, `system.stateVersion`,
+hardware, drivers, secrets, and machine-specific services remain explicit in
+each Host configuration.
 
-> Some optional configurations (like graphic driver) can be enabled in `hosts/<your hostname>/default.nix`
+Graphical Linux Hosts enable the Desktop profile in their system configuration:
+
+```nix
+profiles.desktop = {
+  enable = true;
+  defaultTerminal = "kitty";
+  hyprland = {
+    monitors = [
+      {
+        output = "";
+        mode = "preferred";
+        position = "auto";
+        scale = 1.0;
+      }
+    ];
+    xkbOptions = ["ctrl:nocaps"];
+    sessionVariables = {};
+    extraLua = "";
+  };
+};
+```
+
+The supported Default terminal values are `ghostty`, `kitty`, `alacritty`, and
+`wezterm`. The selection controls Hyprland, Waybar, and the graphical Neovim
+launcher. Add extra terminals, Git identity, GTK bookmarks, and Host-specific
+packages through native Home Manager options in `home.nix`.
 
 #### Manual Install
 
@@ -147,8 +173,8 @@ inventory contract on the current platform with:
 nix flake check '.?submodules=1' --no-build
 ```
 
-This standard check validates every inventory member's declaration, settings,
-output membership, target platform, module state, and full top-level derivation
+This standard check validates every inventory member's declaration, output
+membership, target platform, module state, and full top-level derivation
 without requiring `--all-systems`. It evaluates other CPU/OS platforms but does
 not build or activate their system closures; cross-platform builds still
 require suitable remote builders or the native platform.

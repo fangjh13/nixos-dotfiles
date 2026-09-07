@@ -7,6 +7,7 @@
   isDarwin = hostContext.platform == "darwin";
 in {
   programs.ghostty = {
+    enable = lib.mkDefault true;
     package =
       if isDarwin
       then pkgs.ghostty-bin

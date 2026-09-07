@@ -1,10 +1,27 @@
 {
+  desktopProfile,
+  desktopTerminal,
   pkgs,
   lib,
-  hostContext,
   ...
 }: let
-  inherit (hostContext.settings) hyprConfig xkbOptions;
+  cfg = desktopProfile.hyprland;
+  luaString = builtins.toJSON;
+  monitorConfig =
+    lib.concatMapStringsSep "\n" (monitor: ''
+      hl.monitor({ output = ${luaString monitor.output}, mode = ${luaString monitor.mode}, position = ${luaString monitor.position}, scale = ${builtins.toString monitor.scale} })
+    '')
+    cfg.monitors;
+  sessionVariableConfig = lib.concatStringsSep "\n" (lib.mapAttrsToList (name: value: ''
+      hl.env(${luaString name}, ${luaString value})
+    '')
+    cfg.sessionVariables);
+  hyprConfig = lib.concatStringsSep "\n" (builtins.filter (value: value != "") [
+    monitorConfig
+    sessionVariableConfig
+    cfg.extraLua
+  ]);
+  xkbOptions = lib.concatStringsSep "," cfg.xkbOptions;
 in
   with lib; {
     imports = [
@@ -44,8 +61,8 @@ in
         autoLoad = true;
         content =
           builtins.replaceStrings
-          ["@HYPR_CONFIG@" "@XKB_OPTIONS@"]
-          [hyprConfig xkbOptions]
+          ["@HYPR_CONFIG@" "@XKB_OPTIONS@" "@TERMINAL@"]
+          [hyprConfig xkbOptions desktopTerminal.command]
           (builtins.readFile ./hyprland-config.lua);
       };
     };

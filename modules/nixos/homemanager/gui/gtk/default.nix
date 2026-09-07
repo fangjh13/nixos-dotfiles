@@ -1,16 +1,9 @@
-{
-  pkgs,
-  hostContext,
-  ...
-}: let
-  inherit (hostContext.settings) bookmarks;
-in {
+{pkgs, ...}: {
   # GTK+ 2/3 applications themes config
   gtk = {
     enable = true;
     gtk3.extraConfig = {gtk-application-prefer-dark-theme = 1;};
     gtk4.extraConfig = {gtk-application-prefer-dark-theme = 1;};
-    gtk3 = {bookmarks = bookmarks;};
   };
 
   home.packages = with pkgs; [

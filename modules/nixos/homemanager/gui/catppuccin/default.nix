@@ -1,16 +1,14 @@
 {
   lib,
   inputs,
-  hostContext,
   ...
 }: let
-  inherit (hostContext.settings) useGUI;
   sourceFor = import ../../../../../lib/catppuccin-source.nix {inherit inputs;};
   parseSimpleIni = import ../../../../../lib/parse-simple-ini.nix {inherit lib;};
 in {
   catppuccin = {
     enable = true;
-    autoEnable = useGUI;
+    autoEnable = true;
 
     flavor = "mocha";
     accent = "mauve";

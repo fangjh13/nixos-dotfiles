@@ -3,25 +3,29 @@
   lib,
   hostContext,
   ...
-} @ args: let
-  inherit (hostContext.settings) useGUI;
-in {
-  imports =
-    [
-      ../../modules/public/system.nix
+}: {
+  networking = {
+    hostName = hostContext.name;
+    networkmanager.enable = lib.mkDefault true;
+  };
 
-      ./common.nix
-      ./ssh.nix
-      ./avahi.nix
-      ./fhs.nix
-    ]
-    ++ lib.optionals useGUI [
-      # wayland compositor
-      ./wm/hyprland.nix
-      ./bluetooth.nix
-      ./catppuccin.nix
-      ./fonts.nix
-    ];
+  boot = {
+    loader = {
+      systemd-boot.enable = lib.mkDefault true;
+      efi.canTouchEfiVariables = lib.mkDefault true;
+    };
+    plymouth.enable = lib.mkDefault true;
+  };
+
+  imports = [
+    ../../modules/public/system.nix
+
+    ./common.nix
+    ./ssh.nix
+    ./avahi.nix
+    ./fhs.nix
+    ./profiles/desktop.nix
+  ];
 
   nix.settings = {
     substituters = [

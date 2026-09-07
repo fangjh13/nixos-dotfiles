@@ -4,7 +4,6 @@
   ...
 }: let
   inherit (hostContext) username;
-  inherit (hostContext.settings) timezone;
 in {
   nix.settings.trusted-users = ["${username}"];
 
@@ -70,7 +69,4 @@ in {
           && !(elem n excludedFiles))
         (attrNames (readDir path)));
   };
-
-  # Set your time zone.
-  time.timeZone = "${timezone}";
 }

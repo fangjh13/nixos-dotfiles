@@ -1,12 +1,11 @@
 {
+  desktopTerminal,
   pkgs,
   lib,
-  hostContext,
   ...
 }: let
   clock24h = true;
   betterTransition = "all 0.3s cubic-bezier(.55,-0.68,.48,1.682)";
-  inherit (hostContext.settings) timezone;
 in
   with lib; {
     # Configure & Theme Waybar
@@ -55,7 +54,6 @@ in
             on-scroll-down = "hyprctl dispatch workspace e-1";
           };
           "clock" = {
-            timezone = "${timezone}";
             format =
               if clock24h
               then " {:L%H:%M}"
@@ -315,7 +313,7 @@ in
             exec = "cpu-temp";
             interval = 8;
             tooltip-format = "Cpu Temp";
-            on-click = "kitty -T FloatWindow --execute btop";
+            on-click = desktopTerminal.floating "btop";
             on-scroll-up = "";
             on-scroll-down = "";
           };

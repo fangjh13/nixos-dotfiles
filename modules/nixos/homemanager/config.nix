@@ -1,10 +1,10 @@
 {
+  desktopProfile,
+  desktopTerminal,
   lib,
   hostContext,
   ...
-}: let
-  inherit (hostContext.settings) useGUI;
-in {
+}: {
   imports =
     [
       ../../public/homemanager/programs.nix
@@ -14,15 +14,18 @@ in {
       ../../public/homemanager/tmux
       ../../public/homemanager/yazi
       ../../public/homemanager/programming
-      ../../nixos/catppuccin.nix
-
       ./common.nix
       ./packages.nix
       ./scripts
     ]
-    ++ lib.optionals useGUI [
+    ++ lib.optionals (desktopProfile.enable && desktopTerminal != null) [
       ./gui
     ];
+
+  catppuccin = {
+    enable = desktopProfile.enable && desktopTerminal != null;
+    autoEnable = desktopProfile.enable && desktopTerminal != null;
+  };
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.

@@ -1,4 +1,4 @@
-{
+{desktopTerminal, ...}: {
   imports = [
     ./local-fonts
     ./fcitx5
@@ -9,9 +9,7 @@
     ./gtk
     ./hyprland
     ./apps
-    ../../../public/homemanager/terminals/alacritty
-    ../../../public/homemanager/terminals/wezterm
-    ../../../public/homemanager/terminals/kitty
+    desktopTerminal.module
   ];
 
   home.pointerCursor = {

@@ -1,4 +1,5 @@
 {
+  desktopTerminal ? null,
   pkgs,
   ...
 }: {
@@ -62,7 +63,10 @@
   xdg.desktopEntries.neovim = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     name = "NeoVim";
     comment = "Edit file in NeoVim";
-    exec = "kitty nvim %F";
+    exec =
+      if desktopTerminal == null
+      then "kitty nvim %F"
+      else desktopTerminal.execute "nvim %F";
     icon = "nvim";
     type = "Application";
     categories = ["Utility" "TextEditor"];

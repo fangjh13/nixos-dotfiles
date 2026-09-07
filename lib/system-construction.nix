@@ -6,7 +6,6 @@
   fail = name: message: throw "Host `${name}`: ${message}";
   hostPath = name: hostsPath + "/${name}";
   declarationPath = name: hostPath name + "/host.nix";
-  settingsPath = name: hostPath name + "/variables.nix";
   configurationPath = name: hostPath name + "/default.nix";
 
   requireFile = name: description: path:
@@ -25,49 +24,6 @@
     if lib.strings.trim stringValue == stringValue
     then stringValue
     else fail name "`${field}` must not contain leading or trailing whitespace";
-
-  requireStringList = name: field: value:
-    if builtins.isList value && builtins.all builtins.isString value
-    then value
-    else fail name "`${field}` must be a list of strings";
-
-  requireStringValue = name: field: value:
-    if builtins.isString value
-    then value
-    else fail name "`${field}` must be a string";
-
-  requireOptionalString = name: field: value:
-    if value == null || builtins.isString value
-    then value
-    else fail name "`${field}` must be null or a string";
-
-  normalizeSettings = name: platform: settings: let
-    gitName = requireCleanString name "settings.gitName" (settings.gitName or null);
-    gitEmail = requireCleanString name "settings.gitEmail" (settings.gitEmail or null);
-    timezone = requireCleanString name "settings.timezone" (settings.timezone or null);
-    platformSettings =
-      if platform == "linux"
-      then {
-        useGUI =
-          if builtins.isBool (settings.useGUI or null)
-          then settings.useGUI
-          else fail name "`settings.useGUI` must be a boolean for Linux hosts";
-        apps = requireStringList name "settings.apps" (settings.apps or []);
-        bookmarks = requireStringList name "settings.bookmarks" (settings.bookmarks or []);
-        hyprConfig = requireStringValue name "settings.hyprConfig" (settings.hyprConfig or "");
-        xkbOptions = requireStringValue name "settings.xkbOptions" (settings.xkbOptions or "");
-        wallpaper = requireOptionalString name "settings.wallpaper" (settings.wallpaper or null);
-      }
-      else {
-        brews = requireStringList name "settings.brews" (settings.brews or []);
-        casks = requireStringList name "settings.casks" (settings.casks or []);
-      };
-  in
-    settings
-    // {
-      inherit gitName gitEmail timezone;
-    }
-    // platformSettings;
 
   validateHost = name: let
     safeName = builtins.match "^[A-Za-z0-9][A-Za-z0-9._-]*$" name != null;
@@ -88,12 +44,6 @@
       else if lib.hasSuffix "-darwin" system
       then "darwin"
       else fail name "cannot derive a platform from system `${system}`";
-    importedSettings = import (requireFile name "settings" (settingsPath name));
-    rawSettings =
-      if builtins.isAttrs importedSettings
-      then importedSettings
-      else fail name "settings must evaluate to an attribute set";
-    settings = normalizeSettings name platform rawSettings;
     module = requireFile name "configuration" (configurationPath name);
   in
     if !safeName
@@ -103,7 +53,7 @@
     else if !supported
     then fail name "system `${system}` is not supported"
     else {
-      inherit name system username platform settings module;
+      inherit name system username platform module;
     };
 
   directoryEntries = builtins.readDir hostsPath;
@@ -151,7 +101,7 @@
     isLinux = host.platform == "linux";
     packageSets = mkPackageSets host.system;
     hostContext = {
-      inherit (host) name system username platform settings;
+      inherit (host) name system username platform;
     };
     systemFunction =
       if isLinux
@@ -186,16 +136,12 @@
           sopsModule
           ../modules/public/sops.nix
           ../modules/public/secrets/llm
-          (
-            if isLinux && host.settings.useGUI
-            then inputs.catppuccin.nixosModules.catppuccin
-            else {}
-          )
           ../modules/public/services/frpc.nix
           ../modules/public/services/sing-box.nix
           ../modules/public/services/mihomo.nix
         ]
         ++ lib.optionals isLinux [
+          inputs.catppuccin.nixosModules.catppuccin
           ../modules/nixos/system.nix
           ../modules/nixos/options
         ]
@@ -206,7 +152,6 @@
           ../modules/darwin/input-method.nix
         ]
         ++ [
-          ../modules/public/options/ghostty.nix
           host.module
           userModule
           homeManagerModules.home-manager
@@ -233,13 +178,14 @@
       lib.mapAttrsToList (_: host: let
         configuration = configurationFor host;
       in {
-        inherit (host) name system platform username settings;
+        inherit (host) name system platform username;
         evaluatedSystem = configuration.config.nixpkgs.hostPlatform.system;
         stateVersion = configuration.config.system.stateVersion;
       })
       inventory;
+    # Keep this evaluation-only check from realizing foreign-platform dependencies.
     systemPaths = lib.mapAttrsToList (_: host:
-      (configurationFor host).config.system.build.toplevel.drvPath)
+      builtins.unsafeDiscardStringContext (configurationFor host).config.system.build.toplevel.drvPath)
     inventory;
   in {
     host-inventory-evaluation = builtins.deepSeq [inventorySummary systemPaths] (pkgs.runCommand "host-inventory-evaluation" {} ''

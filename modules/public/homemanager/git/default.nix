@@ -1,20 +1,10 @@
-{
-  pkgs,
-  lib,
-  hostContext,
-  ...
-}: let
-  inherit (hostContext.settings) gitName gitEmail;
-in {
+{pkgs, ...}: {
   home.packages = [pkgs.gh];
 
   programs.git = {
     enable = true;
 
     settings = {
-      user.name = "${gitName}";
-      user.email = "${gitEmail}";
-
       alias = {
         cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|develop\\|dev' | xargs -n 1 -r git branch -d";
         prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";

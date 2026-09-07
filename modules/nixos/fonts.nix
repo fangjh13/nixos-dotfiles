@@ -1,51 +1,54 @@
 {
+  config,
   pkgs,
   lib,
   ...
 }: {
-  fonts = {
-    # use fonts specified by user rather than default ones
-    # all fonts are linked to /nix/var/nix/profiles/system/sw/share/X11/fonts
-    enableDefaultPackages = false;
-    fontDir.enable = true;
+  config = lib.mkIf config.profiles.desktop.enable {
+    fonts = {
+      # use fonts specified by user rather than default ones
+      # all fonts are linked to /nix/var/nix/profiles/system/sw/share/X11/fonts
+      enableDefaultPackages = false;
+      fontDir.enable = true;
 
-    packages = with pkgs;
-      import ../public/fonts.nix {inherit pkgs;}
-      ++ [
-        # Noto 系列字体是 Google 主导的，名字的含义是「没有豆腐」（no tofu），因为缺字时显示的方框或者方框被叫作 tofu
-        # Noto 系列字族名只支持英文，命名规则是 Noto + Sans 或 Serif + 文字名称。
-        # 其中汉字部分叫 Noto Sans/Serif CJK SC/TC/HK/JP/KR，最后一个词是地区变种。
-        noto-fonts # 大部分文字的常见样式，不包含汉字
-        noto-fonts-cjk-sans # 汉字部分
-        noto-fonts-cjk-serif
-        noto-fonts-color-emoji # 彩色的表情符号字体
-        noto-fonts-emoji-blob-bin # 另一种彩色表情符号字体，blob 是 Google 的表情符号设计团队
-        # noto-fonts-extra # 提供额外的字重和宽度变种
+      packages = with pkgs;
+        import ../public/fonts.nix {inherit pkgs;}
+        ++ [
+          # Noto means "no tofu", referring to the boxes shown for missing glyphs.
+          # Noto family names use Noto + Sans or Serif + the script name.
+          # CJK families end with the regional variant: SC, TC, HK, JP, or KR.
+          noto-fonts # Common scripts, excluding CJK glyphs
+          noto-fonts-cjk-sans # CJK glyphs
+          noto-fonts-cjk-serif
+          noto-fonts-color-emoji # Color emoji font
+          noto-fonts-emoji-blob-bin # Google's legacy blob-style color emoji
+          # noto-fonts-extra # Additional weights and width variants
 
-        # 思源系列字体是 Adobe 主导的。其中汉字部分被称为「思源黑体」和「思源宋体」，是由 Adobe + Google 共同开发的
-        # source-sans # 无衬线字体，不含汉字。字族名叫 Source Sans 3 和 Source Sans Pro，以及带字重的变体，加上 Source Sans 3 VF
-        # source-serif # 衬线字体，不含汉字。字族名叫 Source Code Pro，以及带字重的变体
-        source-han-sans # 思源黑体
-        source-han-serif # 思源宋体
-      ];
-
-    fontconfig = {
-      enable = true;
-      defaultFonts = {
-        serif = ["Noto Serif" "Source Han Serif SC" "Source Han Serif TC"];
-        sansSerif = [
-          "Noto Sans"
-          "Hack Nerd Font Mono"
-          "Source Han Sans SC"
-          "Source Han Sans TC"
+          # Adobe leads the Source family; Adobe and Google jointly developed its CJK fonts.
+          # source-sans # Latin sans-serif families and weight variants
+          # source-serif # Latin serif families and weight variants
+          source-han-sans # CJK sans-serif glyphs
+          source-han-serif # CJK serif glyphs
         ];
-        monospace = [
-          "Noto Sans Mono"
-          "Hack Nerd Font Mono"
-          "Noto Sans Mono CJK SC"
-          "Noto Sans Mono CJK TC"
-        ];
-        emoji = ["Noto Color Emoji"];
+
+      fontconfig = {
+        enable = true;
+        defaultFonts = {
+          serif = ["Noto Serif" "Source Han Serif SC" "Source Han Serif TC"];
+          sansSerif = [
+            "Noto Sans"
+            "Hack Nerd Font Mono"
+            "Source Han Sans SC"
+            "Source Han Sans TC"
+          ];
+          monospace = [
+            "Noto Sans Mono"
+            "Hack Nerd Font Mono"
+            "Noto Sans Mono CJK SC"
+            "Noto Sans Mono CJK TC"
+          ];
+          emoji = ["Noto Color Emoji"];
+        };
       };
     };
   };

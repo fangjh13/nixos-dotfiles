@@ -1,9 +1,16 @@
 {
+  config,
   inputs,
   hostContext,
   packageSets,
   ...
-}: {
+}: let
+  terminalAdapters = import ../profiles/default-terminal.nix;
+  desktopTerminal =
+    if config.profiles.desktop.defaultTerminal == null
+    then null
+    else terminalAdapters.${config.profiles.desktop.defaultTerminal};
+in {
   home-manager = {
     # Use the global system level nixpkgs
     useGlobalPkgs = true;
@@ -16,6 +23,10 @@
       ];
     };
     # expose some extra arguments in home modules
-    extraSpecialArgs = {inherit inputs hostContext packageSets;};
+    extraSpecialArgs = {
+      inherit inputs hostContext packageSets;
+      desktopProfile = config.profiles.desktop;
+      inherit desktopTerminal;
+    };
   };
 }

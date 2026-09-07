@@ -20,7 +20,7 @@ hl.config({
 --- MY PROGRAMS ---
 ---------------------
 
-local terminal = "kitty"
+local terminal = "@TERMINAL@"
 
 -------------------------------
 --- ENVIRONMENT VARIABLES ---
@@ -430,6 +430,11 @@ hl.window_rule({ match = { title = "^(Open Folder)$" }, float = true })
 hl.window_rule({ match = { title = "^(FloatWindow)$" }, float = true })
 hl.window_rule({ match = { title = "^(FloatWindow)$" }, size = { "monitor_w*0.7", "monitor_h*0.7" } })
 hl.window_rule({ match = { title = "^(FloatWindow)$", float = true }, center = true })
+
+-- WezTerm exposes the floating marker as its Wayland application class.
+hl.window_rule({ match = { class = "^(FloatWindow)$" }, float = true })
+hl.window_rule({ match = { class = "^(FloatWindow)$" }, size = { "monitor_w*0.7", "monitor_h*0.7" } })
+hl.window_rule({ match = { class = "^(FloatWindow)$", float = true }, center = true })
 
 -- KeePassXC
 hl.window_rule({

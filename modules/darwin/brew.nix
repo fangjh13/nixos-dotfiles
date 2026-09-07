@@ -6,7 +6,6 @@
   ...
 }: let
   inherit (hostContext) username;
-  hostSettings = hostContext.settings;
 in {
   imports = [inputs.nix-homebrew.darwinModules.nix-homebrew];
 
@@ -38,20 +37,17 @@ in {
     enableZshIntegration = true;
 
     # like `brew install --cask`
-    casks =
-      [
-        # Spotlight alternatives
-        "raycast"
+    casks = [
+      # Spotlight alternatives
+      "raycast"
 
-        # Browsers
-        "firefox"
-        "google-chrome"
+      # Browsers
+      "firefox"
+      "google-chrome"
 
-        # file archiver
-        "keka"
-      ]
-      # Extra casks from host variables
-      ++ hostSettings.casks;
+      # file archiver
+      "keka"
+    ];
 
     onActivation = {
       autoUpdate = false; # not update Homebrew metadata, via `nix flake update` instead
@@ -68,12 +64,7 @@ in {
     taps = builtins.attrNames config.nix-homebrew.taps;
 
     # like `brew install`
-    brews =
-      [
-        "mas"
-      ]
-      # Extra brews from host variables
-      ++ hostSettings.brews;
+    brews = ["mas"];
 
     # These app IDs are from using the mas CLI app
     # mas = mac app store

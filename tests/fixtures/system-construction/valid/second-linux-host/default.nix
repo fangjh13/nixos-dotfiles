@@ -1,6 +1,10 @@
 {lib, ...}: {
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   boot.loader.grub.devices = ["nodev"];
+  boot.loader.systemd-boot.enable = false;
+  boot.loader.efi.canTouchEfiVariables = false;
+  boot.plymouth.enable = false;
+  networking.networkmanager.enable = false;
   fileSystems."/" = {
     device = "/dev/null";
     fsType = "ext4";

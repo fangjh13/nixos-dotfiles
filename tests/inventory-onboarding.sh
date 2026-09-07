@@ -165,7 +165,10 @@ test_linux_success_registers_only_new_host() {
   [[ -d "$repository/hosts/new-linux" ]] || fail "new Linux host was not registered"
   assert_file_contains "$repository/hosts/new-linux/host.nix" 'system = "x86_64-linux";'
   assert_file_contains "$repository/hosts/new-linux/host.nix" 'username = "alice";'
-  assert_file_contains "$repository/hosts/new-linux/variables.nix" 'gitName = "Alice Example";'
+  assert_file_contains "$repository/hosts/new-linux/default.nix" 'time.timeZone = "Europe/London";'
+  assert_file_contains "$repository/hosts/new-linux/home.nix" 'name = "Alice Example";'
+  assert_file_contains "$repository/hosts/new-linux/home.nix" 'email = "alice@example.com";'
+  [[ ! -e "$repository/hosts/new-linux/variables.nix" ]] || fail "new Linux Host contains the legacy payload"
   assert_file_contains "$repository/hosts/new-linux/hardware-configuration.nix" 'qemu-guest.nix'
 
   local staged
@@ -174,8 +177,8 @@ test_linux_success_registers_only_new_host() {
   if grep -Fvx 'hosts/new-linux/default.nix' <<<"$staged" |
     grep -Fvx 'hosts/new-linux/hardware-configuration.nix' |
     grep -Fvx 'hosts/new-linux/host.nix' |
+    grep -Fvx 'hosts/new-linux/home.nix' |
     grep -Fvx 'hosts/new-linux/secrets/default.nix' |
-    grep -Fvx 'hosts/new-linux/variables.nix' |
     grep -q .; then
     fail "onboarding staged files outside the new host: $staged"
   fi
@@ -327,7 +330,7 @@ test_unresolved_placeholder_preserves_candidate() {
   create_repository "$repository"
   create_linux_commands "$bin_dir"
   mkdir -p "$temporary_dir"
-  printf '%s\n' '# %%UNRESOLVED%%' >>"$repository/hosts/templates/linux/variables.nix"
+  printf '%s\n' '# %%UNRESOLVED%%' >>"$repository/hosts/templates/linux/home.nix"
   snapshot=$(repository_snapshot "$repository")
 
   set +e
@@ -344,7 +347,7 @@ test_unresolved_placeholder_preserves_candidate() {
   [[ ! -e "$repository/hosts/placeholder-fail" ]] || fail "placeholder failure changed the Host inventory"
   staging_path=$(sed -n 's/^Candidate staging preserved at: //p' <<<"$output")
   [[ -n "$staging_path" && -d "$staging_path" ]] || fail "placeholder failure did not preserve staging"
-  assert_file_contains "$staging_path/variables.nix" '%%UNRESOLVED%%'
+  assert_file_contains "$staging_path/home.nix" '%%UNRESOLVED%%'
   assert_repository_unchanged "$repository" "$snapshot" "placeholder validation failure"
 }
 
@@ -471,6 +474,11 @@ EOF
   )
 
   assert_file_contains "$repository/hosts/new-mac/host.nix" 'system = "aarch64-darwin";'
+  assert_file_contains "$repository/hosts/new-mac/default.nix" 'time.timeZone = "America/New_York";'
+  assert_file_contains "$repository/hosts/new-mac/default.nix" 'system.stateVersion = 6;'
+  assert_file_contains "$repository/hosts/new-mac/home.nix" 'name = "Alice";'
+  assert_file_contains "$repository/hosts/new-mac/home.nix" 'email = "alice@example.com";'
+  [[ ! -e "$repository/hosts/new-mac/variables.nix" ]] || fail "new Darwin Host contains the legacy payload"
   [[ ! -e "$repository/hosts/new-mac/hardware-configuration.nix" ]] || fail "Darwin Host contains Linux hardware configuration"
 }
 

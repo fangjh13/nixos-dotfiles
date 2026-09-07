@@ -249,9 +249,9 @@ esac
 step "📋 Copying the ${platform} Host template..."
 rm -rf -- "$staging_path"
 cp -R "$template" "$staging_path"
-replace_placeholder "$staging_path/variables.nix" '%%GITNAME%%' "$git_name"
-replace_placeholder "$staging_path/variables.nix" '%%GITEMAIL%%' "$git_email"
-replace_placeholder "$staging_path/variables.nix" '%%TIMEZONE%%' "$timezone"
+replace_placeholder "$staging_path/home.nix" '%%GITNAME%%' "$git_name"
+replace_placeholder "$staging_path/home.nix" '%%GITEMAIL%%' "$git_email"
+replace_placeholder "$staging_path/default.nix" '%%TIMEZONE%%' "$timezone"
 
 printf '{\n  system = "%s";\n  username = "%s";\n}\n' "$nix_system" "$username" >"$staging_path/host.nix"
 
@@ -275,6 +275,7 @@ fi
 
 candidate_hosts="$stage_parent/hosts"
 mkdir -p "$candidate_hosts"
+ln -s "$repository/modules" "$stage_parent/modules"
 cp -R "$repository/hosts/." "$candidate_hosts/"
 cp -R "$staging_path" "$candidate_hosts/$host_name"
 

@@ -1,18 +1,24 @@
 {
-  lib,
+  config,
   inputs,
-  hostContext,
+  lib,
   ...
 }: let
-  inherit (hostContext.settings) useGUI;
+  cfg = config.profiles.desktop;
+  profileReady = cfg.enable && cfg.defaultTerminal != null;
   sourceFor = import ../../lib/catppuccin-source.nix {inherit inputs;};
 in {
-  # Catppuccin global config (NixOS level)
-  catppuccin = {
-    enable = true;
-    autoEnable = useGUI;
-    flavor = "mocha";
-    accent = "mauve";
-    sources.palette = sourceFor "palette";
+  config = {
+    # Catppuccin global config (NixOS level)
+    catppuccin =
+      {
+        enable = profileReady;
+        autoEnable = profileReady;
+      }
+      // lib.optionalAttrs profileReady {
+        flavor = "mocha";
+        accent = "mauve";
+        sources.palette = sourceFor "palette";
+      };
   };
 }
