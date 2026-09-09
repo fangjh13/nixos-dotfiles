@@ -50,6 +50,10 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    homebrew-stretchly = {
+      url = "github:hovancik/homebrew-stretchly";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {nixpkgs, ...}: let
