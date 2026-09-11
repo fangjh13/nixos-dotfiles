@@ -3,8 +3,7 @@ with pkgs; [
   # archives
   zip
   unzip
-  p7zip
-  unrar
+  _7zz-rar
   xz
 
   # utils

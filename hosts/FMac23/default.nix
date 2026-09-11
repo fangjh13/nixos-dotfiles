@@ -16,7 +16,6 @@
     "obsidian"
     "logseq"
     "antigravity"
-    "antigravity-ide"
     "chatgpt"
   ];
 
