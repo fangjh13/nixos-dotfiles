@@ -14,7 +14,7 @@
     "synology-drive"
     "markedit"
     "obsidian"
-    "logseq"
+    "logseq-og"
     "antigravity"
     "chatgpt"
   ];

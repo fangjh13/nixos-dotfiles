@@ -18,7 +18,7 @@
     "synology-drive"
     "markedit"
     "obsidian"
-    "logseq"
+    "logseq-og"
     "wechat"
     "telegram"
     "feishu"
