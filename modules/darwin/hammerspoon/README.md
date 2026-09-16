@@ -12,6 +12,7 @@ Installs Hammerspoon and deploys its macOS automation configuration with nix-dar
     ├── app_launcher        Application shortcuts
     ├── clipboard           Clipboard history
     ├── ime                 Input method auto-switch
+    ├── mouse_follow        Move the pointer to newly focused windows across screens
     ├── switch              Multi-monitor window switching
     ├── usb                 Record USB logs
     └── window              Quick window management
@@ -86,4 +87,5 @@ Create a `.luarc.json` file in your Hammerspoon config directory (`~/.hammerspoo
   }
 }
 ```
+
 > Replace `YOUR_USERNAME` with your actual macOS username. The `~` shorthand may not be expanded by all `lua_ls` versions, so using an absolute path is recommended.
