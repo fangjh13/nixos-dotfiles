@@ -7,6 +7,7 @@
     ./pipewire.nix
     ./zen-kernel.nix
     ./docker.nix
+    ./k3d.nix
     ./podman.nix
     ./nfs.nix
     ./rclone.nix

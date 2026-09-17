@@ -24,6 +24,8 @@
   drivers.intel.enable = true;
   kernel.zen.enable = true;
 
+  addon.k3d.enable = true;
+
   networking.interfaces.eno2.wakeOnLan.enable = true;
   networking.firewall.enable = false;
 

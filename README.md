@@ -15,7 +15,7 @@
 | File manager              | [thunar](https://gitlab.xfce.org/xfce/thunar)                                                                                                   |
 | GUI PolicyKit agent       | [lxqt-policykit](https://github.com/lxqt/lxqt-policykit)                                                                                        |
 | Clipboard manager         | [cliphist](https://github.com/sentriz/cliphist)                                                                                                 |
-| Default terminal          | Host-selected; existing Linux desktops use [kitty](https://github.com/kovidgoyal/kitty)                                                        |
+| Default terminal          | Host-selected; existing Linux desktops use [kitty](https://github.com/kovidgoyal/kitty)                                                         |
 | Shell                     | [zsh](https://www.zsh.org/)                                                                                                                     |
 | Editor                    | [neovim](https://neovim.io/)                                                                                                                    |
 | Input method              | [fcitx5](https://github.com/fcitx/fcitx5) + [fcitx5-rime](https://github.com/fcitx/fcitx5-rime)                                                 |
