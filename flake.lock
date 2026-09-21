@@ -264,17 +264,17 @@
     },
     "nixpkgs-poetry": {
       "locked": {
-        "lastModified": 1732572308,
-        "narHash": "sha256-+HBffoSXLhuNJtjxHOZYIyY+PQirlwHKMrir+xIUu4A=",
+        "lastModified": 1735160951,
+        "narHash": "sha256-9h91U6BBNnzShwzlC+r/aXB+WyN3S140lYQbHH95bc0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "882842d2a908700540d206baa79efb922ac1c33d",
+        "rev": "c792c60b8a97daa7efe41a6e4954497ae410e0c1",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "882842d2a908700540d206baa79efb922ac1c33d",
+        "rev": "c792c60b8a97daa7efe41a6e4954497ae410e0c1",
         "type": "github"
       }
     },

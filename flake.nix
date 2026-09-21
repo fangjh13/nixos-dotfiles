@@ -6,7 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05-small";
-    nixpkgs-poetry.url = "github:nixos/nixpkgs/882842d2a908700540d206baa79efb922ac1c33d";
+    nixpkgs-poetry.url = "github:nixos/nixpkgs/c792c60b8a97daa7efe41a6e4954497ae410e0c1";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
