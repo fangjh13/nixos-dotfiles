@@ -59,6 +59,16 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
+# Prevent SSH host completion from triggering direnv through its internal cd.
+if (( ! $+functions[_ssh_hosts_without_direnv_chpwd] )); then
+  autoload -Uz +X _ssh_hosts
+  functions[_ssh_hosts_without_direnv_chpwd]=$functions[_ssh_hosts]
+fi
+_ssh_hosts() {
+  local -a chpwd_functions=("${(@)chpwd_functions:#_direnv_hook}")
+  _ssh_hosts_without_direnv_chpwd "$@"
+}
+
 # fix kitty use with ssh
 #  - https://wiki.archlinux.org/title/Kitty#Terminal_issues_with_SSH
 #  - https://wiki.archlinux.org/title/OpenSSH#Connecting_to_a_remote_without_the_appropriate_terminfo_entry
