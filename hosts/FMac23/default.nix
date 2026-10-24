@@ -12,7 +12,7 @@
     "pixpin"
     "orbstack"
     "synology-drive"
-    "markedit"
+    # "markedit"  1.37.0 need macOS 26 (Tahoe)
     "obsidian"
     "logseq-og"
     "antigravity"
