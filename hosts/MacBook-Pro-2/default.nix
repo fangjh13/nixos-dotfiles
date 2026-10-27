@@ -16,7 +16,6 @@
     "pixpin"
     "orbstack"
     "synology-drive"
-    "markedit"
     "obsidian"
     "logseq-og"
     "wechat"

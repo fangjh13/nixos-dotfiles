@@ -93,7 +93,3 @@ fi
 
 # alacritty terminal ssh reset
 [ "$TERM" = "alacritty" ] && alias ssh="TERM=xterm-256color ssh"
-
-# support for the nix run and nix-shell environments
-# https://github.com/haslersn/any-nix-shell
-any-nix-shell zsh --info-right | source /dev/stdin
