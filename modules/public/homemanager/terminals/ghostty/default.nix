@@ -15,6 +15,8 @@ in {
 
     settings =
       {
+        auto-update = "off";
+
         font-size = 13.0;
         font-style = "Regular";
         font-family = "JetBrainsMono Nerd Font Mono";

@@ -29,6 +29,7 @@ in {
     # Preserve the same theme without Catppuccin's target-platform INI converter.
     imv.enable = false;
     delta.enable = false;
+    tmux.enable = false;
     nvim.enable = false;
   };
 
