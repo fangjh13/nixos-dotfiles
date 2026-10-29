@@ -4,9 +4,8 @@
   config,
   ...
 }: {
-  home.file.".config/tmux/themepack" = {
-    source = ./themepack;
-    recursive = true;
+  home.file.".config/tmux/cyan.tmuxtheme" = {
+    source = ./cyan.tmuxtheme;
   };
 
   programs = {
