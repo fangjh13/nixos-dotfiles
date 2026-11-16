@@ -7,7 +7,7 @@
 
   home-manager.users.${hostContext.username}.imports = [./home.nix];
 
-  time.timeZone = "Asia/Shanghai";
+  time.timeZone = "Asia/Singapore";
 
   nix-homebrew.taps."hovancik/homebrew-stretchly" = inputs.homebrew-stretchly;
 

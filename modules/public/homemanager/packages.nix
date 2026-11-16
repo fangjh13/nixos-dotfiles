@@ -5,6 +5,7 @@ with pkgs; [
   unzip
   _7zz-rar
   xz
+  zstd
 
   # utils
   htop
