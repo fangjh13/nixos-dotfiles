@@ -1,5 +1,6 @@
 {
   lib,
+  stdenv,
   rustPlatform,
   makeWrapper,
   _7zz-rar,
@@ -21,6 +22,11 @@ rustPlatform.buildRustPackage {
 
   nativeBuildInputs = [makeWrapper];
   nativeCheckInputs = [_7zz-rar];
+
+  checkFlags = lib.optionals stdenv.hostPlatform.isLinux [
+    # Nix's Linux seccomp filter blocks the setuid chmod used by this test.
+    "--skip=new_files_are_private_and_overwrites_preserve_access_bits"
+  ];
 
   postInstall = ''
     mkdir -p "$out/share/yazi/plugins/zippity.yazi"
