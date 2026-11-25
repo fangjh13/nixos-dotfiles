@@ -38,8 +38,13 @@
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    homebrew-brew = {
+      url = "github:Homebrew/brew/main";
+      flake = false;
+    };
     nix-homebrew = {
       url = "github:zhaofengli/nix-homebrew";
+      inputs.brew-src.follows = "homebrew-brew";
     };
     # Optional: Declarative tap management
     homebrew-core = {
